@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.SonmenuDao">
+  <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Sonmenu">
+    <id column="sonmenu_son_id" jdbcType="INTEGER" property="son_id" />
+    <result column="sonmenu_father_id" jdbcType="INTEGER" property="father_id" />
+    <result column="sonmenu_is_leaf" jdbcType="INTEGER" property="is_leaf" />
+    <result column="sonmenu_menu_name" jdbcType="VARCHAR" property="menu_name" />
+    <result column="sonmenu_submit_method" jdbcType="VARCHAR" property="submit_method" />
+    <result column="sonmenu_url" jdbcType="VARCHAR" property="url" />
+    <result column="sonmenu_sub_name" jdbcType="VARCHAR" property="sub_name" />
+    <result column="sonmenu_sub_url" jdbcType="VARCHAR" property="sub_url" />
+    <result column="sonmenu_icon" jdbcType="VARCHAR" property="icon" />
+    <result column="sonmenu_icon_color" jdbcType="VARCHAR" property="icon_color" />
+    <result column="sonmenu_sort" jdbcType="INTEGER" property="sort" />
+    <result column="sonmenu_menu_lv" jdbcType="INTEGER" property="menu_lv" />
+    <result column="sonmenu_is_qy" jdbcType="INTEGER" property="is_qy" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    sonmenu.son_id as sonmenu_son_id, sonmenu.father_id as sonmenu_father_id, sonmenu.is_leaf as sonmenu_is_leaf,
+    sonmenu.menu_name as sonmenu_menu_name, sonmenu.submit_method as sonmenu_submit_method,
+    sonmenu.url as sonmenu_url, sonmenu.sub_name as sonmenu_sub_name, sonmenu.sub_url as sonmenu_sub_url,
+    sonmenu.icon as sonmenu_icon, sonmenu.icon_color as sonmenu_icon_color, sonmenu.sort as sonmenu_sort,
+    sonmenu.menu_lv as sonmenu_menu_lv, sonmenu.is_qy as sonmenu_is_qy
+  </sql>
+
+  <select id="findAuthorityByRoleNames" parameterType="collection"  resultType="java.lang.String">
+    SELECT m.url
+    FROM sonmenu m
+    LEFT JOIN role_per rp ON m.son_id = rp.son_id
+    LEFT JOIN role r ON r.role_id = rp.role_id
+    <trim prefix="WHERE r.role_name IN">
+      <foreach collection='roleNames' item='roleName' open='(' separator=',' close=')'>
+        #{roleName}
+      </foreach>
+    </trim>
+  </select>
+
+  <select id="findMenusByRoleNames" parameterType="collection" resultMap="BaseResultMap">
+    SELECT m.son_id sonmenu_son_id,m.father_id sonmenu_father_id,m.is_leaf sonmenu_is_leaf,m.menu_name sonmenu_menu_name,m.submit_method sonmenu_submit_method,m.url sonmenu_url,
+    m.sub_name sonmenu_sub_name,m.sub_url sonmenu_sub_url,m.icon sonmenu_icon,m.icon_color sonmenu_icon_color
+    ,m.sort sonmenu_sort,m.menu_lv sonmenu_menu_lv,m.is_qy sonmenu_is_qy
+    FROM sonmenu m
+    LEFT JOIN role_per rp ON m.son_id = rp.son_id
+    LEFT JOIN role r ON r.role_id = rp.role_id
+    <trim prefix="WHERE r.role_name IN">
+      <foreach collection='roleNames' item='roleName' open='(' separator=',' close=')'>
+        #{roleName}
+      </foreach>
+    </trim>
+  </select>
+
+
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sonmenu sonmenu
+    where sonmenu.son_id = #{son_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sonmenu
+    where son_id = #{son_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="son_id" keyProperty="son_id" parameterType="com.trkj.crmproject.entity.Sonmenu" useGeneratedKeys="true">
+    insert into sonmenu (father_id, is_leaf, menu_name,
+      submit_method, url, sub_name,
+      sub_url, icon, icon_color,
+      sort, menu_lv, is_qy
+      )
+    values (#{father_id,jdbcType=INTEGER}, #{is_leaf,jdbcType=INTEGER}, #{menu_name,jdbcType=VARCHAR},
+      #{submit_method,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{sub_name,jdbcType=VARCHAR},
+      #{sub_url,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{icon_color,jdbcType=VARCHAR},
+      #{sort,jdbcType=INTEGER}, #{menu_lv,jdbcType=INTEGER}, #{is_qy,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="son_id" keyProperty="son_id" parameterType="com.trkj.crmproject.entity.Sonmenu" useGeneratedKeys="true">
+    insert into sonmenu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="father_id != null">
+        father_id,
+      </if>
+      <if test="is_leaf != null">
+        is_leaf,
+      </if>
+      <if test="menu_name != null">
+        menu_name,
+      </if>
+      <if test="submit_method != null">
+        submit_method,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="sub_name != null">
+        sub_name,
+      </if>
+      <if test="sub_url != null">
+        sub_url,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+      <if test="icon_color != null">
+        icon_color,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="menu_lv != null">
+        menu_lv,
+      </if>
+      <if test="is_qy != null">
+        is_qy,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="father_id != null">
+        #{father_id,jdbcType=INTEGER},
+      </if>
+      <if test="is_leaf != null">
+        #{is_leaf,jdbcType=INTEGER},
+      </if>
+      <if test="menu_name != null">
+        #{menu_name,jdbcType=VARCHAR},
+      </if>
+      <if test="submit_method != null">
+        #{submit_method,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="sub_name != null">
+        #{sub_name,jdbcType=VARCHAR},
+      </if>
+      <if test="sub_url != null">
+        #{sub_url,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="icon_color != null">
+        #{icon_color,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="menu_lv != null">
+        #{menu_lv,jdbcType=INTEGER},
+      </if>
+      <if test="is_qy != null">
+        #{is_qy,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trkj.crmproject.entity.Sonmenu">
+    update sonmenu
+    <set>
+      <if test="father_id != null">
+        father_id = #{father_id,jdbcType=INTEGER},
+      </if>
+      <if test="is_leaf != null">
+        is_leaf = #{is_leaf,jdbcType=INTEGER},
+      </if>
+      <if test="menu_name != null">
+        menu_name = #{menu_name,jdbcType=VARCHAR},
+      </if>
+      <if test="submit_method != null">
+        submit_method = #{submit_method,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="sub_name != null">
+        sub_name = #{sub_name,jdbcType=VARCHAR},
+      </if>
+      <if test="sub_url != null">
+        sub_url = #{sub_url,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="icon_color != null">
+        icon_color = #{icon_color,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="menu_lv != null">
+        menu_lv = #{menu_lv,jdbcType=INTEGER},
+      </if>
+      <if test="is_qy != null">
+        is_qy = #{is_qy,jdbcType=INTEGER},
+      </if>
+    </set>
+    where son_id = #{son_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.trkj.crmproject.entity.Sonmenu">
+    update sonmenu
+    set father_id = #{father_id,jdbcType=INTEGER},
+      is_leaf = #{is_leaf,jdbcType=INTEGER},
+      menu_name = #{menu_name,jdbcType=VARCHAR},
+      submit_method = #{submit_method,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      sub_name = #{sub_name,jdbcType=VARCHAR},
+      sub_url = #{sub_url,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      icon_color = #{icon_color,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      menu_lv = #{menu_lv,jdbcType=INTEGER},
+      is_qy = #{is_qy,jdbcType=INTEGER}
+    where son_id = #{son_id,jdbcType=INTEGER}
+  </update>
+</mapper>

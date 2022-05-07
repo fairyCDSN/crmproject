@@ -1,0 +1,7 @@
+POST http://localhost:8090/crmproject/login
+Content-Type: application/json
+
+{
+  "username":"wq",
+  "password":"123456"
+}
