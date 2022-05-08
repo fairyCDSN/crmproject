@@ -7,6 +7,7 @@ public enum CustomErrorType {
     FILE_UPLOAD_NOFILES_ERROR(500,"没有指定文件上传"),
     FILE_UPLOAD_ERROR(500,"文件上传异常"),
     RESOURCE_NOT_FOUND_ERROR(404,"无法找到对应的资源"),
+    DATABASE_OP_ERROR(500,"数据库操作异常"),
     OTHER_ERROR(999,"其他未知异常");
     CustomErrorType(int code, String typeDesc) {
         this.code = code;
