@@ -39,6 +39,13 @@ public class CkController {
         return AjaxResponse.success(ckService.updateCk(ck));
     }
 
+    //根据id查询
+    @GetMapping("/setectCkid")
+    public AjaxResponse setectCkid(int ckId){
+        return AjaxResponse.success(ckService.setectCkid(ckId));
+    }
+
+
 //    //仓库管理  分页
 //    @GetMapping("/findck")
 //    public AjaxResponse findck(){

@@ -52,6 +52,12 @@ public class CkServicelmpl implements CkService{
         return ck;
     }
 
+    //根据id查询
+    @Override
+    public Ck setectCkid(int ckId) {
+        return dao.selectById(ckId);
+    }
+
 //    //仓库管理  分页
 //    @Override
 //    public PageInfo<Ck> findck(int pageNum, int pageSize) {

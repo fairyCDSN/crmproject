@@ -9,4 +9,5 @@ public class Ck {
     private int ckId;
     private String ckName;
     private int glyId;
+    private int ckState;
 }

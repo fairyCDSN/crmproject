@@ -19,4 +19,7 @@ public interface CkService {
 
     //仓库管理  修改
     public Ck updateCk(Ck ck);
+
+    //根据id查询
+    public Ck setectCkid(int ckId);
 }
