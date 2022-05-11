@@ -6,7 +6,6 @@ import lombok.Data;
 public class ProductVo {
     private int proId;
     private String proName;
-    private String proType;
     private String proGuige;
     private String proXh;
     private String proDw;
