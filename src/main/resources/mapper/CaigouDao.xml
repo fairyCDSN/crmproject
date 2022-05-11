@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.CaigouDao">
+  <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Caigou">
+    <id column="caigou_cg_id" jdbcType="INTEGER" property="cgId" />
+    <result column="caigou_sqid" jdbcType="INTEGER" property="sqid" />
+    <result column="caigou_cg_time" jdbcType="TIMESTAMP" property="cgTime" />
+    <result column="caigou_state" jdbcType="VARCHAR" property="state" />
+    <result column="caigou_kejsr" jdbcType="VARCHAR" property="kejsr" />
+    <result column="caigou_jsr" jdbcType="VARCHAR" property="jsr" />
+    <result column="caigou_cjr" jdbcType="VARCHAR" property="cjr" />
+    <result column="caigou_state_time" jdbcType="TIMESTAMP" property="stateTime" />
+    <result column="caigou_bz" jdbcType="VARCHAR" property="bz" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    caigou.cg_id as caigou_cg_id, caigou.sqid as caigou_sqid, caigou.cg_time as caigou_cg_time, 
+    caigou.`state` as `caigou_state`, caigou.kejsr as caigou_kejsr, caigou.jsr as caigou_jsr, 
+    caigou.cjr as caigou_cjr, caigou.state_time as caigou_state_time, caigou.bz as caigou_bz
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from caigou caigou
+    where caigou.cg_id = #{cg_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from caigou
+    where cg_id = #{cg_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="cg_id" keyProperty="cgId" parameterType="com.trkj.crmproject.entity.Caigou" useGeneratedKeys="true">
+    insert into caigou (sqid, cg_time, `state`,
+      kejsr, jsr, cjr, state_time,
+      bz)
+    values (#{sqid,jdbcType=INTEGER}, #{cgTime,jdbcType=TIMESTAMP}, #{state,jdbcType=VARCHAR},
+      #{kejsr,jdbcType=VARCHAR}, #{jsr,jdbcType=VARCHAR}, #{cjr,jdbcType=VARCHAR}, #{stateTime,jdbcType=TIMESTAMP},
+      #{bz,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="cg_id" keyProperty="cg_id" parameterType="com.trkj.crmproject.entity.Caigou" useGeneratedKeys="true">
+    insert into caigou
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sqid != null">
+        sqid,
+      </if>
+      <if test="cg_time != null">
+        cg_time,
+      </if>
+      <if test="state != null">
+        `state`,
+      </if>
+      <if test="kejsr != null">
+        kejsr,
+      </if>
+      <if test="jsr != null">
+        jsr,
+      </if>
+      <if test="cjr != null">
+        cjr,
+      </if>
+      <if test="state_time != null">
+        state_time,
+      </if>
+      <if test="bz != null">
+        bz,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sqid != null">
+        #{sqid,jdbcType=INTEGER},
+      </if>
+      <if test="cg_time != null">
+        #{cg_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="kejsr != null">
+        #{kejsr,jdbcType=VARCHAR},
+      </if>
+      <if test="jsr != null">
+        #{jsr,jdbcType=VARCHAR},
+      </if>
+      <if test="cjr != null">
+        #{cjr,jdbcType=VARCHAR},
+      </if>
+      <if test="state_time != null">
+        #{state_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bz != null">
+        #{bz,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trkj.crmproject.entity.Caigou">
+    update caigou
+    <set>
+      <if test="sqid != null">
+        sqid = #{sqid,jdbcType=INTEGER},
+      </if>
+      <if test="cg_time != null">
+        cg_time = #{cg_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        `state` = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="kejsr != null">
+        kejsr = #{kejsr,jdbcType=VARCHAR},
+      </if>
+      <if test="jsr != null">
+        jsr = #{jsr,jdbcType=VARCHAR},
+      </if>
+      <if test="cjr != null">
+        cjr = #{cjr,jdbcType=VARCHAR},
+      </if>
+      <if test="state_time != null">
+        state_time = #{state_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bz != null">
+        bz = #{bz,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cg_id = #{cg_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.trkj.crmproject.entity.Caigou">
+    update caigou
+    set sqid = #{sqid,jdbcType=INTEGER},
+      cg_time = #{cg_time,jdbcType=TIMESTAMP},
+      `state` = #{state,jdbcType=VARCHAR},
+      kejsr = #{kejsr,jdbcType=VARCHAR},
+      jsr = #{jsr,jdbcType=VARCHAR},
+      cjr = #{cjr,jdbcType=VARCHAR},
+      state_time = #{state_time,jdbcType=TIMESTAMP},
+      bz = #{bz,jdbcType=VARCHAR}
+    where cg_id = #{cg_id,jdbcType=INTEGER}
+  </update>
+
+  <select id="findcaigou" resultMap="BaseResultMap">
+    select c.cg_id caigou_cg_id,c.sqid caigou_sqid,c.cg_time caigou_cg_time,c.state `caigou_state`,c.kejsr caigou_kejsr,c.jsr caigou_jsr,c.cjr caigou_cjr,c.state_time caigou_state_time,c.bz caigou_bz
+     from apprecords a inner join caigousq q on a.app_records_id=q.state_id
+     inner join caigou c on c.sqid=q.sqid
+     where a.app_state='审批通过'
+  </select>
+</mapper>
