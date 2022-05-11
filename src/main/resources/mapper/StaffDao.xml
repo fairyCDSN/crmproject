@@ -28,17 +28,6 @@
     delete from staff
     where staff_id = #{staff_id,jdbcType=INTEGER}
   </delete>
-<<<<<<< HEAD
-  <insert id="insert" keyColumn="staff_id" keyProperty="staff_id" parameterType="com.trkj.crmproject.entity.Staff" useGeneratedKeys="true">
-    insert into staff (user_id, post_id, induction_time,
-      staff_sex, staff_qq, staff_wx,
-      staff_txdz, deptment_id)
-    values (#{user_id,jdbcType=INTEGER}, #{post_id,jdbcType=INTEGER}, #{induction_time,jdbcType=TIMESTAMP},
-      #{staff_sex,jdbcType=VARCHAR}, #{staff_qq,jdbcType=VARCHAR}, #{staff_wx,jdbcType=VARCHAR},
-      #{staff_txdz,jdbcType=VARCHAR}, #{deptment_id,jdbcType=INTEGER})
-  </insert>
-  <insert id="insertSelective" keyColumn="staff_id" keyProperty="staff_id" parameterType="com.trkj.crmproject.entity.Staff" useGeneratedKeys="true">
-=======
   <insert id="insert" keyColumn="staff_id" keyProperty="staff_id" parameterType="com.trkj.crmproject.vo.StaffVo" useGeneratedKeys="true">
     insert into staff (user_id, post_id, induction_time,
       staff_sex, staff_qq, staff_wx,
@@ -48,7 +37,6 @@
       #{staff_txdz,jdbcType=VARCHAR}, #{deptment_id,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="staff_id" keyProperty="staff_id" parameterType="com.trkj.crmproject.entity.mybatis.Staff" useGeneratedKeys="true">
->>>>>>> 90b0cfa (用户添加)
     insert into staff
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="user_id != null">
@@ -103,11 +91,7 @@
       </if>
     </trim>
   </insert>
-<<<<<<< HEAD
-  <update id="updateByPrimaryKeySelective" parameterType="com.trkj.crmproject.entity.Staff">
-=======
   <update id="updateByPrimaryKeySelective" parameterType="com.trkj.crmproject.entity.mybatis.Staff">
->>>>>>> 90b0cfa (用户添加)
     update staff
     <set>
       <if test="user_id != null">
@@ -137,11 +121,7 @@
     </set>
     where staff_id = #{staff_id,jdbcType=INTEGER}
   </update>
-<<<<<<< HEAD
-  <update id="updateByPrimaryKey" parameterType="com.trkj.crmproject.entity.Staff">
-=======
   <update id="updateByPrimaryKey" parameterType="com.trkj.crmproject.entity.mybatis.Staff">
->>>>>>> 90b0cfa (用户添加)
     update staff
     set user_id = #{user_id,jdbcType=INTEGER},
       post_id = #{post_id,jdbcType=INTEGER},
@@ -153,14 +133,10 @@
       deptment_id = #{deptment_id,jdbcType=INTEGER}
     where staff_id = #{staff_id,jdbcType=INTEGER}
   </update>
-<<<<<<< HEAD
 
   <select id="selectcgyid" resultMap="BaseResultMap">
-  select staff.staff_id
-  from staff
-  INNER JOIN post ON  staff.post_id=post.post_id WHERE post.post_name='采购员';
+    select staff.staff_id
+    from staff
+    INNER JOIN post ON  staff.post_id=post.post_id WHERE post.post_name='采购员';
   </select>
 </mapper>
-=======
-</mapper>
->>>>>>> 90b0cfa (用户添加)

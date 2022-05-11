@@ -2,7 +2,11 @@ package com.trkj.crmproject.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.pagehelper.PageInfo;
-import com.trkj.crmproject.entity.*;
+import com.trkj.crmproject.entity.Caigou;
+import com.trkj.crmproject.entity.Caigousq;
+import com.trkj.crmproject.entity.Staff;
+import com.trkj.crmproject.entity.Supplier;
+import com.trkj.crmproject.entity.mybatis_plus.*;
 import com.trkj.crmproject.service.*;
 import com.trkj.crmproject.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +50,7 @@ public class YgCotroller {
 //    }
     //采购计划，根据传入的数据，进行分页查询
     @RequestMapping("/selectpurchaseplan")
-    public AjaxResponse selectpurchaseplan(Caigousq caigousq,int pageNum,int pageSize){
+    public AjaxResponse selectpurchaseplan(Caigousq caigousq, int pageNum, int pageSize){
         System.out.println("=============="+caigousq);
         PageInfo<Caigousq> info= caigousqService.selectPurchaseplan(pageNum,pageSize,caigousq.getSqid(),caigousq.getSupplierId(),caigousq.getType());
         return AjaxResponse.success(info);

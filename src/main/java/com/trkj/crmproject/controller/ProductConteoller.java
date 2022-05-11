@@ -1,6 +1,6 @@
 package com.trkj.crmproject.controller;
 
-import com.trkj.crmproject.entity.Product;
+import com.trkj.crmproject.entity.mybatis_plus.Product;
 import com.trkj.crmproject.service.ProductService;
 import com.trkj.crmproject.vo.AjaxResponse;
 import org.springframework.beans.factory.annotation.Autowired;

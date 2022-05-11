@@ -1,7 +1,7 @@
 package com.trkj.crmproject.service;
 
 import com.trkj.crmproject.dao.CkDao;
-import com.trkj.crmproject.entity.Ck;
+import com.trkj.crmproject.entity.mybatis_plus.Ck;
 import com.trkj.crmproject.exception.CustomError;
 import com.trkj.crmproject.exception.CustomErrorType;
 import com.trkj.crmproject.util.BeanTools;

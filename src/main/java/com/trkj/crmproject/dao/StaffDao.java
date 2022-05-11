@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @Component
 @Mapper
@@ -23,4 +25,6 @@ public interface StaffDao extends BaseMapper<StaffMp> {
     int updateByPrimaryKeySelective(Staff record);
 
     int updateByPrimaryKey(Staff record);
+
+    public List<com.trkj.crmproject.entity.Staff> selectcgyid();
 }

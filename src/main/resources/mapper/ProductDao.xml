@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trkj.crmproject.dao.ProductDao">
-    <resultMap id="ProductMap" type="com.trkj.crmproject.entity.Product">
+    <resultMap id="ProductMap" type="com.trkj.crmproject.entity.mybatis_plus.Product">
         <id column="PROID" property="proId" />
         <result column="PRONAME" property="proName"/>
         <result column="PROGUIGE" property="proGuige"/>

@@ -1,7 +1,7 @@
 package com.trkj.crmproject.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.trkj.crmproject.entity.Ck;
+import com.trkj.crmproject.entity.mybatis_plus.Ck;
 import com.trkj.crmproject.vo.CkStaffVo;
 import com.trkj.crmproject.vo.CkVo;
 import org.apache.ibatis.annotations.Mapper;
