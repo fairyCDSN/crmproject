@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.CaigousqDao">
+  <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Caigousq">
+    <id column="caigousq_sqid" jdbcType="INTEGER" property="sqid" />
+    <result column="caigousq_supplier_id" jdbcType="INTEGER" property="supplierId" />
+    <result column="caigousq_cg_title" jdbcType="VARCHAR" property="cgTitle" />
+    <result column="caigousq_cg_dh" jdbcType="VARCHAR" property="cgDh" />
+    <result column="caigousq_total" jdbcType="DECIMAL" property="total" />
+    <result column="caigousq_type" jdbcType="VARCHAR" property="type" />
+    <result column="caigousq_product" jdbcType="INTEGER" property="product" />
+    <result column="caigousq_salesperson_id" jdbcType="INTEGER" property="salespersonId" />
+    <result column="caigousq_fksm" jdbcType="VARCHAR" property="fksm" />
+    <result column="caigousq_jfsm" jdbcType="VARCHAR" property="jfsm" />
+    <result column="caigousq_toexamine" jdbcType="INTEGER" property="toexamine" />
+    <result column="caigousq_state_id" jdbcType="INTEGER" property="stateId" />
+    <result column="caigousq_product_number" jdbcType="DECIMAL" property="productNumber" />
+    <result column="caigousq_usestate" jdbcType="VARCHAR" property="usestate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    caigousq.sqid as caigousq_sqid, caigousq.supplier_id as caigousq_supplier_id, caigousq.cg_title as caigousq_cg_title, 
+    caigousq.cg_dh as caigousq_cg_dh, caigousq.total as caigousq_total, caigousq.`type` as `caigousq_type`, 
+    caigousq.product as caigousq_product, caigousq.salesperson_id as caigousq_salesperson_id, 
+    caigousq.fksm as caigousq_fksm, caigousq.jfsm as caigousq_jfsm, caigousq.toexamine as caigousq_toexamine, 
+    caigousq.state_id as caigousq_state_id, caigousq.product_number as caigousq_product_number, 
+    caigousq.usestate as caigousq_usestate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from caigousq caigousq
+    where caigousq.sqid = #{sqid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from caigousq
+    where sqid = #{sqid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="sqid" keyProperty="sqid" parameterType="com.trkj.crmproject.entity.Caigousq" useGeneratedKeys="true">
+    insert into caigousq (supplier_id, cg_title, cg_dh, 
+      total, `type`, product, 
+      salesperson_id, fksm, jfsm, 
+      toexamine, state_id, product_number, 
+      usestate)
+    values (#{supplierId,jdbcType=INTEGER}, #{cgTitle,jdbcType=VARCHAR}, #{cgDh,jdbcType=VARCHAR},
+      #{total,jdbcType=DECIMAL}, #{type,jdbcType=VARCHAR}, #{product,jdbcType=INTEGER}, 
+      #{salespersonId,jdbcType=INTEGER}, #{fksm,jdbcType=VARCHAR}, #{jfsm,jdbcType=VARCHAR},
+      #{toexamine,jdbcType=INTEGER}, #{stateId,jdbcType=INTEGER}, #{productNumber,jdbcType=DECIMAL},
+      #{usestate,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="sqid" keyProperty="sqid" parameterType="com.trkj.crmproject.entity.Caigousq" useGeneratedKeys="true">
+    insert into caigousq
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="supplier_id != null">
+        supplier_id,
+      </if>
+      <if test="cg_title != null">
+        cg_title,
+      </if>
+      <if test="cg_dh != null">
+        cg_dh,
+      </if>
+      <if test="total != null">
+        total,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="product != null">
+        product,
+      </if>
+      <if test="salesperson_id != null">
+        salesperson_id,
+      </if>
+      <if test="fksm != null">
+        fksm,
+      </if>
+      <if test="jfsm != null">
+        jfsm,
+      </if>
+      <if test="toexamine != null">
+        toexamine,
+      </if>
+      <if test="state_id != null">
+        state_id,
+      </if>
+      <if test="product_number != null">
+        product_number,
+      </if>
+      <if test="usestate != null">
+        usestate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="supplier_id != null">
+        #{supplier_id,jdbcType=INTEGER},
+      </if>
+      <if test="cg_title != null">
+        #{cg_title,jdbcType=VARCHAR},
+      </if>
+      <if test="cg_dh != null">
+        #{cg_dh,jdbcType=VARCHAR},
+      </if>
+      <if test="total != null">
+        #{total,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="product != null">
+        #{product,jdbcType=INTEGER},
+      </if>
+      <if test="salesperson_id != null">
+        #{salesperson_id,jdbcType=INTEGER},
+      </if>
+      <if test="fksm != null">
+        #{fksm,jdbcType=VARCHAR},
+      </if>
+      <if test="jfsm != null">
+        #{jfsm,jdbcType=VARCHAR},
+      </if>
+      <if test="toexamine != null">
+        #{toexamine,jdbcType=INTEGER},
+      </if>
+      <if test="state_id != null">
+        #{state_id,jdbcType=INTEGER},
+      </if>
+      <if test="product_number != null">
+        #{product_number,jdbcType=DECIMAL},
+      </if>
+      <if test="usestate != null">
+        #{usestate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trkj.crmproject.entity.Caigousq">
+    update caigousq
+    <set>
+      <if test="supplier_id != null">
+        supplier_id = #{supplier_id,jdbcType=INTEGER},
+      </if>
+      <if test="cg_title != null">
+        cg_title = #{cg_title,jdbcType=VARCHAR},
+      </if>
+      <if test="cg_dh != null">
+        cg_dh = #{cg_dh,jdbcType=VARCHAR},
+      </if>
+      <if test="total != null">
+        total = #{total,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="product != null">
+        product = #{product,jdbcType=INTEGER},
+      </if>
+      <if test="salesperson_id != null">
+        salesperson_id = #{salesperson_id,jdbcType=INTEGER},
+      </if>
+      <if test="fksm != null">
+        fksm = #{fksm,jdbcType=VARCHAR},
+      </if>
+      <if test="jfsm != null">
+        jfsm = #{jfsm,jdbcType=VARCHAR},
+      </if>
+      <if test="toexamine != null">
+        toexamine = #{toexamine,jdbcType=INTEGER},
+      </if>
+      <if test="state_id != null">
+        state_id = #{state_id,jdbcType=INTEGER},
+      </if>
+      <if test="product_number != null">
+        product_number = #{product_number,jdbcType=DECIMAL},
+      </if>
+      <if test="usestate != null">
+        usestate = #{usestate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where sqid = #{sqid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.trkj.crmproject.entity.Caigousq">
+    update caigousq
+    set supplier_id = #{supplier_id,jdbcType=INTEGER},
+      cg_title = #{cg_title,jdbcType=VARCHAR},
+      cg_dh = #{cg_dh,jdbcType=VARCHAR},
+      total = #{total,jdbcType=DECIMAL},
+      `type` = #{type,jdbcType=VARCHAR},
+      product = #{product,jdbcType=INTEGER},
+      salesperson_id = #{salesperson_id,jdbcType=INTEGER},
+      fksm = #{fksm,jdbcType=VARCHAR},
+      jfsm = #{jfsm,jdbcType=VARCHAR},
+      toexamine = #{toexamine,jdbcType=INTEGER},
+      state_id = #{state_id,jdbcType=INTEGER},
+      product_number = #{product_number,jdbcType=DECIMAL},
+      usestate = #{usestate,jdbcType=VARCHAR}
+    where sqid = #{sqid,jdbcType=INTEGER}
+  </update>
+
+  <!-- staff员工表 post职务表 caigousq采购申请表 product产品表 supplier供应商表 -->
+  <select id="selectsupname" resultType="com.trkj.crmproject.entity.Caigousq">
+    select caigousq.supplier_id,
+    supplier.supplier_name,
+    staff.staff_id,
+    product.pro_name,product.pro_id
+    from caigousq left join supplier on caigousq.supplier_id=supplier.supplier_id
+    left join staff on caigousq.salesperson_id=staff.staff_id
+    left join product on caigousq.product=product.pro_id;
+  </select>
+
+  <select id="selectsqid" resultType="com.trkj.crmproject.entity.Caigousq">
+    select c.sqid
+    from apprecords a inner join caigousq c on a.app_records_id=c.state_id
+    where a.app_state='审批通过' and c.usestate='未使用';
+  </select>
+</mapper>
