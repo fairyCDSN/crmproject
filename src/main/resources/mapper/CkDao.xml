@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.CkDao">
+    <resultMap id="CkMap" type="com.trkj.crmproject.entity.Ck">
+        <id property="ckId" column="CKID"/>
+        <result property="ckName" column="CKNAME"/>
+        <result property="ckState" column="CKSTATE"/>
+        <result property="glyId" column="GLYID"/>
+    </resultMap>
+
+<!--    仓库列表  查询全部（根据glyId,userId外键查询userName）-->
+    <select id="selectCkuserName" resultType="com.trkj.crmproject.vo.CkVo">
+        select ck.ck_id,ck.ck_name,ck.ck_state,users.user_name from ck
+            left join staff on ck.gly_id=staff.staff_id
+            left join users on staff.user_id=users.user_id
+    </select>
+
+<!--    仓库列表  查询全部（根据CkName模糊查询）-->
+    <select id="selectCkuserNamelike" resultType="com.trkj.crmproject.vo.CkVo">
+        select ck.ck_id,ck.ck_name,ck.ck_state,users.user_name from ck
+            left join staff on ck.gly_id=staff.staff_id
+            left join users on staff.user_id=users.user_id
+            where ck_name like '%${ck_name}%'
+    </select>
+
+<!--    <select id="selectUserName" resultType="map">-->
+<!--        select user_name from users-->
+<!--    </select>-->
+<!--    查询管理员ID（staff表）-->
+    <select id="selectGlyid" resultType="com.trkj.crmproject.vo.CkStaffVo">
+         select staff_id from staff
+    </select>
+
+<!--    仓库列表  删除（根据ckId把ckState改为1）-->
+    <update id="updateCkState">
+        update ck set ck_state=1 where ck_id=#{ckId}
+    </update>
+</mapper>
