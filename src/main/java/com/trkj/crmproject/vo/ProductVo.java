@@ -1,11 +1,9 @@
-package com.trkj.crmproject.entity;
+package com.trkj.crmproject.vo;
 
-import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 @Data
-public class Product {
-    @TableId
+public class ProductVo {
     private int proId;
     private String proName;
     private String proType;
@@ -15,6 +13,8 @@ public class Product {
     private Double proMoney;
     private Double proCbj;
     private int proKc;
-    private String proSay;
-    private int ckId;
+
+    //仓库表 仓库名称（ckName)
+    private String ckName;
 }
+

@@ -1,6 +1,8 @@
 package com.trkj.crmproject.service;
 
 import com.trkj.crmproject.entity.Ck;
+import com.trkj.crmproject.vo.CkStaffVo;
+import com.trkj.crmproject.vo.CkVo;
 
 import java.util.List;
 
@@ -20,6 +22,23 @@ public interface CkService {
     //仓库管理  修改
     public Ck updateCk(Ck ck);
 
-    //根据id查询
+    //仓库管理 根据id查询
     public Ck setectCkid(int ckId);
+
+
+    //仓库列表  查询全部（根据glyId,userId外键查询userName）
+    public List<CkVo> selectCkuserName();
+
+    //仓库列表  查询全部（根据CkName模糊查询）
+    public List<CkVo> selectCkuserNamelike(String ckName);
+
+
+    //查询管理员（users表）
+//    public List<CkUserVo> selectUserName();
+
+    //查询管理员ID（staff表）
+    public List<CkStaffVo> selectGlyid();
+
+    //仓库列表  删除（根据ckId把ckState改为1）
+    public int updateCkState(int ckId);
 }

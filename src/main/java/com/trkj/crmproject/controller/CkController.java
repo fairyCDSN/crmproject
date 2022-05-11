@@ -3,6 +3,7 @@ package com.trkj.crmproject.controller;
 import com.trkj.crmproject.entity.Ck;
 import com.trkj.crmproject.service.CkService;
 import com.trkj.crmproject.vo.AjaxResponse;
+import com.trkj.crmproject.vo.CkUserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,4 +54,35 @@ public class CkController {
 //        PageInfo<Ck> info=ckService.findck(1,2);
 //        return AjaxResponse.success(info);
 //    }
+
+    //仓库列表  查询全部（根据glyId,userId外键查询userName）
+    @GetMapping("/selectCkuserName")
+    public AjaxResponse selectCkuserName(){
+        return AjaxResponse.success(ckService.selectCkuserName());
+    }
+
+    //仓库列表  查询全部（根据CkName模糊查询）
+    @GetMapping("/selectCkuserNamelike")
+    public AjaxResponse selectCkuserNamelike(String ckName){
+        return AjaxResponse.success(ckService.selectCkuserNamelike(ckName));
+    }
+
+    //查询管理员（users表）
+//    @GetMapping("/selectUserName")
+//    public AjaxResponse selectUserName(){
+//        return AjaxResponse.success(ckService.selectUserName());
+//    }
+
+    //查询管理员ID（staff表）
+    @GetMapping("/selectGlyid")
+    public AjaxResponse selectGlyid(){
+        return AjaxResponse.success(ckService.selectGlyid());
+    }
+
+
+    //仓库列表  删除（根据ckId把ckState改为1）
+    @GetMapping("/updateCkState")
+    public AjaxResponse updateCkState(int ckId){
+        return AjaxResponse.success(ckService.updateCkState(ckId));
+    }
 }
