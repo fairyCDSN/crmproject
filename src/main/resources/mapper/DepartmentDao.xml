@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.DepartmentDao">
+  <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.mybatis.Department">
+    <id column="department_department_id" jdbcType="INTEGER" property="department_id" />
+    <result column="department_department_name" jdbcType="VARCHAR" property="department_name" />
+    <result column="department_department_address" jdbcType="VARCHAR" property="department_address" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    department.department_id as department_department_id, department.department_name as department_department_name,
+    department.department_address as department_department_address
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from department department
+    where department.department_id = #{department_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from department
+    where department_id = #{department_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="department_id" keyProperty="department_id" parameterType="com.trkj.crmproject.entity.mybatis.Department" useGeneratedKeys="true">
+    insert into department (department_name, department_address
+      )
+    values (#{department_name,jdbcType=VARCHAR}, #{department_address,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="department_id" keyProperty="department_id" parameterType="com.trkj.crmproject.entity.mybatis.Department" useGeneratedKeys="true">
+    insert into department
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="department_name != null">
+        department_name,
+      </if>
+      <if test="department_address != null">
+        department_address,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="department_name != null">
+        #{department_name,jdbcType=VARCHAR},
+      </if>
+      <if test="department_address != null">
+        #{department_address,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trkj.crmproject.entity.mybatis.Department">
+    update department
+    <set>
+      <if test="department_name != null">
+        department_name = #{department_name,jdbcType=VARCHAR},
+      </if>
+      <if test="department_address != null">
+        department_address = #{department_address,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where department_id = #{department_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.trkj.crmproject.entity.mybatis.Department">
+    update department
+    set department_name = #{department_name,jdbcType=VARCHAR},
+      department_address = #{department_address,jdbcType=VARCHAR}
+    where department_id = #{department_id,jdbcType=INTEGER}
+  </update>
+</mapper>

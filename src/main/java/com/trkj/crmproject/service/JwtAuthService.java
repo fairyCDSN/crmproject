@@ -1,20 +1,17 @@
 package com.trkj.crmproject.service;
 
 
-import com.trkj.crmproject.entity.Users;
+import com.trkj.crmproject.entity.mybatis.Users;
 import com.trkj.crmproject.exception.CustomError;
 import com.trkj.crmproject.exception.CustomErrorType;
 import com.trkj.crmproject.util.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Repository;
-import sun.plugin.liveconnect.SecurityContextHelper;
-import sun.security.util.SecurityConstants;
 
 import javax.annotation.Resource;
 
@@ -40,9 +37,9 @@ public class JwtAuthService {
             log.debug("开始登录验证");
             UsernamePasswordAuthenticationToken upToken=new UsernamePasswordAuthenticationToken(username,password);
             //登录验证
-
-            authentication=authenticationManager.authenticate(upToken);
             log.debug(upToken+"");
+            authentication=authenticationManager.authenticate(upToken);
+
             //登录验证完成
             log.debug(authentication+"");
             log.debug("验证成功");

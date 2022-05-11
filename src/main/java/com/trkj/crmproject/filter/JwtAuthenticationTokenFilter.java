@@ -1,7 +1,7 @@
 package com.trkj.crmproject.filter;
 
 
-import com.trkj.crmproject.entity.Users;
+import com.trkj.crmproject.entity.mybatis.Users;
 import com.trkj.crmproject.service.MyUserDetailsService;
 import com.trkj.crmproject.util.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;

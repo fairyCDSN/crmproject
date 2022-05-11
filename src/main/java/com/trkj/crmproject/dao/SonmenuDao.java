@@ -1,6 +1,6 @@
 package com.trkj.crmproject.dao;
 
-import com.trkj.crmproject.entity.Sonmenu;
+import com.trkj.crmproject.entity.mybatis.Sonmenu;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

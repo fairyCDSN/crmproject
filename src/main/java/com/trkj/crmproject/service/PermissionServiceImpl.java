@@ -2,7 +2,7 @@ package com.trkj.crmproject.service;
 
 import com.trkj.crmproject.dao.RoleDao;
 import com.trkj.crmproject.dao.SonmenuDao;
-import com.trkj.crmproject.entity.Sonmenu;
+import com.trkj.crmproject.entity.mybatis.Sonmenu;
 import com.trkj.crmproject.util.MenuUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

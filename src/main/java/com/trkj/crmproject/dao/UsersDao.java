@@ -1,6 +1,6 @@
 package com.trkj.crmproject.dao;
 
-import com.trkj.crmproject.entity.Users;
+import com.trkj.crmproject.entity.mybatis.Users;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 

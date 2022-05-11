@@ -1,4 +1,4 @@
-package com.trkj.crmproject.entity;
+package com.trkj.crmproject.entity.mybatis;
 
 import java.io.Serializable;
 import java.util.ArrayList;

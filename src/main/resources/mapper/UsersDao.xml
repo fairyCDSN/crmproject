@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trkj.crmproject.dao.UsersDao">
-  <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Users">
+  <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.mybatis.Users">
     <id column="users_user_id" jdbcType="INTEGER" property="user_id" />
     <result column="users_user_name" jdbcType="VARCHAR" property="user_name" />
     <result column="users_user_pass" jdbcType="VARCHAR" property="user_pass" />
@@ -38,7 +38,7 @@
     delete from users
     where user_id = #{user_id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="user_id" keyProperty="user_id" parameterType="com.trkj.crmproject.entity.Users" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="user_id" keyProperty="user_id" parameterType="com.trkj.crmproject.entity.mybatis.Users" useGeneratedKeys="true">
     insert into users (user_name, user_pass, create_time,
       org_id, phone, email,
       is_use, account_non_expired, account_non_locked,
@@ -48,7 +48,7 @@
       #{is_use,jdbcType=INTEGER}, #{account_non_expired,jdbcType=BIT}, #{account_non_locked,jdbcType=BIT},
       #{credentials_non_expired,jdbcType=BIT})
   </insert>
-  <insert id="insertSelective" keyColumn="user_id" keyProperty="user_id" parameterType="com.trkj.crmproject.entity.Users" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="user_id" keyProperty="user_id" parameterType="com.trkj.crmproject.entity.mybatis.Users" useGeneratedKeys="true">
     insert into users
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="user_name != null">
@@ -115,7 +115,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.trkj.crmproject.entity.Users">
+  <update id="updateByPrimaryKeySelective" parameterType="com.trkj.crmproject.entity.mybatis.Users">
     update users
     <set>
       <if test="user_name != null">
@@ -151,7 +151,7 @@
     </set>
     where user_id = #{user_id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.trkj.crmproject.entity.Users">
+  <update id="updateByPrimaryKey" parameterType="com.trkj.crmproject.entity.mybatis.Users">
     update users
     set user_name = #{user_name,jdbcType=VARCHAR},
       user_pass = #{user_pass,jdbcType=VARCHAR},
