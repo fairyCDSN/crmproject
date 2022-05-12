@@ -67,4 +67,11 @@ public class CaigouServiceImpl implements CaigouService {
         }
         return row;
     }
+
+    @Override
+    public List<Caigou> selectfkcgid() {
+        List<Caigou> caigous=dao.selectfkcgid();
+        System.out.println("=======我在impl"+caigous);
+        return caigous;
+    }
 }

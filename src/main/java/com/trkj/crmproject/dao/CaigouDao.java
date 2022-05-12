@@ -21,4 +21,5 @@ public interface CaigouDao extends BaseMapper<Caigou> {
 //    int updateByPrimaryKey(Caigou record);
 
     public List<Caigou> findcaigou();
+    public List<Caigou> selectfkcgid();
 }

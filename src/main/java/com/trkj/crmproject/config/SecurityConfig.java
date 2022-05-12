@@ -72,10 +72,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //.antMatchers("/login").anonymous()
                 .antMatchers("/login","/news/**","/public/upload/**").permitAll()
                 //"/SysMain/**","/DeptMain/**这两个路径下的资源需要有admin角色或是有权限
-                .antMatchers("/SysMain/**","/DeptMain/**").access("@rabcService.hasRole(request,authentication,'admin') or @rabcService.hasPermission(request,authentication)")
+//                .antMatchers("/SysMain/**","/DeptMain/**").access("@rabcService.hasRole(request,authentication,'admin') or @rabcService.hasPermission(request,authentication)")
                 //.antMatchers("/SysMain/**","/DeptMain/**").hasRole("admin")
                 //其它URL都需要用户通过rabcService.hasPermission方法的验证才可以访问
-                .anyRequest().access("@rabcService.hasPermission(request,authentication)")
+//                .anyRequest().access("@rabcService.hasPermission(request,authentication)")
                 // .and()
                 .and()
                 //定制我们自己的 session 策略

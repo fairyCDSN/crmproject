@@ -1,6 +1,4 @@
 package com.trkj.crmproject.controller;
-
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.pagehelper.PageInfo;
 import com.trkj.crmproject.entity.*;
 import com.trkj.crmproject.service.*;
@@ -12,17 +10,12 @@ import java.util.List;
 
 @RestController
 public class YgCotroller {
-//    @Autowired
-//    private YgService ygService;
-//
+
 //    @Autowired
 //    private PurchaseplanService purchaseplanService;
-//
-//    @Autowired
-//    private CostdetailsService costdetailsService;
-//
-//    @Autowired
-//    private ParecordService parecordService;
+
+    @Autowired
+    private ParecordService parecordService;
 
     @Autowired
     private CaigousqService caigousqService;
@@ -39,11 +32,6 @@ public class YgCotroller {
     @Autowired
     private CaigouService caigouService;
 
-//    @RequestMapping("/selectYg")
-//    public AjaxResponse selectYg( YgVo ygVo){
-//        System.out.println(ygVo);
-//        return AjaxResponse.success(ygService.findYg(ygVo.getYgname(),ygVo.getPwd()));
-//    }
     //采购计划，根据传入的数据，进行分页查询
     @RequestMapping("/selectpurchaseplan")
     public AjaxResponse selectpurchaseplan(Caigousq caigousq,int pageNum,int pageSize){
@@ -88,21 +76,27 @@ public class YgCotroller {
         return AjaxResponse.success(caigousqService.addcaigousq(caigousq));
     }
 
-//    @GetMapping("findfkpy")
-//    public AjaxResponse findfkpy(int pageNum,int pageSize){
-//        System.out.println("11111111");
-//        PageInfo<Parecord> info=parecordService.findrb(pageNum,pageSize);
-//        return AjaxResponse.success(info);
-//    }
-//
-//    @RequestMapping("selectfk")
-//    public AjaxResponse selectfk(ParecordVo vo,int pageNum,int pageSize){
-//        System.out.println(vo);
-//        PageInfo<Parecord> info=parecordService.selectfk(vo.getPaId(),pageNum,pageSize);
-//        System.out.println(info+"==================================");
-//        return AjaxResponse.success(info);
-//    }
-//
+    @GetMapping("findfkpy")
+    public AjaxResponse findfkpy(int pageNum,int pageSize){
+        System.out.println("11111111");
+        PageInfo<Parecord> info=parecordService.findrb(pageNum,pageSize);
+        return AjaxResponse.success(info);
+    }
+
+    @RequestMapping("selectfk")
+    public AjaxResponse selectfk(Parecord vo,int pageNum,int pageSize){
+        System.out.println(vo);
+        PageInfo<Parecord> info=parecordService.selectfk(vo.getPaId(),pageNum,pageSize);
+        System.out.println(info+"==================================");
+        return AjaxResponse.success(info);
+    }
+
+    @PostMapping("addfkjh")
+    public AjaxResponse addfkjh(@RequestBody Parecord parecord){
+        int row =parecordService.addfkjh(parecord);
+        return AjaxResponse.success(row);
+    }
+
     //采购订单、添加按钮，查询供应商名称
     @GetMapping("selectsupname")
     public AjaxResponse selectsupname(){
@@ -149,4 +143,10 @@ public class YgCotroller {
         return AjaxResponse.success(row);
     }
 
+    @GetMapping("/selectfkcgid")
+    public AjaxResponse selectfkcgid(){
+        List<Caigou> caigous=caigouService.selectfkcgid();
+        System.out.println("我在colll=============="+caigous);
+        return AjaxResponse.success(caigous);
+    }
 }
