@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.PdDao">
+
+
+<!--    盘点单  查询全部（根据proId外键查询proName-->
+    <select id="selectPdproName" resultType="com.trkj.crmproject.vo.PdVo">
+         select pd.pd_id,pd.state,pd.pd_title,pd.pd_time,pd.create_user,pd.bz,product.pro_name from pd
+            left join product on pd.pro_id=product.pro_id
+    </select>
+</mapper>

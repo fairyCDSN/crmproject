@@ -1,5 +1,6 @@
 package com.trkj.crmproject.service;
 
+import com.github.pagehelper.PageInfo;
 import com.trkj.crmproject.entity.Ck;
 import com.trkj.crmproject.vo.CkStaffVo;
 import com.trkj.crmproject.vo.CkVo;
@@ -11,7 +12,7 @@ public interface CkService {
     public List<Ck> selectCkall();
 
     //仓库管理  分页
-//    public PageInfo<Ck> findck(int pageNum, int pageSize);
+    public PageInfo<CkVo> findck(int pageNum, int pageSize);
 
     //仓库管理  添加
     public Ck addCk(Ck ck);
@@ -20,7 +21,7 @@ public interface CkService {
     public int deleteCk(int ckId);
 
     //仓库管理  修改
-    public Ck updateCk(Ck ck);
+    public int updateCk(Ck ck);
 
     //仓库管理 根据id查询
     public Ck setectCkid(int ckId);

@@ -3,8 +3,6 @@ package com.trkj.crmproject.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
-import java.math.BigDecimal;
-
 @Data
 public class Product {
     @TableId
@@ -13,8 +11,9 @@ public class Product {
     private String proGuige;
     private String proXh;
     private String proDw;
-    private BigDecimal proMoney;
-    private BigDecimal proCbj;
+    private Double proMoney;
+    private Double proCbj;
     private int proKc;
-    private String  proSay;
+    private String proSay;
+    private int ckId;
 }
