@@ -52,5 +52,7 @@ public class Staff implements Serializable {
 
     private Integer deptment_id;
 
+    private String staff_name;
+
     private static final long serialVersionUID = 1L;
 }

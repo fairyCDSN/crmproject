@@ -2,21 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trkj.crmproject.dao.StaffDao">
   <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.mybatis.Staff">
-    <id column="staff_staff_id" jdbcType="INTEGER" property="staff_id" />
-    <result column="staff_user_id" jdbcType="INTEGER" property="user_id" />
-    <result column="staff_post_id" jdbcType="INTEGER" property="post_id" />
-    <result column="staff_induction_time" jdbcType="TIMESTAMP" property="induction_time" />
-    <result column="staff_staff_sex" jdbcType="VARCHAR" property="staff_sex" />
-    <result column="staff_staff_qq" jdbcType="VARCHAR" property="staff_qq" />
-    <result column="staff_staff_wx" jdbcType="VARCHAR" property="staff_wx" />
-    <result column="staff_staff_txdz" jdbcType="VARCHAR" property="staff_txdz" />
-    <result column="staff_deptment_id" jdbcType="INTEGER" property="deptment_id" />
+    <id column="staff_id" jdbcType="INTEGER" property="staff_id" />
+    <result column="user_id" jdbcType="INTEGER" property="user_id" />
+    <result column="post_id" jdbcType="INTEGER" property="post_id" />
+    <result column="induction_time" jdbcType="TIMESTAMP" property="induction_time" />
+    <result column="staff_sex" jdbcType="VARCHAR" property="staff_sex" />
+    <result column="staff_qq" jdbcType="VARCHAR" property="staff_qq" />
+    <result column="staff_wx" jdbcType="VARCHAR" property="staff_wx" />
+    <result column="staff_txdz" jdbcType="VARCHAR" property="staff_txdz" />
+    <result column="deptment_id" jdbcType="INTEGER" property="deptment_id" />
+    <result column="staff_name" jdbcType="VARCHAR" property="staff_name" />
+  </resultMap>
+  <resultMap id="Staff" type="com.trkj.crmproject.entity.mybatis_plus.StaffMp">
+    <id column="staff_id" jdbcType="INTEGER" property="staffId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="post_id" jdbcType="INTEGER" property="postId" />
+    <result column="induction_time" jdbcType="TIMESTAMP" property="inductionTime" />
+    <result column="staff_sex" jdbcType="VARCHAR" property="staffSex" />
+    <result column="staff_qq" jdbcType="VARCHAR" property="staffQq" />
+    <result column="staff_wx" jdbcType="VARCHAR" property="staffWx" />
+    <result column="staff_txdz" jdbcType="VARCHAR" property="staffTxdz" />
+    <result column="deptment_id" jdbcType="INTEGER" property="deptmentId" />
+    <result column="staff_name" jdbcType="VARCHAR" property="staffName" />
   </resultMap>
   <sql id="Base_Column_List">
-    staff.staff_id as staff_staff_id, staff.user_id as staff_user_id, staff.post_id as staff_post_id,
-    staff.induction_time as staff_induction_time, staff.staff_sex as staff_staff_sex,
-    staff.staff_qq as staff_staff_qq, staff.staff_wx as staff_staff_wx, staff.staff_txdz as staff_staff_txdz,
-    staff.deptment_id as staff_deptment_id
+    staff.staff_id as staffId, staff.user_id as userId, staff.post_id as postId,
+    staff.induction_time as inductionTime, staff.staff_sex as staffSex,
+    staff.staff_qq as staffQq, staff.staff_wx as staffWx, staff.staffTxdz as staffTxdz,
+    staff.deptment_id as deptmentId, staff.staff_name staffName
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
@@ -138,5 +151,26 @@
     select staff.staff_id
     from staff
     INNER JOIN post ON  staff.post_id=post.post_id WHERE post.post_name='采购员';
+  </select>
+
+<!--&lt;!&ndash;  条件查询&ndash;&gt;-->
+<!--  <select id="selectStaffByName" parameterType="java.lang.String" resultMap="Staff">-->
+<!--    -->
+<!--    where staff_name like concat('%',#{name},'%')-->
+<!--  </select>-->
+<!--  <select id="selectStaffById" resultMap="Staff">-->
+<!--    select * from staff s where staff_id like concat('%',#{id},'%')-->
+<!--  </select>-->
+
+  <select id="selectStaffByNameAndId" resultMap="Staff">
+    select * from staff s
+    <where>
+      <if test="param1!='' || param1==null">
+            staff_name like concat('%','${param1}','%')
+      </if>
+      <if test="param2!='' || param2==null">
+        and staff_id like concat('%'+'${param2}'+'%')
+      </if>
+    </where>
   </select>
 </mapper>

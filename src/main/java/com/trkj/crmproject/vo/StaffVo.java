@@ -1,14 +1,18 @@
 package com.trkj.crmproject.vo;
 
 import lombok.Data;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.sql.Timestamp;
 import java.util.Date;
 
 @Data
+@Mapper
 public class StaffVo {
     //员工id
     private int staff_id;
+    //员工名称
+    private String staff_name;
     //用户id
     private int user_id;
     //部门id【外键】

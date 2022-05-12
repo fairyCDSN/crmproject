@@ -4,20 +4,16 @@ import com.trkj.crmproject.entity.mybatis.Sonmenu;
 import com.trkj.crmproject.service.JwtAuthService;
 import com.trkj.crmproject.service.PermissionService;
 import com.trkj.crmproject.service.UserService;
-import com.trkj.crmproject.vo.AjaxResponse;
-import com.trkj.crmproject.vo.LoginVo;
-import com.trkj.crmproject.vo.StaffVo;
-import com.trkj.crmproject.vo.UserVo;
+import com.trkj.crmproject.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-//@RequestMapping("/user")
 @Slf4j
-public class customerController {
+@RestController
+public class ConfigController {
     @Autowired
     private JwtAuthService jwtAuthService;
     @Autowired
@@ -44,11 +40,16 @@ public class customerController {
 
     //查询所有员工、部门、职务
     @GetMapping("/selectAllStaff")
-    public AjaxResponse selectAllStaff(){
-        log.debug(userService.selectAllStaff()+"这是查询出来的所有员工");
-        log.debug(userService.selectAllDept()+"这是查询出来的所有部门");
-        log.debug(userService.selectAllPost()+"这是查询出来的所有职务");
-        return AjaxResponse.success(userService.selectAllStaff());
+    public AjaxResponse selectAllStaff(int pageNum,int pageSize){
+//        log.debug(userService.selectAllStaff()+"这是查询出来的所有员工");
+//        log.debug(userService.selectAllDept()+"这是查询出来的所有部门");
+//        log.debug(userService.selectAllPost()+"这是查询出来的所有职务");
+        return AjaxResponse.success(userService.selectAllStaff(pageNum,pageSize));
+    }
+    //按条件查询员工共
+    @GetMapping("/selectStaffByNameOrNum")
+    public AjaxResponse selectStaffByNameOrNum(int pageNum,int pageSize,String name,int bianhao){
+        return AjaxResponse.success(userService.selectStaffByNameOrNum(pageNum,pageSize,name,bianhao));
     }
 
     //新增一个用户【同时关联职务表、部门表、用户表】
@@ -69,7 +70,6 @@ public class customerController {
     //删除一个职务
 
     //新增一个部门
-
 
 
 }

@@ -22,8 +22,7 @@ Content-Type: application/json
   "staff_qq":"1234567890",
   "staff_wx":"1234567890",
   "staff_txdz":"湖南省",
-  "deptment_id": 2,
-  "username"
+  "deptment_id": 2
 }
 
 

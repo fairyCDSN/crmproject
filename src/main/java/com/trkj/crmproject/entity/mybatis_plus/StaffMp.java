@@ -55,4 +55,6 @@ public class StaffMp {
 
     private int deptmentId;
 
+    private String staffName;
+
 }
