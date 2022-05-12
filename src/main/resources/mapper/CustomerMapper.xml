@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.CustomerDao">
+    <resultMap id="CustomerMap" type="com.trkj.crmproject.entity.customer">
+        <id column="customer_id" property="customer_id" jdbcType="INTEGER"/>
+        <result column="salesperson_id" property="salesperson_id" jdbcType="INTEGER"/>
+        <result column="address_id" property="address_id" jdbcType="INTEGER"/>
+        <result column="customer_name" property="customer_name" jdbcType="VARCHAR"/>
+        <result column="customer_type" property="customer_type" jdbcType="VARCHAR"/>
+        <result column="customer_source" property="customer_source" jdbcType="VARCHAR"/>
+        <result column="customer_stage" property="customer_stage" jdbcType="VARCHAR"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR"/>
+        <result column="create_time" property="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="customerCol">
+        customer_id,salesperson_id,address_id,customer_name,customer_type,customer_source,customer_stage,remarks,create_time
+    </sql>
+    <select id="findCustomer" resultMap="CustomerMap">
+        select  <include refid="customerCol"/>
+        from customer where salesperson_id = #{salesperson_id}
+        <if test="customer_stage != null and customer_stage != ''">
+            and customer_stage like '%${customer_stage}%'
+        </if>
+        <if test="customer_name != null and customer_name != ''">
+            and customer_name like '%${customer_name}%'
+        </if>
+        <if test="create_time1 != null and create_time1 != ''">
+            and date(create_time) between #{create_time1} and #{create_time2D
+        </if>
+    </select>
+    <select id="findCustomers" resultMap="CustomerMap">
+        select  <include refid="customerCol"/>
+        from customer where salesperson_id = #{salesperson_id}
+    </select>
+    <select id="findCusXq" resultType="com.trkj.crmproject.vo.CusXqVo">
+        select customer.customer_id,customer.customer_name,customer.customer_type,customer.customer_source,customer.customer_stage,
+        customer.remarks,customer.create_time,contact.contact_id,contact.contact_name,contact.work_phone,contact.my_phone,contact.Founder,
+        address.country,address.address_id,address.province,address.city,address.email,address.phone,address.fax
+        from customer,address,contact where customer.customer_id = #{customer_id} and
+         contact.customer_id = #{customer_id} and address.address_id = customer.address_id
+    </select>
+    <insert id="addCustomer" >
+        insert into customer(salesperson_id,address_id, customer_name,customer_type,customer_source,customer_stage,remarks)
+        values (#{salesperson_id},#{address_id}, #{customer_name},#{customer_type},#{customer_source},#{customer_stage},#{remarks})
+    </insert>
+    <insert id="addContact">
+        insert into contact(customer_id,contact_name, work_phone,my_phone,Founder)
+        values (#{customer_id},#{contact_name}, #{work_phone},#{my_phone},#{salesperson_id})
+    </insert>
+    <update id="updateCustomer">
+        update customer
+        <set>
+            <if test="customer_name != null">
+                customer_name = #{customer_name},
+            </if>
+            <if test="customer_stage != null">
+                customer_stage = #{customer_stage},
+            </if>
+            <if test="customer_type != null">
+                customer_type = #{customer_type},
+            </if>
+        </set>
+        where customer_id = #{customer_id}
+    </update>
+    <delete id="deleteCustomerById">
+        delete from customer where customer_id = #{customer_id}
+    </delete>
+    <delete id="deleteContactById">
+        delete from contact where customer_id = #{customer_id}
+    </delete>
+</mapper>
