@@ -14,14 +14,14 @@
         <result column="CKID" property="ckId"/>
     </resultMap>
 
-<!--    商品清单  查询全部（根据ckId外键查询到ckName）-->
+    <!--    商品清单  查询全部（根据ckId外键查询到ckName）-->
     <select id="selectProckName" resultType="com.trkj.crmproject.vo.ProductVo">
         select product.pro_id,product.pro_name,product.pro_guige,
         product.pro_xh,product.pro_dw,product.pro_cbj,product.pro_money,product.pro_kc,ck.ck_name
         from product left join ck on product.ck_id=ck.ck_id
     </select>
 
-<!--    商品清单  查询全部（根据proName模糊查询）-->
+    <!--    商品清单  查询全部（根据proName模糊查询）-->
     <select id="selectProNamelike" resultType="com.trkj.crmproject.vo.ProductVo">
        select  product.pro_id,product.pro_name,product.pro_guige,
         product.pro_xh,product.pro_dw,product.pro_cbj,product.pro_money,product.pro_kc,ck.ck_name

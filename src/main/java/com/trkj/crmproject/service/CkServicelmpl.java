@@ -1,5 +1,8 @@
 package com.trkj.crmproject.service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.trkj.crmproject.dao.CkDao;
 import com.trkj.crmproject.entity.mybatis_plus.Ck;
 import com.trkj.crmproject.exception.CustomError;
@@ -43,15 +46,8 @@ public class CkServicelmpl implements CkService{
 
     //仓库管理  修改
     @Override
-    public Ck updateCk(Ck ck) {
-        Ck cks=new Ck();
-        BeanTools.copyProperties(ck,cks);
-        int row=dao.updateById(cks);
-        System.out.println("修改:"+row);
-        if (row==0){
-            throw new CustomError(CustomErrorType.DATABASE_OP_ERROR,"数据修改失败");
-        }
-        return ck;
+    public int updateCk(Ck ck) {
+        return dao.updateById(ck);
     }
 
     //仓库管理  根据id查询
@@ -77,23 +73,23 @@ public class CkServicelmpl implements CkService{
 //    public List<CkUserVo> selectUserName() {
 //        return dao.selectUserName();
  //   }
-
+    //仓库管理  分页
+    @Override
+    public PageInfo<CkVo> findck(int pageNum, int pageSize) {
+        Page<CkVo> page= PageHelper.startPage(pageNum,pageSize);
+        List<CkVo> list=dao.selectCkuserName();
+        Page<CkVo> depts=new Page<>();
+        BeanTools.copyList(list,depts,CkVo.class);
+        PageInfo<CkVo> pageInfo=new PageInfo<>(depts);
+        System.out.println(pageInfo);
+        return pageInfo;
+    }
     //查询管理员ID（staff表）
     public List<CkStaffVo> selectGlyid(){
         return dao.selectGlyid();
     }
 
-//    //仓库管理  分页
-//    @Override
-//    public PageInfo<Ck> findck(int pageNum, int pageSize) {
-//        Page<Ck> page= PageHelper.startPage(pageNum,pageSize);
-//        List<Ck> list=dao.selectList(null);
-//        Page<Ck> depts=new Page<>();
-//        BeanTools.copyList(list,depts,Ck.class);
-//        PageInfo<Ck> pageInfo=new PageInfo<>(depts);
-//        System.out.println(pageInfo);
-//        return pageInfo;
-//    }
+
 
     //仓库列表  删除（根据ckId把ckState改为1）
     public int updateCkState(int ckId){
