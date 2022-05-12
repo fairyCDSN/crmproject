@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.AddressDao">
+    <select id="findAddById" resultType="java.lang.Integer">
+        select  address_id from address where country=#{country} and province=#{province} and city=#{city} and email=#{email} and phone=#{phone} and fax=#{fax}
+    </select>
+    <select id="findCustomerById" resultType="java.lang.Integer">
+        select  customer_id from customer where customer_name=#{customer_name} and customer_stage=#{customer_stage}
+         and customer_type=#{customer_type} and customer_source=#{customer_source} and remarks=#{remarks} and address_id=#{address_id} and salesperson_id=#{salesperson_id}
+    </select>
+    <insert id="insertAddress" >
+        insert into address(country,province, city,email,phone,fax)
+        values (#{country},#{province},#{city},#{email},#{phone},#{fax})
+    </insert>
+</mapper>

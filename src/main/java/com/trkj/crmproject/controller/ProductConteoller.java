@@ -1,8 +1,11 @@
 package com.trkj.crmproject.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.trkj.crmproject.entity.Product;
 import com.trkj.crmproject.service.ProductService;
 import com.trkj.crmproject.vo.AjaxResponse;
+import com.trkj.crmproject.vo.CkVo;
+import com.trkj.crmproject.vo.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +31,13 @@ public class ProductConteoller {
     @PutMapping("/updatePro")
     public AjaxResponse updatePro(@RequestBody Product product){
         return AjaxResponse.success(productService.updatePro(product));
+    }
+
+    //分页
+    @GetMapping("/findpro")
+    public AjaxResponse findpro(int pageNum, int pageSize){
+        PageInfo<ProductVo> info=productService.findpro(pageNum,pageSize);
+        return AjaxResponse.success(info);
     }
 
 

@@ -5,7 +5,6 @@
     <resultMap id="ProductMap" type="com.trkj.crmproject.entity.Product">
         <id column="PROID" property="proId" />
         <result column="PRONAME" property="proName"/>
-        <result column="PROTYPE" property="proType"/>
         <result column="PROGUIGE" property="proGuige"/>
         <result column="PROXH" property="proXh"/>
         <result column="PRODW" property="proDw"/>
@@ -15,23 +14,23 @@
         <result column="CKID" property="ckId"/>
     </resultMap>
 
-<!--    商品清单  查询全部（根据ckId外键查询到ckName）-->
+    <!--    商品清单  查询全部（根据ckId外键查询到ckName）-->
     <select id="selectProckName" resultType="com.trkj.crmproject.vo.ProductVo">
-        select product.pro_id,product.pro_name,product.pro_type,product.pro_guige,
+        select product.pro_id,product.pro_name,product.pro_guige,
         product.pro_xh,product.pro_dw,product.pro_cbj,product.pro_money,product.pro_kc,ck.ck_name
         from product left join ck on product.ck_id=ck.ck_id
     </select>
 
-<!--    商品清单  查询全部（根据proName模糊查询）-->
+    <!--    商品清单  查询全部（根据proName模糊查询）-->
     <select id="selectProNamelike" resultType="com.trkj.crmproject.vo.ProductVo">
-       select  product.pro_id,product.pro_name,product.pro_type,product.pro_guige,
+       select  product.pro_id,product.pro_name,product.pro_guige,
         product.pro_xh,product.pro_dw,product.pro_cbj,product.pro_money,product.pro_kc,ck.ck_name
         from product left join ck on product.ck_id=ck.ck_id where pro_name like '%${pro_name}%'
     </select>
 
     <!--    商品清单  查询全部（选择下拉框，根据ckName模糊查询）-->
     <select id="selectProckNamexz" resultType="com.trkj.crmproject.vo.ProductVo">
-        select product.pro_id,product.pro_name,product.pro_type,product.pro_guige,
+        select product.pro_id,product.pro_name,product.pro_guige,
         product.pro_xh,product.pro_dw,product.pro_cbj,product.pro_money,product.pro_kc,ck.ck_name
         from product left join ck on product.ck_id=ck.ck_id
         where ck.ck_name=#{ck_name}

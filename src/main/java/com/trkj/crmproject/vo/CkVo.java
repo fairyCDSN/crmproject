@@ -8,4 +8,5 @@ public class CkVo {
     private String ckName;
     private int ckState;
     private String userName;
+    private int glyId;
 }
