@@ -203,12 +203,12 @@
     product.pro_name,product.pro_id
     from caigousq left join supplier on caigousq.supplier_id=supplier.supplier_id
     left join staff on caigousq.salesperson_id=staff.staff_id
-    left join product on caigousq.product=product.pro_id;
+    left join product on caigousq.product=product.pro_id
   </select>
 
   <select id="selectsqid" resultType="com.trkj.crmproject.entity.Caigousq">
     select c.sqid
     from apprecords a inner join caigousq c on a.app_records_id=c.state_id
-    where a.app_state='审批通过' and c.usestate='未使用';
+    where a.app_state='审批通过' and c.usestate='未使用'
   </select>
 </mapper>

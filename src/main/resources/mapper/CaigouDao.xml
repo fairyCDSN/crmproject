@@ -139,4 +139,8 @@
      inner join caigou c on c.sqid=q.sqid
      where a.app_state='已审批'
   </select>
+
+  <select id="selectfkcgid" resultMap="BaseResultMap">
+    select c.cg_id caigou_cg_id from caigou c where c.usestate="未使用"
+  </select>
 </mapper>

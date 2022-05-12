@@ -96,7 +96,9 @@
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>1.2.13</version>
+            <scope>compile</scope>
         </dependency>
+
 <!--        日志类-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

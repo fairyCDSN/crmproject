@@ -84,6 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
+//                .anyRequest().access("@rabcService.hasPermission(request,authentication)")
                 // .and()
                 .and()
                 //定制我们自己的 session 策略
