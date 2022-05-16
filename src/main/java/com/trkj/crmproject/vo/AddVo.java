@@ -21,4 +21,5 @@ public class AddVo {
     private String remarks;
     private int address_id;
     private int customer_id;
+    private int contact_id;
 }

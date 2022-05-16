@@ -6,18 +6,18 @@ import java.util.Date;
 
 @Data
 public class CusXq {
-    private int addressid;
-    private int customerid;
+    private int address_id;
+    private int customer_id;
     private int contactid;
-    private int salespersonid;
+    private int salesperson_id;
     private String customername;
     private String contactname;
     private String workphone;
     private String myphone;
     private String founder;
-    private String customerstage;
-    private String customertype;
-    private String customersource;
+    private String customer_stage;
+    private String customer_type;
+    private String customer_source;
     private String country;
     private String province;
     private String city;

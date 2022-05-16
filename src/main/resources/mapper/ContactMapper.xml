@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.ContactDao">
+    <select id="findContacts" resultType="com.trkj.crmproject.vo.contactVo">
+        select contact_id,customer_name,contact_name,work_phone,my_phone,customer_type,founder
+        from customer,contact where salesperson_id = #{salesperson_id} and contact.customer_id = customer.customer_id
+    </select>
+</mapper>

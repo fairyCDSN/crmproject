@@ -1,6 +1,7 @@
 package com.trkj.crmproject.service;
 
 import com.trkj.crmproject.dao.AddressDao;
+import com.trkj.crmproject.dao.AddressDao;
 import com.trkj.crmproject.exception.CustomError;
 import com.trkj.crmproject.exception.CustomErrorType;
 import com.trkj.crmproject.vo.AddVo;
@@ -16,7 +17,6 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public int findAddById(AddVo addVo) {
         int address_id = addressDao.findAddById(addVo);
-        System.out.println(addVo+"=================");
         return address_id;
     }
     @Override
@@ -25,6 +25,19 @@ public class AddressServiceImpl implements AddressService {
         return customer_id;
     }
     @Override
+    public int findContactById(AddVo addVo) {
+        int contact_id = addressDao.findContactById(addVo);
+        return contact_id;
+    }
+
+    @Override
+    public int findAddressById(int customer_id) {
+        int address_id = addressDao.findAddressById(customer_id);
+        return address_id;
+    }
+
+    @Override
+//    @Transactional(transactionManager = "tm")
     public AddVo insertAddress(AddVo addVo) {
         int count=addressDao.insertAddress(addVo);
         if(count==0){
