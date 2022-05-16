@@ -21,6 +21,7 @@ public class StaffVo {
     private int post_id;
     //入职时间
     private Date induction_time;
+    private Date birthday;
 
     //性别
     private String staff_sex;
@@ -44,6 +45,8 @@ public class StaffVo {
     private String phone;
     //email
     private String email;
+
+    private int state;
 
     public Date getInduction_time() {
         return induction_time;

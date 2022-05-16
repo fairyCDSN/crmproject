@@ -12,9 +12,18 @@ import java.util.List;
 
 public interface UserService {
     public PageInfo<StaffMp> selectAllStaff(int pageNum, int pageSize);
-//    public List<PostMp> selectAllPost();
-//    public List<DeptMp> selectAllDept();
+    public PageInfo<PostMp> selectAllPost(int pageNum, int pageSize);
+    public PageInfo<DeptMp> selectAllDept(int pageNum, int pageSize);
+    public List<DeptMp> selectAllDept();
+    public List<PostMp> selectAllPost();
+
     public int insertStaff(StaffVo staffVo);
     //条件查询
     public PageInfo<StaffMp> selectStaffByNameOrNum(int pageNum, int pageSize,String name,int bianhao);
+
+//    public int findMaxStaffid();
+//    public int findMaxUserid();
+
+
+
 }

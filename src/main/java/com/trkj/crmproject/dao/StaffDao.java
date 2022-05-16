@@ -18,7 +18,7 @@ import java.util.List;
 public interface StaffDao extends BaseMapper<StaffMp> {
     int deleteByPrimaryKey(Integer staff_id);
 
-    int insert(StaffVo record);
+    int insert(Staff record);
 
     int insertSelective(Staff record);
 
@@ -28,7 +28,7 @@ public interface StaffDao extends BaseMapper<StaffMp> {
 
     int updateByPrimaryKey(Staff record);
 
-    public List<com.trkj.crmproject.entity.Staff> selectcgyid();
+    public List<Staff> selectcgyid();
 
 //    //条件查询
 //    public List<StaffMp> selectStaffByName(String name);

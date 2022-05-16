@@ -1,7 +1,6 @@
 package com.trkj.crmproject.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.trkj.crmproject.entity.Product;
 import com.trkj.crmproject.entity.mybatis_plus.Product;
 import com.trkj.crmproject.service.ProductService;
 import com.trkj.crmproject.vo.AjaxResponse;

@@ -2,7 +2,7 @@ package com.trkj.crmproject.controller;
 
 import com.trkj.crmproject.entity.mybatis_plus.Ck;
 import com.github.pagehelper.PageInfo;
-import com.trkj.crmproject.entity.Ck;
+import com.trkj.crmproject.entity.mybatis_plus.Ck;
 import com.trkj.crmproject.service.CkService;
 import com.trkj.crmproject.vo.AjaxResponse;
 import com.trkj.crmproject.vo.CkVo;
@@ -49,13 +49,13 @@ public class CkController {
     }
 
 
-//    //仓库管理  分页
-//    @GetMapping("/findck")
-//    public AjaxResponse findck(){
-//        System.out.println("11111111");
-//        PageInfo<Ck> info=ckService.findck(1,2);
-//        return AjaxResponse.success(info);
-//    }
+    //仓库管理  分页
+    @GetMapping("/findck")
+    public AjaxResponse findck(){
+        System.out.println("11111111");
+        PageInfo<CkVo> info=ckService.findck(1,2);
+        return AjaxResponse.success(info);
+    }
 
     //仓库列表  查询全部（根据glyId,userId外键查询userName）
     @GetMapping("/selectCkuserName")

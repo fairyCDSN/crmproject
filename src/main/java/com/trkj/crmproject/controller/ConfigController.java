@@ -25,7 +25,7 @@ public class ConfigController {
     @PostMapping("/login")
     private AjaxResponse index(@RequestBody LoginVo loginVo){
         log.debug("开始验证,{}",loginVo.getUsername()+loginVo.getPassword());
-        //获取页面上的用户名和密码
+        //获取页面上的用户名和密码[生成token]
         String token =jwtAuthService.login(loginVo.getUsername(),loginVo.getPassword());
         //创建一个新的用户对象
         UserVo userVo=new UserVo();
@@ -41,12 +41,27 @@ public class ConfigController {
     //查询所有员工、部门、职务
     @GetMapping("/selectAllStaff")
     public AjaxResponse selectAllStaff(int pageNum,int pageSize){
-//        log.debug(userService.selectAllStaff()+"这是查询出来的所有员工");
-//        log.debug(userService.selectAllDept()+"这是查询出来的所有部门");
-//        log.debug(userService.selectAllPost()+"这是查询出来的所有职务");
         return AjaxResponse.success(userService.selectAllStaff(pageNum,pageSize));
     }
-    //按条件查询员工共
+    @GetMapping("/selectAllDept")
+    public AjaxResponse selectAllDept(int pageNum,int pageSize){
+        return AjaxResponse.success(userService.selectAllDept(pageNum,pageSize));
+    }
+    @GetMapping("/selectAllPost")
+    public AjaxResponse selectAllPost(int pageNum,int pageSize){
+        return AjaxResponse.success(userService.selectAllPost(pageNum,pageSize));
+    }
+    @GetMapping("/selectDept")
+    public AjaxResponse selectAllDept(){
+        return AjaxResponse.success(userService.selectAllDept());
+    }
+    @GetMapping("/selectPost")
+    public AjaxResponse selectAllPost(){
+        return AjaxResponse.success(userService.selectAllPost());
+    }
+
+
+    //按条件查询员工[名字或id的模糊查询]
     @GetMapping("/selectStaffByNameOrNum")
     public AjaxResponse selectStaffByNameOrNum(int pageNum,int pageSize,String name,int bianhao){
         return AjaxResponse.success(userService.selectStaffByNameOrNum(pageNum,pageSize,name,bianhao));
@@ -56,9 +71,9 @@ public class ConfigController {
     @PostMapping("/insertUser")
     public AjaxResponse insertUser(@RequestBody StaffVo staffVo){
         log.debug("==========================");
-        log.debug(staffVo+"验证一下有没有传参啊");
+        log.debug(staffVo.getDeptment_id()+"验证一下有没有传参啊");
         log.debug("添加验证："+userService.insertStaff(staffVo));
-        return AjaxResponse.success(userService.insertStaff(staffVo));
+        return AjaxResponse.success();
     }
 
     //根据用户id修改信息

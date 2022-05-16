@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -46,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserAuthAccessDeniedHandler userAuthAccessDeniedHandler;
     @Resource
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+
     /**
      * 跨域过滤器
      */
@@ -53,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //禁用CSRF保护,指跨站请求伪造，我们使用JWT机制基本可以预防
-        http.csrf().disable()
+        ExceptionHandlingConfigurer<HttpSecurity> httpSecurityExceptionHandlingConfigurer = http.csrf().disable()
                 .cors()
                 .and()
                 .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)//添加过滤器
@@ -70,18 +72,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 则表示URL等于/login或是以/login开头的，任何用户都可以访问请求。
                 //这里这样配置的目的是在于我们自己定义登录验证的地址，而没有用spring security默认的验证地址
                 //.antMatchers("/login").anonymous()
-                .antMatchers("/login","/news/**","/public/upload/**").permitAll()
+                .antMatchers("/login").permitAll()//放权【没有登录也可以访问的方法】
 
-                //还存在的疑惑
+                //还存在的疑惑【需要sonmenu中的路径，进行权限判断】
 
                 //"/SysMain/**","/DeptMain/**这两个路径下的资源需要有admin角色或是有权限
-//                .antMatchers("/SysMain/**","/DeptMain/**").access("@rabcService.hasRole(request,authentication,'admin') or @rabcService.hasPermission(request,authentication)")
+//                .antMatchers("/SysMain/**", "/DeptMain/**").access("@rabcService.hasRole(request,authentication,'admin') or @rabcService.hasPermission(request,authentication)")
                 //.antMatchers("/SysMain/**","/DeptMain/**").hasRole("admin")
                 //其它URL都需要用户通过rabcService.hasPermission方法的验证才可以访问
 //                .anyRequest().access("@rabcService.hasPermission(request,authentication)")
-
-
-
 
 
 //                .anyRequest().access("@rabcService.hasPermission(request,authentication)")
@@ -115,6 +114,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
+        BCryptPasswordEncoder passwordEncoder= new BCryptPasswordEncoder();
+        //对数据库密码进行加密
+        String jm=passwordEncoder.encode("123456");
+        System.out.println("这是加密之后的密码："+jm);
         return new BCryptPasswordEncoder();
     }
 

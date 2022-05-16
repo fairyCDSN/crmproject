@@ -49,6 +49,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
+//        log.debug(MyUserDetailsService.loadUserByUsername);
         String jwtToken = request.getHeader(header);
         log.info("在filter中，jwtToken:{}",jwtToken);
 //        Enumeration en= request.getHeaderNames();

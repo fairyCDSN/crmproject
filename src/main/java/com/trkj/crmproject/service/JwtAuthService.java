@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 
 //对自定义登录类进行封装
 @Slf4j
@@ -35,12 +36,12 @@ public class JwtAuthService {
         try{
             //关于UsernamePasswordAuthenticationToken接口的详细知识：https://blog.csdn.net/qq_43072399/article/details/122226582
             log.debug("开始登录验证");
+            //进行登录验证
             UsernamePasswordAuthenticationToken upToken=new UsernamePasswordAuthenticationToken(username,password);
             //登录验证
-            log.debug(upToken+"");
+            log.debug(upToken+"这是登录Token");
             authentication=authenticationManager.authenticate(upToken);
-
-            //登录验证完成
+            //如果认证通过，使用userId生成一个jwt
             log.debug(authentication+"");
             log.debug("验证成功");
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -76,6 +77,7 @@ public class JwtAuthService {
         //获取到当前用户。这个对象通常是UserDetails的实例。
         Users userDetails = (Users) authentication.getPrincipal();
         log.debug(userDetails.toString());
+        //generateToken是生成Token的方法
         return jwtTokenUtil.generateToken(userDetails.getUsername(),userDetails.getUser_id()+"");
     }
 

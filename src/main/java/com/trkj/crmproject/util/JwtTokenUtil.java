@@ -41,7 +41,6 @@ public class JwtTokenUtil {
         claims.put("sub", "jwtdemo");
         claims.put("uname",userName);
         claims.put("uid",userId);
-
         Date iatDate=new Date();
         claims.put("iat", iatDate);
         return generateToken(claims);
@@ -165,7 +164,7 @@ public class JwtTokenUtil {
                 .setHeaderParam("typ", "JWT")
                 .setClaims(claims)
                 //.setId("")
-                .setExpiration(expirationDate)
+                .setExpiration(expirationDate)//设置过期时间
                 //.setIssuedAt((Date)claims.get("created"))
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();

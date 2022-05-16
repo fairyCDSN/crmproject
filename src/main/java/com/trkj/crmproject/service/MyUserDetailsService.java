@@ -38,12 +38,10 @@ public class MyUserDetailsService implements UserDetailsService {
         //接收表单传来的用户信息进行查询
         log.debug("这是查询出来的users:"+usersDao.selectByUserName(username));
         Users myUserDetails = usersDao.selectByUserName(username);
-        log.debug("这是查询出来的users:"+myUserDetails);
-        log.debug("这是myUserDetails"+myUserDetails.toString());
         //如果该用户不存在
         if(myUserDetails==null){
-            //抛出错误信息
-//            throw new UsernameNotFoundException("用户不存在");
+//            抛出错误信息
+            throw new UsernameNotFoundException("用户不存在");
         }
         //开始查询该用户的角色信息【多表联查】
         List<String> roleNames=roleDao.selectRoleByUserName(myUserDetails.getUser_name());

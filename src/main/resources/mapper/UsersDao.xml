@@ -165,4 +165,8 @@
       credentials_non_expired = #{credentials_non_expired,jdbcType=BIT}
     where user_id = #{user_id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectMaxUserId" resultType="java.lang.Integer">
+        select max(user_id) from users
+  </select>
 </mapper>

@@ -57,4 +57,6 @@ public class StaffMp {
 
     private String staffName;
 
+    private Date birthday;
+
 }

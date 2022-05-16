@@ -1,6 +1,6 @@
 package com.trkj.crmproject.service;
 
-import com.trkj.crmproject.entity.Staff;
+import com.trkj.crmproject.entity.mybatis.Staff;
 
 import java.util.List;
 

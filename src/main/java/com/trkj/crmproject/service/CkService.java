@@ -1,7 +1,7 @@
 package com.trkj.crmproject.service;
 
 import com.github.pagehelper.PageInfo;
-import com.trkj.crmproject.entity.Ck;
+
 import com.trkj.crmproject.entity.mybatis_plus.Ck;
 import com.trkj.crmproject.vo.CkStaffVo;
 import com.trkj.crmproject.vo.CkVo;
