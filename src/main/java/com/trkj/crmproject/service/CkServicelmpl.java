@@ -84,15 +84,29 @@ public class CkServicelmpl implements CkService{
         System.out.println(pageInfo);
         return pageInfo;
     }
-    //查询管理员ID（staff表）
+    // //查询管理员username（glyId外键到staff表，userId到users表 ）
     public List<CkStaffVo> selectGlyid(){
         return dao.selectGlyid();
     }
 
 
 
-    //仓库列表  删除（根据ckId把ckState改为1）
+    //仓库列表  删除（根据ckId把ckState改为0）
     public int updateCkState(int ckId){
         return dao.updateCkState(ckId);
+    }
+    //仓库列表  启用（根据ckId把ckState改为1）
+    public int updateCkState1(int ckId){
+        return dao.updateCkState1(ckId);
+    }
+
+    // 仓库列表 查询仓库的商品总数量为0的
+    public int selectCknumber(int ckId){
+        return dao.selectCknumber(ckId);
+    }
+
+    //仓库管理 查询当前登录人的职位（角色名）（判断是否能修改仓库信息）
+    public String selectCkroleName(String userName){
+        return dao.selectCkroleName(userName);
     }
 }

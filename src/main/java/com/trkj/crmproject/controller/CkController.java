@@ -1,6 +1,5 @@
 package com.trkj.crmproject.controller;
 
-import com.trkj.crmproject.entity.mybatis_plus.Ck;
 import com.github.pagehelper.PageInfo;
 import com.trkj.crmproject.entity.mybatis_plus.Ck;
 import com.trkj.crmproject.service.CkService;
@@ -51,9 +50,9 @@ public class CkController {
 
     //仓库管理  分页
     @GetMapping("/findck")
-    public AjaxResponse findck(){
+    public AjaxResponse findck(int pageNum, int pageSize){
         System.out.println("11111111");
-        PageInfo<CkVo> info=ckService.findck(1,2);
+        PageInfo<CkVo> info=ckService.findck(pageNum,pageSize);
         return AjaxResponse.success(info);
     }
 
@@ -75,16 +74,35 @@ public class CkController {
 //        return AjaxResponse.success(ckService.selectUserName());
 //    }
 
-    //查询管理员ID（staff表）
+    // //查询管理员username（glyId外键到staff表，userId到users表 ）
     @GetMapping("/selectGlyid")
     public AjaxResponse selectGlyid(){
         return AjaxResponse.success(ckService.selectGlyid());
     }
 
 
-    //仓库列表  删除（根据ckId把ckState改为1）
+    //仓库列表  删除（根据ckId把ckState改为0）
     @GetMapping("/updateCkState")
     public AjaxResponse updateCkState(int ckId){
         return AjaxResponse.success(ckService.updateCkState(ckId));
     }
+    //仓库列表  启用（根据ckId把ckState改为1）
+    @GetMapping("/updateCkState1")
+    public AjaxResponse updateCkState1(int ckId){
+        return AjaxResponse.success(ckService.updateCkState1(ckId));
+    }
+
+    // 仓库列表 查询仓库的商品总数量为0的
+    @GetMapping("/selectCknumber")
+    public AjaxResponse selectCknumber(int ckId){
+        return AjaxResponse.success(ckService.selectCknumber(ckId));
+    }
+
+    //仓库管理 查询当前登录人的职位（角色名）（判断是否能修改仓库信息）
+    @GetMapping("/selectCkroleName")
+    public AjaxResponse selectCkroleName(String userName){
+        System.out.println("这是用户名："+userName);
+        return AjaxResponse.success(ckService.selectCkroleName(userName));
+    }
+
 }

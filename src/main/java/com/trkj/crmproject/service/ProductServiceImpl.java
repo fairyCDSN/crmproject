@@ -4,10 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.trkj.crmproject.dao.CategoryDao;
 import com.trkj.crmproject.dao.ProductDao;
+import com.trkj.crmproject.entity.Category;
 import com.trkj.crmproject.entity.mybatis_plus.Product;
 import com.trkj.crmproject.util.BeanTools;
-import com.trkj.crmproject.vo.CkVo;
 import com.trkj.crmproject.vo.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,21 +20,19 @@ public class ProductServiceImpl implements ProductService{
     @Autowired
     private ProductDao productDao;
 
+    @Autowired
+    private CategoryDao categoryDao;
+
     //商品清单  全部查询
-    @Override
-    public List<Product> selectProductAll() {
-        return productDao.selectList(null);
-    }
+//    @Override
+//    public List<Product> selectProductAll() {
+//        return productDao.selectList(null);
+//    }
 
     //商品清单  根据ID查询
-    public Product selectProId(int proId){
-        return productDao.selectById(proId);
-    }
-
-    //商品清单  修改
-    public int updatePro(Product product){
-        return productDao.updateById(product);
-    }
+//    public Product selectProId(int proId){
+//        return productDao.selectById(proId);
+//    }
 
     //分页
     public PageInfo<ProductVo> findpro(int pageNum, int pageSize){
@@ -52,17 +51,34 @@ public class ProductServiceImpl implements ProductService{
         return productDao.selectProckName();
     }
 
+    //商品清单  查询全部类别
+    public List<Category> selectCatAll(){
+        return categoryDao.selectList(null);
+    }
+
+
     //商品清单  查询全部（根据proName模糊查询）
     @Override
     public List<ProductVo> selectProNamelike(String proName) {
         return productDao.selectProNamelike(proName);
     }
 
-    //商品清单  查询全部（选择下拉框，根据ckName模糊查询）
-    public List<ProductVo> selectProckNamexz(String ckName){
-        return productDao.selectProckNamexz(ckName);
+    //商品清单  查询全部（选择下拉框，根据catName查询）
+    public List<ProductVo> selectProcatNnameAll(String catName){
+        return productDao.selectProcatNnameAll(catName);
+    }
+    //商品清单  根据ckName查询全部（下拉框）
+    public List<ProductVo> selectProckNameAll(String ckName){
+        return productDao.selectProckNameAll(ckName);
     }
 
+
+    // 商品清单  查询商品详情
+    public ProductVo selectProIdxq(int proId){
+        return productDao.selectProIdxq(proId);
+    }
+
+    //zys
     @Override
     public List<Product> selectcpname() {
         QueryWrapper<Product> qw=new QueryWrapper<>();
@@ -70,4 +86,5 @@ public class ProductServiceImpl implements ProductService{
         List<Product> list=productDao.selectList(qw);
         return list;
     }
+
 }
