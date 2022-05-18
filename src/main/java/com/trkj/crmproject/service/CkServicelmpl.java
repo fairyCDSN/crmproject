@@ -101,7 +101,7 @@ public class CkServicelmpl implements CkService{
     }
 
     // 仓库列表 查询仓库的商品总数量为0的
-    public int selectCknumber(int ckId){
+    public String selectCknumber(int ckId){
         return dao.selectCknumber(ckId);
     }
 

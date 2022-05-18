@@ -27,7 +27,9 @@ public interface ProductService {
 
 
     //商品清单  查询全部（根据proName模糊查询）
-    public List<ProductVo> selectProNamelike(String proName);
+//    public List<ProductVo> selectProNamelike(String proName);
+    public List<ProductVo> selectProNamelike(String proName,String catName,String ckName);
+
 
     //商品清单  查询全部（选择下拉框，根据catName查询）
     public List<ProductVo> selectProcatNnameAll(String catName);

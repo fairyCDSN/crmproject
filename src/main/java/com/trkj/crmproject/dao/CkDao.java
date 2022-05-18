@@ -30,7 +30,7 @@ public interface CkDao extends BaseMapper<Ck> {
     public int updateCkState1(int ckId);
 
     // 仓库列表 查询仓库的商品总数量为0的
-    public int selectCknumber(int ckId);
+    public String selectCknumber(int ckId);
 
     //仓库管理 查询当前登录人的职位（角色名）（判断是否能修改仓库信息）
     public String selectCkroleName(String userName);

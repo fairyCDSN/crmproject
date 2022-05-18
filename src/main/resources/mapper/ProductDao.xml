@@ -13,11 +13,24 @@
 
     <!--    商品清单  查询全部（根据proName模糊查询）-->
     <select id="selectProNamelike" resultType="com.trkj.crmproject.vo.ProductVo">
-        select product.pro_id,product.pro_name,product.pro_guige,product.pro_money,
-            sum(pro_ck.pro_ck_number) as pro_ck_numbersum from product
-            left join pro_ck on pro_ck.pro_id=product.pro_id
-            where pro_name like '%${pro_name}%'
-            group by product.pro_id
+        select p.pro_id,p.pro_name,p.pro_guige,p.pro_money,
+            sum(pro_ck.pro_ck_number) as pro_ck_numbersum from product p
+            left join pro_ck on pro_ck.pro_id=p.pro_id
+            left join ck on ck.ck_id=pro_ck.ck_id
+            left join pro_cat on pro_cat.pro_id=p.pro_id
+            left join category on category.cat_id=pro_cat.cat_id
+            <where>
+                <if test="param1!='' || param1==null">
+                    p.pro_name like '%${param1}%'
+                </if>
+                <if test="param2!='' || param2==null">
+                    and category.cat_name like '%${param2}%'
+                </if>
+                <if test="param3!='' || param3==null">
+                    and ck.ck_name like '%${param3}%'
+                </if>
+            </where>
+            group by p.pro_id
     </select>
 
     <!--    商品清单  查询全部（选择下拉框，根据catName查询）-->

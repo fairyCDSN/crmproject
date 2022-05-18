@@ -45,10 +45,15 @@ public class ProductConteoller {
     }
 
     //商品清单  查询全部（根据proName模糊查询）
+//    @GetMapping("/selectProNamelike")
+//    public AjaxResponse selectProNamelike(String proName){
+//        return AjaxResponse.success(productService.selectProNamelike(proName));
+//    }
     @GetMapping("/selectProNamelike")
-    public AjaxResponse selectProNamelike(String proName){
-        return AjaxResponse.success(productService.selectProNamelike(proName));
+    public AjaxResponse selectProNamelike(String proName,String catName,String ckName){
+        return AjaxResponse.success(productService.selectProNamelike(proName,catName,ckName));
     }
+
 
     //商品清单  查询全部（选择下拉框，根据catName查询）
     @GetMapping("/selectProcatNnameAll")

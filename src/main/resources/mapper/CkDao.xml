@@ -46,8 +46,8 @@
     </update>
 
 <!--    仓库列表 查询仓库的商品总数量为0的 -->
-    <select id="selectCknumber" resultType="java.lang.Integer">
-        select sum(pro_ck_number) from pro_ck where ck_id=#{ckId}
+    <select id="selectCknumber" resultType="java.lang.String">
+        select sum(pro_ck_number) as cknumber from pro_ck where ck_id=#{ckId}
     </select>
 
 <!--    仓库管理 查询当前登录人的职位（角色名）（判断是否能修改仓库信息）-->
@@ -57,5 +57,7 @@
             left join users on users.user_id=user_role.users_id
             where users.user_name=#{user_name}
     </select>
+
+
 </mapper>
 

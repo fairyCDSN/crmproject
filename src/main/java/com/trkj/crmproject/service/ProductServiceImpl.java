@@ -59,8 +59,12 @@ public class ProductServiceImpl implements ProductService{
 
     //商品清单  查询全部（根据proName模糊查询）
     @Override
-    public List<ProductVo> selectProNamelike(String proName) {
-        return productDao.selectProNamelike(proName);
+//    public List<ProductVo> selectProNamelike(String proName) {
+//        return productDao.selectProNamelike(proName);
+//    }
+    public List<ProductVo> selectProNamelike(String proName,String catName,String ckName) {
+
+        return productDao.selectProNamelike(proName,catName,ckName);
     }
 
     //商品清单  查询全部（选择下拉框，根据catName查询）
