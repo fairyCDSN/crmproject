@@ -1,59 +1,60 @@
 package com.trkj.crmproject.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /**
  * staff
- * @author 
+ * @author
  */
 @Data
 public class Staff implements Serializable {
     /**
      * 员工id
      */
-    @TableId
-    private Integer staffId;
+    private Integer staff_id;
 
     /**
      * 用户id
      */
-    private Integer userId;
+    private Integer user_id;
 
     /**
      * 职务id
      */
-    private Integer postId;
+    private Integer post_id;
 
     /**
      * 入职时间
      */
-    private Date inductionTime;
+    private Date induction_time;
 
     /**
      * 性别
      */
-    private String staffSex;
+    private String staff_sex;
 
     /**
      * QQ
      */
-    private String staffQq;
+    private String staff_qq;
 
     /**
      * 微信
      */
-    private String staffWx;
+    private String staff_wx;
 
     /**
      * 通信地址
      */
-    private String staffTxdz;
+    private String staff_txdz;
 
-    private Integer deptmentId;
+    private Integer deptment_id;
+
+    private String staff_name;
+
+    private Date birthday;
 
     private static final long serialVersionUID = 1L;
 }

@@ -1,7 +1,7 @@
 package com.trkj.crmproject.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.trkj.crmproject.entity.mybatis.Post;
+import com.trkj.crmproject.entity.Post;
 import com.trkj.crmproject.entity.mybatis_plus.PostMp;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;

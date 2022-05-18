@@ -1,10 +1,11 @@
-package com.trkj.crmproject.service;
+package com.trkj.crmproject.service.Impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.trkj.crmproject.dao.ContactDao;
 import com.trkj.crmproject.entity.contact;
+import com.trkj.crmproject.service.ContactService;
 import com.trkj.crmproject.util.BeanTools;
 import com.trkj.crmproject.vo.contactVo;
 import org.springframework.beans.factory.annotation.Autowired;

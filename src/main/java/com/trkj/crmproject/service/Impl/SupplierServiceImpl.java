@@ -1,8 +1,9 @@
-package com.trkj.crmproject.service;
+package com.trkj.crmproject.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.trkj.crmproject.dao.SupplierDao;
 import com.trkj.crmproject.entity.Supplier;
+import com.trkj.crmproject.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

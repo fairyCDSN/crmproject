@@ -1,4 +1,4 @@
-package com.trkj.crmproject.entity.mybatis;
+package com.trkj.crmproject.entity;
 
 import lombok.Data;
 

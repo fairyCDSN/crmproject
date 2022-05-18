@@ -1,7 +1,7 @@
 package com.trkj.crmproject.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.trkj.crmproject.entity.mybatis.Department;
+import com.trkj.crmproject.entity.Department;
 import com.trkj.crmproject.entity.mybatis_plus.DeptMp;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
@@ -22,4 +22,7 @@ public interface DepartmentDao extends BaseMapper<DeptMp> {
     int updateByPrimaryKeySelective(Department record);
 
     int updateByPrimaryKey(Department record);
+
+    //查询部门数量
+
 }

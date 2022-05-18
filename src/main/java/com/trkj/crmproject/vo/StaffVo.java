@@ -34,7 +34,7 @@ public class StaffVo {
     //职务名称
     private String post_describe;
     //部门名称
-    private String department_name;
+    private String departmentName;
 
     //用户名称[密码默认为123456]
     private String user_name;
@@ -47,6 +47,9 @@ public class StaffVo {
     private String email;
 
     private int state;
+
+    //每个部门的人数
+    private int countNum;
 
     public Date getInduction_time() {
         return induction_time;
