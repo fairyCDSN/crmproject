@@ -1,4 +1,4 @@
-package com.trkj.crmproject.service;
+package com.trkj.crmproject.service.Impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -7,6 +7,7 @@ import com.trkj.crmproject.dao.CkDao;
 import com.trkj.crmproject.entity.mybatis_plus.Ck;
 import com.trkj.crmproject.exception.CustomError;
 import com.trkj.crmproject.exception.CustomErrorType;
+import com.trkj.crmproject.service.CkService;
 import com.trkj.crmproject.util.BeanTools;
 import com.trkj.crmproject.vo.CkStaffVo;
 import com.trkj.crmproject.vo.CkVo;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CkServicelmpl implements CkService{
+public class CkServicelmpl implements CkService {
 
     @Autowired
     private CkDao dao;

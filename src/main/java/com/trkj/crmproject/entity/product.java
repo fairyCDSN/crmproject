@@ -1,4 +1,4 @@
-package com.trkj.crmproject.entity.mybatis;
+package com.trkj.crmproject.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;

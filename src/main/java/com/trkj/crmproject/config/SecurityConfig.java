@@ -4,7 +4,7 @@ import com.trkj.crmproject.filter.JwtAuthenticationTokenFilter;
 import com.trkj.crmproject.handler.UserAuthAccessDeniedHandler;
 import com.trkj.crmproject.handler.UserAuthenticationEntryPointHandler;
 import com.trkj.crmproject.handler.UserLogoutSuccessHandler;
-import com.trkj.crmproject.service.MyUserDetailsService;
+import com.trkj.crmproject.service.Impl.MyUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;

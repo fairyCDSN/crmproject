@@ -1,4 +1,4 @@
-package com.trkj.crmproject.service;
+package com.trkj.crmproject.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.Page;
@@ -8,6 +8,7 @@ import com.trkj.crmproject.dao.CategoryDao;
 import com.trkj.crmproject.dao.ProductDao;
 import com.trkj.crmproject.entity.Category;
 import com.trkj.crmproject.entity.mybatis_plus.Product;
+import com.trkj.crmproject.service.ProductService;
 import com.trkj.crmproject.util.BeanTools;
 import com.trkj.crmproject.vo.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductDao productDao;
 

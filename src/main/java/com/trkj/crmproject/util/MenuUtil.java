@@ -1,6 +1,6 @@
 package com.trkj.crmproject.util;
 
-import com.trkj.crmproject.entity.mybatis.Sonmenu;
+import com.trkj.crmproject.entity.Sonmenu;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;

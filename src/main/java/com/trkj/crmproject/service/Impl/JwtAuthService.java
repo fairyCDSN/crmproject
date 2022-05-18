@@ -1,7 +1,7 @@
-package com.trkj.crmproject.service;
+package com.trkj.crmproject.service.Impl;
 
 
-import com.trkj.crmproject.entity.mybatis.Users;
+import com.trkj.crmproject.entity.Users;
 import com.trkj.crmproject.exception.CustomError;
 import com.trkj.crmproject.exception.CustomErrorType;
 import com.trkj.crmproject.util.JwtTokenUtil;
@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
-import java.util.Objects;
 
 //对自定义登录类进行封装
 @Slf4j

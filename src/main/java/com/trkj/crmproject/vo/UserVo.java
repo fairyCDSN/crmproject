@@ -1,6 +1,6 @@
 package com.trkj.crmproject.vo;
 
-import com.trkj.crmproject.entity.mybatis.Sonmenu;
+import com.trkj.crmproject.entity.Sonmenu;
 import lombok.Data;
 
 import java.util.List;

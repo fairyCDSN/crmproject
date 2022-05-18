@@ -1,7 +1,7 @@
 package com.trkj.crmproject.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.trkj.crmproject.entity.mybatis.Users;
+import com.trkj.crmproject.entity.Users;
 import com.trkj.crmproject.entity.mybatis_plus.StaffMp;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;

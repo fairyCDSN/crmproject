@@ -1,4 +1,4 @@
-package com.trkj.crmproject.service;
+package com.trkj.crmproject.service.Impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -7,17 +7,13 @@ import com.trkj.crmproject.dao.DepartmentDao;
 import com.trkj.crmproject.dao.PostDao;
 import com.trkj.crmproject.dao.StaffDao;
 import com.trkj.crmproject.dao.UsersDao;
-import com.trkj.crmproject.entity.Caigou;
-import com.trkj.crmproject.entity.mybatis.Staff;
-import com.trkj.crmproject.entity.mybatis.Users;
+import com.trkj.crmproject.entity.Staff;
+import com.trkj.crmproject.entity.Users;
 import com.trkj.crmproject.entity.mybatis_plus.DeptMp;
 import com.trkj.crmproject.entity.mybatis_plus.PostMp;
 import com.trkj.crmproject.entity.mybatis_plus.StaffMp;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.trkj.crmproject.service.UserService;
 import com.trkj.crmproject.util.BeanTools;
-import com.trkj.crmproject.vo.SelectParam;
 import com.trkj.crmproject.vo.StaffVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +50,10 @@ public class UserServiceImpl implements UserService {
         log.debug("staff:"+ pageInfo);
         return pageInfo;
     }
+    public List<StaffMp> selectAllStaff(){
+        List<StaffMp> staffMpList =staffDao.selectList(null);
+        return staffMpList;
+    }
     public PageInfo<DeptMp> selectAllDept(int pageNum,int pageSize){
 //        System.out.println("这是调用了密码加密后，原密码为：12dajslhkd 加密后为："+passwordEncoder.encode("12dajslhkd"));
         //分页
@@ -85,6 +85,14 @@ public class UserServiceImpl implements UserService {
     public List<PostMp> selectAllPost(){
         return postDao.selectList(null);
     }
+
+    //查询部门表【计算每个部门有多少人】
+    public List<StaffMp> selectDept(int deptid){
+        List<StaffMp> staffMps=staffDao.selectStaffByDeptId(deptid);
+
+        return staffMps;
+    }
+
 
     //添加员工
     @Transactional
@@ -125,10 +133,11 @@ public class UserServiceImpl implements UserService {
 
 
     //条件查询员工
-    public PageInfo<StaffMp> selectStaffByNameOrNum(int pageNum, int pageSize, String name , int bianhao){
+    public PageInfo<StaffMp> selectStaffByNameOrNum(int pageNum, int pageSize, String name , int bianhao,int deptid){
         //分页
         Page<StaffMp> page = PageHelper.startPage(pageNum,pageSize);
-        List<StaffMp> staffMpList =staffDao.selectStaffByNameAndId(name,bianhao);
+        System.out.println(deptid+"实现类中的部门");
+        List<StaffMp> staffMpList =staffDao.selectStaffByNameAndId(name,bianhao,deptid);
         Page<StaffMp> staffMps=new Page<>();
         BeanTools.copyList(staffMpList,staffMps,StaffMp.class);
         PageInfo<StaffMp> pageInfo=new PageInfo<>(staffMps);
@@ -136,4 +145,8 @@ public class UserServiceImpl implements UserService {
         return pageInfo;
     }
 
+    //查询每个部门的人数
+    public List<StaffVo> selectCountStaff(){
+        return staffDao.countStaff();
+    }
 }

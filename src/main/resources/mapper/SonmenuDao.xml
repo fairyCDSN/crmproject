@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trkj.crmproject.dao.SonmenuDao">
-  <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.mybatis.Sonmenu">
+  <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Sonmenu">
     <id column="sonmenu_son_id" jdbcType="INTEGER" property="son_id" />
     <result column="sonmenu_father_id" jdbcType="INTEGER" property="father_id" />
     <result column="sonmenu_is_leaf" jdbcType="INTEGER" property="is_leaf" />
@@ -63,7 +63,7 @@
     delete from sonmenu
     where son_id = #{son_id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="son_id" keyProperty="son_id" parameterType="com.trkj.crmproject.entity.mybatis.Sonmenu" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="son_id" keyProperty="son_id" parameterType="com.trkj.crmproject.entity.Sonmenu" useGeneratedKeys="true">
     insert into sonmenu (father_id, is_leaf, menu_name,
       submit_method, url, sub_name,
       sub_url, icon, icon_color,
@@ -75,7 +75,7 @@
       #{sort,jdbcType=INTEGER}, #{menu_lv,jdbcType=INTEGER}, #{is_qy,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" keyColumn="son_id" keyProperty="son_id" parameterType="com.trkj.crmproject.entity.mybatis.Sonmenu" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="son_id" keyProperty="son_id" parameterType="com.trkj.crmproject.entity.Sonmenu" useGeneratedKeys="true">
     insert into sonmenu
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="father_id != null">
@@ -154,7 +154,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.trkj.crmproject.entity.mybatis.Sonmenu">
+  <update id="updateByPrimaryKeySelective" parameterType="com.trkj.crmproject.entity.Sonmenu">
     update sonmenu
     <set>
       <if test="father_id != null">
@@ -196,7 +196,7 @@
     </set>
     where son_id = #{son_id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.trkj.crmproject.entity.mybatis.Sonmenu">
+  <update id="updateByPrimaryKey" parameterType="com.trkj.crmproject.entity.Sonmenu">
     update sonmenu
     set father_id = #{father_id,jdbcType=INTEGER},
       is_leaf = #{is_leaf,jdbcType=INTEGER},

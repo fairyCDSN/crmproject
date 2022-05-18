@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trkj.crmproject.dao.StaffDao">
-  <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.mybatis.Staff">
+  <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Staff">
     <id column="staff_id" jdbcType="INTEGER" property="staff_id" />
     <result column="user_id" jdbcType="INTEGER" property="user_id" />
     <result column="post_id" jdbcType="INTEGER" property="post_id" />
@@ -50,7 +50,7 @@
       #{staff_sex,jdbcType=VARCHAR}, #{staff_qq,jdbcType=VARCHAR}, #{staff_wx,jdbcType=VARCHAR},
       #{staff_txdz,jdbcType=VARCHAR}, #{deptment_id,jdbcType=INTEGER},#{staff_name,jdbcType=VARCHAR},#{birthday,jdbcType=DATE})
   </insert>
-  <insert id="insertSelective" keyColumn="staff_id" keyProperty="staff_id" parameterType="com.trkj.crmproject.entity.mybatis.Staff" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="staff_id" keyProperty="staff_id" parameterType="com.trkj.crmproject.entity.Staff" useGeneratedKeys="true">
     insert into staff
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="user_id != null">
@@ -105,7 +105,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.trkj.crmproject.entity.mybatis.Staff">
+  <update id="updateByPrimaryKeySelective" parameterType="com.trkj.crmproject.entity.Staff">
     update staff
     <set>
       <if test="user_id != null">
@@ -135,7 +135,7 @@
     </set>
     where staff_id = #{staff_id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.trkj.crmproject.entity.mybatis.Staff">
+  <update id="updateByPrimaryKey" parameterType="com.trkj.crmproject.entity.Staff">
     update staff
     set user_id = #{user_id,jdbcType=INTEGER},
       post_id = #{post_id,jdbcType=INTEGER},
@@ -157,12 +157,25 @@
   <select id="selectStaffByNameAndId" resultMap="Staff">
     select * from staff s
     <where>
-      <if test="param1!='' || param1==null">
+      <if test="param1!='' || param1==null || param1 !=0">
             staff_name like concat('%','${param1}','%')
       </if>
       <if test="param2!='' || param2==null">
         and staff_id like concat('%'+'${param2}'+'%')
       </if>
+      <if test="param3!='' || param3 == null || param3 !=0">
+        and deptment_id like concat('%' +'${param3}'+'%')
+      </if>
     </where>
   </select>
+
+  <select id="selectStaffByDeptId" resultMap="Staff">
+    select * from staff s where deptment_id =#{deptid}
+  </select>
+
+  <select id="countStaff" resultType="com.trkj.crmproject.vo.StaffVo">
+    select d.department_name departmentName,count(deptment_id) countNum from staff s LEFT JOIN department d ON d.department_id=s.deptment_id
+    GROUP BY d.department_id
+  </select>
+
 </mapper>
