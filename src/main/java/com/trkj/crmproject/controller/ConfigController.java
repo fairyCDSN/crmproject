@@ -1,7 +1,7 @@
 package com.trkj.crmproject.controller;
 
-import com.trkj.crmproject.entity.mybatis.Sonmenu;
-import com.trkj.crmproject.service.JwtAuthService;
+import com.trkj.crmproject.entity.Sonmenu;
+import com.trkj.crmproject.service.Impl.JwtAuthService;
 import com.trkj.crmproject.service.PermissionService;
 import com.trkj.crmproject.service.UserService;
 import com.trkj.crmproject.vo.*;
@@ -43,6 +43,10 @@ public class ConfigController {
     public AjaxResponse selectAllStaff(int pageNum,int pageSize){
         return AjaxResponse.success(userService.selectAllStaff(pageNum,pageSize));
     }
+    @GetMapping("/selectStaff")
+    public AjaxResponse selectAllStaff(){
+        return AjaxResponse.success(userService.selectAllStaff());
+    }
     @GetMapping("/selectAllDept")
     public AjaxResponse selectAllDept(int pageNum,int pageSize){
         return AjaxResponse.success(userService.selectAllDept(pageNum,pageSize));
@@ -59,12 +63,24 @@ public class ConfigController {
     public AjaxResponse selectAllPost(){
         return AjaxResponse.success(userService.selectAllPost());
     }
+    //根据部门查询员工
+    @GetMapping("/selectStaffByDept")
+    public AjaxResponse selectStaffByDept(int DeptId){
+        return AjaxResponse.success(userService.selectDept(DeptId));
+    }
 
 
     //按条件查询员工[名字或id的模糊查询]
     @GetMapping("/selectStaffByNameOrNum")
-    public AjaxResponse selectStaffByNameOrNum(int pageNum,int pageSize,String name,int bianhao){
-        return AjaxResponse.success(userService.selectStaffByNameOrNum(pageNum,pageSize,name,bianhao));
+    public AjaxResponse selectStaffByNameOrNum(int pageNum,int pageSize,String name,int bianhao,int deptId){
+        log.debug(deptId+"这是条件查询钟的部门id");
+        return AjaxResponse.success(userService.selectStaffByNameOrNum(pageNum,pageSize,name,bianhao,deptId));
+    }
+
+    //查询每个部门多少人数
+    @GetMapping("/selectCountStaff")
+    public AjaxResponse selectCountStaff(){
+        return AjaxResponse.success(userService.selectCountStaff());
     }
 
     //新增一个用户【同时关联职务表、部门表、用户表】

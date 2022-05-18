@@ -1,4 +1,4 @@
-package com.trkj.crmproject.service;
+package com.trkj.crmproject.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.github.pagehelper.Page;
@@ -8,6 +8,7 @@ import com.trkj.crmproject.dao.CaigouDao;
 import com.trkj.crmproject.dao.ParecordDao;
 import com.trkj.crmproject.entity.Caigou;
 import com.trkj.crmproject.entity.Parecord;
+import com.trkj.crmproject.service.ParecordService;
 import com.trkj.crmproject.util.BeanTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

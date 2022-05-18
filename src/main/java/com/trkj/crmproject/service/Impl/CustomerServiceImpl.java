@@ -1,4 +1,4 @@
-package com.trkj.crmproject.service;
+package com.trkj.crmproject.service.Impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -10,6 +10,7 @@ import com.trkj.crmproject.entity.contact;
 import com.trkj.crmproject.entity.customer;
 import com.trkj.crmproject.exception.CustomError;
 import com.trkj.crmproject.exception.CustomErrorType;
+import com.trkj.crmproject.service.CustomerService;
 import com.trkj.crmproject.util.BeanTools;
 import com.trkj.crmproject.vo.AddVo;
 import com.trkj.crmproject.vo.CusXqVo;

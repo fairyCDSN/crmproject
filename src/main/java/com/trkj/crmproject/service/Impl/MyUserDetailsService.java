@@ -1,10 +1,10 @@
-package com.trkj.crmproject.service;
+package com.trkj.crmproject.service.Impl;
 
 
 import com.trkj.crmproject.dao.RoleDao;
 import com.trkj.crmproject.dao.SonmenuDao;
 import com.trkj.crmproject.dao.UsersDao;
-import com.trkj.crmproject.entity.mybatis.Users;
+import com.trkj.crmproject.entity.Users;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
