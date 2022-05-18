@@ -13,7 +13,6 @@ import java.util.List;
 @Mapper
 
 public interface CustomerDao {
-    public List<contact> findContacts(int salesperson_id);
     public List<customer> findCustomers(int salesperson_id);
     public List<customer> findCustomer(@Param("customer_name")String customer_name,@Param("customer_stage") String customer_stage,
                                        @Param("create_time1") String create_time1,@Param("create_time2")String create_time2,
@@ -22,12 +21,10 @@ public interface CustomerDao {
                                        @Param("create_time1") String create_time1,@Param("create_time2")String create_time2,
                                        @Param("salesperson_id")int salesperson_id);
     public CusXqVo findCusXq(int customer_id);
-    public List<CusXq> findConXq(int customer_id);
+    public int findCustomerById(AddVo addVo);
     public int addCustomer(AddVo addVo);
-    public int addContact(AddVo addVo);
     public int addConCus(AddVo addVo);
     public int updateCustomer(customer customer);
-    public int updataCustomerById(int customer_id);
-    public int deleteCusCon(int customer_id);
-    public int deleteCustomerById(int customer_id);
+    public int updataCustomerType1(int customer_id);
+    public int updataCustomerType2(int customer_id);
 }

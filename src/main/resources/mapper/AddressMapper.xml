@@ -5,13 +5,6 @@
     <select id="findAddById" resultType="java.lang.Integer">
         select  address_id from address where country=#{country} and province=#{province} and city=#{city} and email=#{email} and phone=#{phone} and fax=#{fax}
     </select>
-    <select id="findCustomerById" resultType="java.lang.Integer">
-        select  customer_id from customer where customer_name=#{customer_name} and customer_stage=#{customer_stage}
-         and customer_type=#{customer_type} and customer_source=#{customer_source} and remarks=#{remarks} and address_id=#{address_id} and salesperson_id=#{salesperson_id}
-    </select>
-    <select id="findContactById" resultType="java.lang.Integer">
-        select  contact_id from contact where contact_name=#{contact_name} and work_phone=#{work_phone} and my_phone=#{my_phone}
-    </select>
     <select id="findAddressById" resultType="java.lang.Integer">
         select  address_id from customer where customer_id=#{customer_id}
     </select>

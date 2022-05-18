@@ -19,16 +19,7 @@ public class AddressServiceImpl implements AddressService {
         int address_id = addressDao.findAddById(addVo);
         return address_id;
     }
-    @Override
-    public int findCustomerById(AddVo addVo) {
-        int customer_id = addressDao.findCustomerById(addVo);
-        return customer_id;
-    }
-    @Override
-    public int findContactById(AddVo addVo) {
-        int contact_id = addressDao.findContactById(addVo);
-        return contact_id;
-    }
+
 
     @Override
     public int findAddressById(int customer_id) {

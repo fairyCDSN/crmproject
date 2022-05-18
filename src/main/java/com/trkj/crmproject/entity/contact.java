@@ -4,12 +4,12 @@ import lombok.Data;
 
 @Data
 public class contact {
-    private int contactid;
-    private int salespersonid;
-    private String customername;
-    private String contactname;
-    private String workphone;
-    private String myphone;
-    private String customertype;
-    private String founder;
+    private int contactId;
+    private int salesperson_id;
+    private String customerName;
+    private String contactName;
+    private String workPhone;
+    private String myPhone;
+    private String customerType;
+    private String Founder;
 }

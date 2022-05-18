@@ -16,10 +16,6 @@
     <sql id="customerCol">
         customer_id,salesperson_id,address_id,customer_name,customer_type,customer_source,customer_stage,remarks,create_time
     </sql>
-    <select id="findContacts" resultType="com.trkj.crmproject.vo.contactVo">
-        select contact_id,customer_name,contact_name,work_phone,my_phone,customer_type,founder
-        from customer,contact where salesperson_id = #{salesperson_id} and contact.customer_id = customer.customer_id
-    </select>
     <select id="findCustomer" resultMap="CustomerMap">
         select  <include refid="customerCol"/>
         from customer where salesperson_id = #{salesperson_id} and customer_type != '过期客户'
@@ -55,17 +51,13 @@
         customer.remarks,customer.create_time,address.country,address.province,address.city,address.email,address.phone,address.fax
         from customer,address where customer.customer_id = #{customer_id} and address.address_id = customer.address_id
     </select>
-    <select id="findConXq" resultType="com.trkj.crmproject.entity.CusXq">
-        select customer.customer_name,contact.contact_id,contact.contact_name,contact.work_phone,contact.my_phone,contact.founder,contact.create_time
-        from contact,cont_cust,customer where customer.customer_id = cont_cust.customer_id and contact.contact_id = cont_cust.contact_id and cont_cust.customer_id = #{customer_id}
+    <select id="findCustomerById" resultType="java.lang.Integer">
+        select  customer_id from customer where customer_name=#{customer_name} and customer_stage=#{customer_stage}
+         and customer_type=#{customer_type} and customer_source=#{customer_source} and remarks=#{remarks} and address_id=#{address_id} and salesperson_id=#{salesperson_id}
     </select>
     <insert id="addCustomer" >
         insert into customer(salesperson_id,address_id, customer_name,customer_type,customer_source,customer_stage,remarks)
         values (#{salesperson_id},#{address_id}, #{customer_name},#{customer_type},#{customer_source},#{customer_stage},#{remarks})
-    </insert>
-    <insert id="addContact">
-        insert into contact(contact_name, work_phone,my_phone,Founder)
-        values (#{contact_name},#{work_phone},#{my_phone},#{salesperson_id})
     </insert>
     <insert id="addConCus">
         insert into cont_cust(contact_id,customer_id)
@@ -86,17 +78,18 @@
         </set>
         where customer_id = #{customer_id}
     </update>
-    <update id="updataCustomerById">
+    <update id="updataCustomerType1">
         update customer
         <set>
             customer_type = '过期客户'
         </set>
         where customer_id = #{customer_id}
     </update>
-    <delete id="deleteCustomerById">
-        delete from customer where customer_id = #{customer_id}
-    </delete>
-    <delete id="deleteCusCon">
-        delete from cont_cust where customer_id = #{customer_id}
-    </delete>
+    <update id="updataCustomerType2">
+        update customer
+        <set>
+            customer_type = '正式客户'
+        </set>
+        where customer_id = #{customer_id}
+    </update>
 </mapper>

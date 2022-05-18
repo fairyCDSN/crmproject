@@ -25,17 +25,7 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerDao customerDao;
-    @Autowired
-    private ContactDao contactDao;
-    @Override
-    public PageInfo<contactVo> findContacts(int pageNum, int pageSize, int salesperson_id) {
-        Page<contact> page= PageHelper.startPage(pageNum,pageSize);
-        List<contact> list=contactDao.findContacts(salesperson_id);
-        Page<contactVo> contacts=new Page<>();
-        BeanTools.copyList(list,contacts,contactVo.class);
-        PageInfo<contactVo> pageInfo=new PageInfo<>(contacts);
-        return pageInfo;
-    }
+
     @Override
     public PageInfo<customerVo> findCustomer(int pageNum, int pageSize,String customer_name, String customer_stage,
                                              String create_time1,String create_time2,int salesperson_id) {
@@ -67,31 +57,24 @@ public class CustomerServiceImpl implements CustomerService {
         PageInfo<customerVo> pageInfo=new PageInfo<>(customers);
         return pageInfo;
     }
+
     @Override
     public CusXqVo findCusXq(int customer_id) {
         CusXqVo cusXqVo = customerDao.findCusXq(customer_id);
         return cusXqVo;
     }
+
+
     @Override
-    public List<CusXq> findConXq(int customer_id) {
-        List<CusXq> list = customerDao.findConXq(customer_id);
-        return list;
+    public int findCustomerById(AddVo addVo) {
+        int customer_id = customerDao.findCustomerById(addVo);
+        return customer_id;
     }
 
     @Override
 //    @Transactional(transactionManager = "tm")
     public AddVo addCustomer(AddVo addVo) {
         int count=customerDao.addCustomer(addVo);
-        if(count==0){
-            throw new CustomError(CustomErrorType.DATABASE_OP_ERROR,"数据更新异常");
-        }
-        return addVo;
-    }
-    @Override
-//    @Transactional(transactionManager = "tm")
-    public AddVo addContact(AddVo addVo) {
-        int count=customerDao.addContact(addVo);
-
         if(count==0){
             throw new CustomError(CustomErrorType.DATABASE_OP_ERROR,"数据更新异常");
         }
@@ -109,7 +92,6 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-//    @Transactional(transactionManager = "tm")
     public customerVo updateCustomer(customerVo customerVo) {
         customer customer=new customer();
         BeanTools.copyProperties(customerVo,customer);
@@ -122,17 +104,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
     @Override
 //    @Transactional(transactionManager = "tm")
-    public int updataCustomerById(int customer_id) {
-        return customerDao.updataCustomerById(customer_id);
+    public int updataCustomerType1(int customer_id) {
+        return customerDao.updataCustomerType1(customer_id);
     }
-
     @Override
-    public int deleteCusCon(int customer_id) {
-        return customerDao.deleteCusCon(customer_id);
-    }
-
-    @Override
-    public int deleteCustomerById(int customer_id) {
-        return customerDao.deleteCustomerById(customer_id);
+    public int updataCustomerType2(int customer_id) {
+        return customerDao.updataCustomerType2(customer_id);
     }
 }

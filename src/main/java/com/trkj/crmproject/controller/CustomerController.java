@@ -2,6 +2,7 @@ package com.trkj.crmproject.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.trkj.crmproject.service.AddressService;
+import com.trkj.crmproject.service.ContactService;
 import com.trkj.crmproject.service.CustomerService;
 import com.trkj.crmproject.vo.AddVo;
 import com.trkj.crmproject.vo.AjaxResponse;
@@ -18,6 +19,8 @@ public class CustomerController {
     private CustomerService customerService;
     @Autowired
     private AddressService addressService;
+    @Autowired
+    private ContactService contactService;
 
     @GetMapping("/findCustomers")
     public AjaxResponse findCustomers(int pageNum, int pageSize,int salesperson_id){
@@ -42,21 +45,17 @@ public class CustomerController {
     public AjaxResponse findCusXq(int customer_id){
         return AjaxResponse.success(customerService.findCusXq(customer_id));
     }
-    @GetMapping("/findConXq")
-    public AjaxResponse findConXq(int customer_id){
-        System.out.println(customerService.findConXq(customer_id));
-        return AjaxResponse.success(customerService.findConXq(customer_id));
-    }
-    @PostMapping("/addcustomer")
+
+    @PostMapping("/addCustomer")
     public AjaxResponse addCustomer(@RequestBody AddVo addVo){
         addressService.insertAddress(addVo);
         int address_id=addressService.findAddById(addVo);
         addVo.setAddress_id(address_id);
         customerService.addCustomer(addVo);
-        int customer_id=addressService.findCustomerById(addVo);
+        int customer_id=customerService.findCustomerById(addVo);
         addVo.setCustomer_id(customer_id);
-        customerService.addContact(addVo);
-        int contact_id=addressService.findContactById(addVo);
+        contactService.addContact(addVo);
+        int contact_id=contactService.findContactById(addVo);
         addVo.setContact_id(contact_id);
         customerService.addConCus(addVo);
         return AjaxResponse.success();
@@ -68,14 +67,11 @@ public class CustomerController {
 
     @PutMapping("/customers")
     public AjaxResponse delCustomer(@RequestBody int customer_id){
-//
-        return AjaxResponse.success(customerService.updataCustomerById(customer_id));
+        return AjaxResponse.success(customerService.updataCustomerType1(customer_id));
     }
 
-    @DeleteMapping("/customer/{customer_id}")
-    public AjaxResponse delCustomers(@PathVariable("customer_id") int customer_id){
-        int address_id=addressService.findAddressById(customer_id);
-        customerService.deleteCusCon(customer_id);
-        return AjaxResponse.success(customerService.deleteCustomerById(customer_id));
+    @PutMapping("/customers2")
+    public AjaxResponse delCustomers(@RequestBody int customer_id){
+        return AjaxResponse.success(customerService.updataCustomerType2(customer_id));
     }
 }
