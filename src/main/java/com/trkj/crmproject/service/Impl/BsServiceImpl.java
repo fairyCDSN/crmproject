@@ -1,9 +1,10 @@
-package com.trkj.crmproject.service;
+package com.trkj.crmproject.service.Impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.trkj.crmproject.dao.BsDao;
+import com.trkj.crmproject.service.BsService;
 import com.trkj.crmproject.util.BeanTools;
 import com.trkj.crmproject.vo.BsVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class BsServiceImpl implements BsService{
+public class BsServiceImpl implements BsService {
     @Autowired
     private BsDao bsDao;
 
@@ -37,8 +38,8 @@ public class BsServiceImpl implements BsService{
 
     //报损列表  根据商品名称proName模糊查询
     @Override
-    public List<BsVo> selectBsproNamelike(String proName){
-        return bsDao.selectBsproNamelike(proName);
+    public List<BsVo> selectBsproNamelike(String proName,String ckName){
+        return bsDao.selectBsproNamelike(proName,ckName);
     }
 
     //报损列表  根据报溢编号查询

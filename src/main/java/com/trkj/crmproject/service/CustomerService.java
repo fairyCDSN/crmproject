@@ -11,8 +11,11 @@ import java.util.List;
 
 public interface CustomerService {
     public PageInfo<customerVo> findCustomers(int pageNum, int pageSize,int salesperson_id);
-    public PageInfo<customerVo> findCustomer(int pageNum, int pageSize,String customer_name,
-                                             String customer_stage,String create_time1,String create_time2,int salesperson_id);
+    public PageInfo<customerVo> findCustomers2(int pageNum, int pageSize);
+    public PageInfo<customerVo> findCustomer(int pageNum, int pageSize,String customer_name,String customer_stage,String create_time1,
+                                             String create_time2,int salesperson_id);
+    public PageInfo<customerVo> findCustomer1(int pageNum, int pageSize,String customer_name,String customer_stage,String create_time1,
+                                              String create_time2);
     public PageInfo<customerVo> findCustomer2(int pageNum, int pageSize,String customer_name,
                                              String customer_stage,String create_time1,String create_time2,int salesperson_id);
     public CusXqVo findCusXq(int customer_id);

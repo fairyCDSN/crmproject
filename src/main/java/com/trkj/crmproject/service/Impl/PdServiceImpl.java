@@ -4,7 +4,6 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.trkj.crmproject.dao.PdDao;
-import com.trkj.crmproject.entity.Pd;
 import com.trkj.crmproject.service.PdService;
 import com.trkj.crmproject.util.BeanTools;
 import com.trkj.crmproject.vo.PdVo;
@@ -19,16 +18,15 @@ public class PdServiceImpl implements PdService {
     @Autowired
     private PdDao pdDao;
 
-    //盘点单  全部查询
-    @Override
-    public List<Pd> selectAllpd() {
-        return pdDao.selectList(null);
+    //盘盘点单  查询全部（根据ckId中间表外键查询ckName
+    public List<PdVo> selectPdckNameAll(){
+        return pdDao.selectPdckNameAll();
     }
-
+    //分页
     @Override
     public PageInfo<PdVo> findpd(int pageNum, int pageSize) {
         Page<PdVo> page= PageHelper.startPage(pageNum,pageSize);
-        List<PdVo> list=pdDao.selectPdproName();
+        List<PdVo> list=pdDao.selectPdckNameAll();
         Page<PdVo> pds=new Page<>();
         BeanTools.copyList(list,pds, PdVo.class);
         PageInfo<PdVo> pageInfo=new PageInfo<>(pds);
@@ -36,8 +34,8 @@ public class PdServiceImpl implements PdService {
         return pageInfo;
     }
 
-    //盘点单  查询全部（根据proId外键查询proName
-    public List<PdVo> selectPdproName(){
-        return pdDao.selectPdproName();
+    //盘点单  查询全部（根据仓库名称查询）
+    public List<PdVo> selectPdckName(String ckName){
+        return pdDao.selectPdckName(ckName);
     }
 }

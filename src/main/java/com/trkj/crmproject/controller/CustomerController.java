@@ -27,11 +27,23 @@ public class CustomerController {
         PageInfo<customerVo> info=customerService.findCustomers(pageNum,pageSize,salesperson_id);
         return AjaxResponse.success(info);
     }
+    @GetMapping("/findCustomers2")
+    public AjaxResponse findCustomers2(int pageNum, int pageSize){
+        PageInfo<customerVo> info=customerService.findCustomers2(pageNum,pageSize);
+        return AjaxResponse.success(info);
+    }
     @GetMapping("/findCustomer")
     public AjaxResponse findCustomer(int pageNum, int pageSize,String customer_name, String customer_stage,String create_time1,
                                      String create_time2,int salesperson_id){
         PageInfo<customerVo> info=customerService.findCustomer(pageNum,pageSize,customer_name,customer_stage,
                 create_time1,create_time2,salesperson_id);
+        return AjaxResponse.success(info);
+    }
+    @GetMapping("/findCustomer1")
+    public AjaxResponse findCustomer1(int pageNum, int pageSize,String customer_name, String customer_stage,String create_time1,
+                                     String create_time2){
+        PageInfo<customerVo> info=customerService.findCustomer1(pageNum,pageSize,customer_name,customer_stage,
+                create_time1,create_time2);
         return AjaxResponse.success(info);
     }
     @GetMapping("/findCustomer2")
@@ -48,6 +60,7 @@ public class CustomerController {
 
     @PostMapping("/addCustomer")
     public AjaxResponse addCustomer(@RequestBody AddVo addVo){
+        System.out.println(addVo+"asdasdasfdjkvbasdjkbnglaskjdbfakl");
         addressService.insertAddress(addVo);
         int address_id=addressService.findAddById(addVo);
         addVo.setAddress_id(address_id);

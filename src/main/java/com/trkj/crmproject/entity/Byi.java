@@ -14,4 +14,5 @@ public class Byi {
     private int number;
     private String createUser;
     private String bz;
+    private int pdId;
 }

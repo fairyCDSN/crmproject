@@ -7,13 +7,13 @@ import java.util.Date;
 @Data
 public class PdVo {
     private int pdId;
-    private String pdTitle;
     private Date pdTime;
-    private String state;
-    private int proId;
-    private String createUser;
     private String bz;
+    private int ckId;
+    private int staffId;
 
-    //产品表
-    private String proName;
+    //仓库表
+    private String ckName;
+    //用户表
+    private String userName;
 }

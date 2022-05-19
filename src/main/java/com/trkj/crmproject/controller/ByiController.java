@@ -29,8 +29,8 @@ public class ByiController {
 
     //报溢列表  根据商品名称proName模糊查询
     @GetMapping("/selectByiproNamelike")
-    public AjaxResponse selectByiproNamelike(String proName){
-        return AjaxResponse.success(byiService.selectByiproNamelike(proName));
+    public AjaxResponse selectByiproNamelike(String proName,String ckName){
+        return AjaxResponse.success(byiService.selectByiproNamelike(proName,ckName));
     }
 
     //报溢列表  根据报溢编号查询

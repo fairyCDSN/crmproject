@@ -29,9 +29,22 @@
             and date(create_time) between #{create_time1} and #{create_time2}
         </if>
     </select>
+    <select id="findCustomer1" resultMap="CustomerMap">
+        select  <include refid="customerCol"/>
+        from customer where salesperson_id is null and customer_type != '过期客户'
+        <if test="customer_stage != null and customer_stage != ''">
+            and customer_stage like '%${customer_stage}%'
+        </if>
+        <if test="customer_name != null and customer_name != ''">
+            and customer_name like '%${customer_name}%'
+        </if>
+        <if test="create_time1 != null and create_time1 != ''">
+            and date(create_time) between #{create_time1} and #{create_time2}
+        </if>
+    </select>
     <select id="findCustomer2" resultMap="CustomerMap">
         select  <include refid="customerCol"/>
-        from customer where salesperson_id = #{salesperson_id} and customer_type = '过期客户'
+        from customer where (salesperson_id = #{salesperson_id} or salesperson_id is null-) and customer_type = '过期客户'
         <if test="customer_stage != null and customer_stage != ''">
             and customer_stage like '%${customer_stage}%'
         </if>
@@ -45,6 +58,10 @@
     <select id="findCustomers" resultMap="CustomerMap">
         select  <include refid="customerCol"/>
         from customer where salesperson_id = #{salesperson_id} and customer_type != '过期客户'
+    </select>
+    <select id="findCustomers2" resultMap="CustomerMap">
+        select  <include refid="customerCol"/>
+        from customer where salesperson_id is null and customer_type != '过期客户'
     </select>
     <select id="findCusXq" resultType="com.trkj.crmproject.vo.CusXqVo">
         select customer.customer_id,customer.customer_name,customer.customer_type,customer.customer_source,customer.customer_stage,

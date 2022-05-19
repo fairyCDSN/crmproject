@@ -29,8 +29,8 @@ public class BsController {
 
     //报损列表  根据商品名称proName模糊查询
     @GetMapping("/selectBsproNamelike")
-    public AjaxResponse selectBsproNamelike(String proName){
-        return AjaxResponse.success(bsService.selectBsproNamelike(proName));
+    public AjaxResponse selectBsproNamelike(String proName,String ckName){
+        return AjaxResponse.success(bsService.selectBsproNamelike(proName,ckName));
     }
 
     //报损列表  根据报溢编号查询
