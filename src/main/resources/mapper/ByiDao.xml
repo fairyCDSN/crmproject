@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.ByiDao">
+    
+<!-- 报溢列表   查询全部（仓库名称，商品名称）-->
+    <select id="selectbyiAll" resultType="com.trkj.crmproject.vo.ByiVo">
+        select byi.byi_id,byi.byi_time,byi.number,byi.create_user,byi.bz,
+            product.pro_name,ck.ck_name from byi
+            left join product on product.pro_id=byi.pro_id
+            left join pd_pro on pd_pro.pro_id=product.pro_id
+            left join ck on pd_pro.ck_id= ck.ck_id
+    </select>
+
+<!--  报溢列表  根据商品名称proName模糊查询-->
+    <select id="selectByiproNamelike" resultType="com.trkj.crmproject.vo.ByiVo">
+        select byi.byi_id,byi.byi_time,byi.number,byi.create_user,byi.bz,
+            product.pro_name,ck.ck_name from byi
+            left join product on product.pro_id=byi.pro_id
+            left join pd_pro on pd_pro.pro_id=product.pro_id
+            left join ck on pd_pro.ck_id= ck.ck_id
+            where product.pro_name like '%${pro_name}%'
+    </select>
+
+<!--    报溢列表  根据报溢编号查询-->
+    <select id="selectByibyiId" resultType="com.trkj.crmproject.vo.ByiVo">
+        select byi.byi_id,byi.byi_time,byi.number,byi.create_user,byi.bz,
+            product.pro_name,ck.ck_name from byi
+            left join product on product.pro_id=byi.pro_id
+            left join pd_pro on pd_pro.pro_id=product.pro_id
+            left join ck on pd_pro.ck_id= ck.ck_id
+            where byi.byi_id=#{byi_id}
+    </select>
+
+<!--    报溢列表 修改（修改备注）-->
+    <update id="updateByi">
+        UPDATE byi SET bz=#{bz} WHERE byi_id=#{byiId}
+    </update>
+
+<!--    报溢列表  根据ckName查询全部-->
+    <select id="selectByickName" resultType="com.trkj.crmproject.vo.ByiVo">
+        select byi.byi_id,byi.byi_time,byi.number,byi.create_user,byi.bz,
+            product.pro_name,ck.ck_name from byi
+            left join product on product.pro_id=byi.pro_id
+            left join pd_pro on pd_pro.pro_id=product.pro_id
+            left join ck on pd_pro.ck_id= ck.ck_id
+            where ck.ck_name=#{ckName}
+    </select>
+
+</mapper>

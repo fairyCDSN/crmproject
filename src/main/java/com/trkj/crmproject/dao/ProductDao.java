@@ -5,6 +5,7 @@ import com.trkj.crmproject.vo.ProductVo;
 import com.trkj.crmproject.entity.mybatis_plus.Product;
 import com.trkj.crmproject.vo.ProductVo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,10 +17,16 @@ public interface ProductDao extends BaseMapper<Product> {
     public List<ProductVo> selectProckName();
 
     //商品清单  查询全部（根据proName模糊查询）
-    public List<ProductVo> selectProNamelike(String proName);
+//    public List<ProductVo> selectProNamelike(String proName);
+    public List<ProductVo> selectProNamelike(@Param("pro_name") String proName,@Param("cat_name") String catName,@Param("ck_name") String ckName);
 
-    //商品清单  查询全部（选择下拉框，根据ckName模糊查询）
-    public List<ProductVo> selectProckNamexz(String ckName);
+    //商品清单  查询全部（选择下拉框，根据catName查询）
+    public List<ProductVo> selectProcatNnameAll(String catName);
+    //商品清单  根据ckName查询全部（下拉框）
+    public List<ProductVo> selectProckNameAll(String ckName);
+
+    // 商品清单  查询商品详情
+    public ProductVo selectProIdxq(int proId);
 
 
 }

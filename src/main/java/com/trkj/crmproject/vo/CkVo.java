@@ -7,6 +7,6 @@ public class CkVo {
     private int ckId;
     private String ckName;
     private int ckState;
-    private String userName;
+    private String staffName;
     private int glyId;
 }

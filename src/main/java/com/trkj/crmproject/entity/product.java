@@ -14,7 +14,7 @@ public class product {
     private String proDw;
     private Double proMoney;
     private Double proCbj;
-    private int proKc;
+//    private int proKc;
     private String proSay;
-    private int ckId;
+//    private int ckId;
 }
