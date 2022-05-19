@@ -14,9 +14,12 @@ import java.util.List;
 
 public interface CustomerDao {
     public List<customer> findCustomers(int salesperson_id);
+    public List<customer> findCustomers2();
     public List<customer> findCustomer(@Param("customer_name")String customer_name,@Param("customer_stage") String customer_stage,
                                        @Param("create_time1") String create_time1,@Param("create_time2")String create_time2,
                                        @Param("salesperson_id")int salesperson_id);
+    public List<customer> findCustomer1(@Param("customer_name")String customer_name,@Param("customer_stage") String customer_stage,
+                                       @Param("create_time1") String create_time1,@Param("create_time2")String create_time2);
     public List<customer> findCustomer2(@Param("customer_name")String customer_name,@Param("customer_stage") String customer_stage,
                                        @Param("create_time1") String create_time1,@Param("create_time2")String create_time2,
                                        @Param("salesperson_id")int salesperson_id);
