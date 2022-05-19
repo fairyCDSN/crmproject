@@ -11,6 +11,7 @@
     <result column="staff_staff_wx" jdbcType="VARCHAR" property="staff_wx" />
     <result column="staff_staff_txdz" jdbcType="VARCHAR" property="staff_txdz" />
     <result column="staff_deptment_id" jdbcType="INTEGER" property="deptment_id" />
+    <result column="staff_staff_name" jdbcType="VARCHAR" property="staff_name" />
   </resultMap>
   <sql id="Base_Column_List">
     staff.staff_id as staff_staff_id, staff.user_id as staff_user_id, staff.post_id as staff_post_id, 
@@ -135,8 +136,8 @@
   </update>
 
   <select id="selectcgyid" resultMap="BaseResultMap">
-  select staff.staff_id
+  select staff.staff_id,staff.staff_name
   from staff
-  INNER JOIN post ON  staff.post_id=post.post_id WHERE post.post_name='采购员';
+  INNER JOIN post ON  staff.post_id=post.post_id WHERE post.post_name='采购员'
   </select>
 </mapper>

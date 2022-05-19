@@ -33,24 +33,24 @@ public class YgCotroller {
     private CaigouService caigouService;
 
     //采购计划，根据传入的数据，进行分页查询
-    @RequestMapping("/selectpurchaseplan")
-    public AjaxResponse selectpurchaseplan(Caigousq caigousq,int pageNum,int pageSize){
-        System.out.println("=============="+caigousq);
-        PageInfo<Caigousq> info= caigousqService.selectPurchaseplan(pageNum,pageSize,caigousq.getSqid(),caigousq.getSupplierId(),caigousq.getType());
-        return AjaxResponse.success(info);
-    }
+//    @RequestMapping("/selectpurchaseplan")
+//    public AjaxResponse selectpurchaseplan(Caigousq caigousq,int pageNum,int pageSize){
+//        System.out.println("=============="+caigousq);
+//        PageInfo<Caigousq> info= caigousqService.selectPurchaseplan(pageNum,pageSize,caigousq.getSqid(),caigousq.getSupplierId(),caigousq.getType());
+//        return AjaxResponse.success(info);
+//    }
 
 //    @RequestMapping("selectcgall")
 //    public AjaxResponse selectcgall(){
 //        return AjaxResponse.success(purchaseplanService.selectcgall());
 //    }
     //采购查询、加载页面调用方法查询并分页
-    @GetMapping("/findpur")
-    public AjaxResponse findpur(int pageNum,int pageSize){
-        System.out.println("11111111");
-        PageInfo<Caigousq> info=caigousqService.findpur(pageNum,pageSize);
-        return AjaxResponse.success(info);
-    }
+//    @GetMapping("/findpur")
+//    public AjaxResponse findpur(int pageNum,int pageSize){
+//        System.out.println("11111111");
+//        PageInfo<Caigousq> info=caigousqService.findpur(pageNum,pageSize);
+//        return AjaxResponse.success(info);
+//    }
 //    //采购查询、查询按钮，根据id查询
 //    @RequestMapping("selectcg")
 //    public AjaxResponse selectcg(int purId){
