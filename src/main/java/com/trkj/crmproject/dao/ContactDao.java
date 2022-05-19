@@ -8,10 +8,12 @@ import com.trkj.crmproject.vo.CusXqVo;
 import com.trkj.crmproject.vo.contactVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Mapper
+@Repository
 public interface ContactDao {
     public List<contactVo> findContacts(int salesperson_id);
     public List<contact> findContacts2(@Param("contactName") String contactName,@Param("customerName") String customerName,

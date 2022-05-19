@@ -1,4 +1,4 @@
-package com.trkj.crmproject.service;
+package com.trkj.crmproject.service.Impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -20,13 +20,24 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ContactServiceImpl implements ContactService {
     @Autowired
     private ContactDao contactDao;
     @Override
     public PageInfo<contactVo> findContacts(int pageNum, int pageSize, int salesperson_id) {
         Page<contact> page= PageHelper.startPage(pageNum,pageSize);
-        List<contact> list=contactDao.findContacts(salesperson_id);
+        List<contactVo> list=contactDao.findContacts(salesperson_id);
+        Page<contactVo> contacts=new Page<>();
+        BeanTools.copyList(list,contacts,contactVo.class);
+        PageInfo<contactVo> pageInfo=new PageInfo<>(contacts);
+        return pageInfo;
+    }
+
+    @Override
+    public PageInfo<contactVo> findContacts2(int pageNum, int pageSize,String contactName, String customerName,String customerType, int salesperson_id) {
+        Page<contact> page= PageHelper.startPage(pageNum,pageSize);
+        List<contact> list = contactDao.findContacts2(contactName,customerName, customerType,salesperson_id);
         Page<contactVo> contacts=new Page<>();
         BeanTools.copyList(list,contacts,contactVo.class);
         PageInfo<contactVo> pageInfo=new PageInfo<>(contacts);

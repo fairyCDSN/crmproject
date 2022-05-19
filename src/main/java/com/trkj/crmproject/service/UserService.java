@@ -1,6 +1,7 @@
 package com.trkj.crmproject.service;
 
 import com.github.pagehelper.PageInfo;
+import com.trkj.crmproject.entity.Users;
 import com.trkj.crmproject.entity.mybatis_plus.DeptMp;
 import com.trkj.crmproject.entity.mybatis_plus.PostMp;
 import com.trkj.crmproject.entity.mybatis_plus.StaffMp;
@@ -23,4 +24,9 @@ public interface UserService {
     public PageInfo<StaffMp> selectStaffByNameOrNum(int pageNum, int pageSize,String name,int bianhao,int deptid);
 
     public List<StaffVo> selectCountStaff();
+
+    //验证密码
+    public List<Users> checkPass(String oldPass,String userName);
+
+
 }

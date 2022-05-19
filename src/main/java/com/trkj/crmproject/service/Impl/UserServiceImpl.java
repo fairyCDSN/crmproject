@@ -149,4 +149,10 @@ public class UserServiceImpl implements UserService {
     public List<StaffVo> selectCountStaff(){
         return staffDao.countStaff();
     }
+
+    //验证密码是否正确
+    public List<Users> checkPass(String oldPass,String userName){
+        return staffDao.checkPass(oldPass,userName);
+    }
+
 }
