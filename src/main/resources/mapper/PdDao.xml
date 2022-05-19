@@ -4,9 +4,23 @@
 <mapper namespace="com.trkj.crmproject.dao.PdDao">
 
 
-<!--    盘点单  查询全部（根据proId外键查询proName-->
-    <select id="selectPdproName" resultType="com.trkj.crmproject.vo.PdVo">
-         select pd.pd_id,pd.state,pd.pd_title,pd.pd_time,pd.create_user,pd.bz,product.pro_name from pd
-            left join product on pd.pro_id=product.pro_id
+<!--    盘点单  查询全部（根据ckId中间表外键查询ckName-->
+    <select id="selectPdckNameAll" resultType="com.trkj.crmproject.vo.PdVo">
+         select pd.pd_id,pd.pd_time,pd.bz,ck.ck_name,users.user_name from pd
+            left join ck on ck.ck_id=pd.ck_id
+			left join staff on staff.staff_id=pd.staff_id
+			left join users on staff.user_id=users.user_id
+			group by pd.pd_id
+    </select>
+
+<!--    盘点单  查询全部（根据仓库名称查询）-->
+    <select id="selectPdckName" resultType="com.trkj.crmproject.vo.PdVo">
+        select pd.pd_id,pd.pd_time,pd.bz,ck.ck_name,users.user_name from pd
+            left join ck on ck.ck_id=pd.ck_id
+			left join staff on staff.staff_id=pd.staff_id
+			left join users on staff.user_id=users.user_id
+			where ck.ck_name=#{ckName}
+			group by pd.pd_id
+
     </select>
 </mapper>

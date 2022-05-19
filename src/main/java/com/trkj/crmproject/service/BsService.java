@@ -14,7 +14,7 @@ public interface BsService {
 
 
     //报损列表  根据商品名称proName模糊查询
-    List<BsVo> selectBsproNamelike(String proName);
+    List<BsVo> selectBsproNamelike(String proName,String ckName);
 
     //报损列表  根据报溢编号查询
     BsVo selectBsbsId(int bsId);
