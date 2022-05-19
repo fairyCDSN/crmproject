@@ -39,6 +39,17 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public PageInfo<customerVo> findCustomer1(int pageNum, int pageSize,String customer_name, String customer_stage,
+                                             String create_time1,String create_time2) {
+        Page<customer> page= PageHelper.startPage(pageNum,pageSize);
+        List<customer> list = customerDao.findCustomer1(customer_name,customer_stage,create_time1,create_time2);
+        Page<customerVo> customers=new Page<>();
+        BeanTools.copyList(list,customers,customerVo.class);
+        PageInfo<customerVo> pageInfo=new PageInfo<>(customers);
+        return pageInfo;
+    }
+
+    @Override
     public PageInfo<customerVo> findCustomer2(int pageNum, int pageSize,String customer_name, String customer_stage,
                                              String create_time1,String create_time2,int salesperson_id) {
         Page<customer> page= PageHelper.startPage(pageNum,pageSize);
@@ -53,6 +64,16 @@ public class CustomerServiceImpl implements CustomerService {
     public PageInfo<customerVo> findCustomers(int pageNum, int pageSize,int salesperson_id) {
         Page<customer> page= PageHelper.startPage(pageNum,pageSize);
         List<customer> list=customerDao.findCustomers(salesperson_id);
+        Page<customerVo> customers=new Page<>();
+        BeanTools.copyList(list,customers,customerVo.class);
+        PageInfo<customerVo> pageInfo=new PageInfo<>(customers);
+        return pageInfo;
+    }
+
+    @Override
+    public PageInfo<customerVo> findCustomers2(int pageNum, int pageSize) {
+        Page<customer> page= PageHelper.startPage(pageNum,pageSize);
+        List<customer> list=customerDao.findCustomers2();
         Page<customerVo> customers=new Page<>();
         BeanTools.copyList(list,customers,customerVo.class);
         PageInfo<customerVo> pageInfo=new PageInfo<>(customers);
