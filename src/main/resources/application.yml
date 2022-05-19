@@ -35,8 +35,8 @@ jwt:
   header: jwtAuth
   # Token前缀字符
   tokenPrefix: Security-c
-  # 过期时间毫秒
-  expire: 600000
+  # 过期时间毫秒[20分钟]
+  expire: 1200000
 
 
 

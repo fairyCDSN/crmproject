@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import lombok.Data;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @author
  */
 @Data
+@Mapper
 public class Users implements UserDetails {
     /**
      * id

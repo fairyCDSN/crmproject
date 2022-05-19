@@ -1,6 +1,8 @@
 package com.trkj.crmproject.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.trkj.crmproject.entity.Sonmenu;
+import com.trkj.crmproject.entity.mybatis_plus.SonmenuMp;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -9,7 +11,7 @@ import java.util.List;
 
 @Mapper
 @Repository
-public interface SonmenuDao {
+public interface SonmenuDao extends BaseMapper<SonmenuMp> {
     int deleteByPrimaryKey(Integer son_id);
 
     int insert(Sonmenu record);

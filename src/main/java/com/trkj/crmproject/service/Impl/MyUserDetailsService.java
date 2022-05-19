@@ -1,15 +1,13 @@
-package com.trkj.crmproject.service;
+package com.trkj.crmproject.service.Impl;
 
 
 import com.trkj.crmproject.dao.RoleDao;
 import com.trkj.crmproject.dao.SonmenuDao;
 import com.trkj.crmproject.dao.UsersDao;
-import com.trkj.crmproject.entity.Sonmenu;
 import com.trkj.crmproject.entity.Users;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -38,11 +36,11 @@ public class MyUserDetailsService implements UserDetailsService {
         log.debug("已经进入了MyUserDetailService");
         log.debug(username);
         //接收表单传来的用户信息进行查询
+        log.debug("这是查询出来的users:"+usersDao.selectByUserName(username));
         Users myUserDetails = usersDao.selectByUserName(username);
-        log.debug("这是myUserDetails"+myUserDetails.toString());
         //如果该用户不存在
         if(myUserDetails==null){
-            //抛出错误信息
+//            抛出错误信息
             throw new UsernameNotFoundException("用户不存在");
         }
         //开始查询该用户的角色信息【多表联查】

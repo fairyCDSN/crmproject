@@ -18,7 +18,7 @@
     </sql>
     <select id="findCustomer" resultMap="CustomerMap">
         select  <include refid="customerCol"/>
-        from customer where salesperson_id = #{salesperson_id}
+        from customer where salesperson_id = #{salesperson_id} and customer_type != '过期客户'
         <if test="customer_stage != null and customer_stage != ''">
             and customer_stage like '%${customer_stage}%'
         </if>
@@ -26,27 +26,59 @@
             and customer_name like '%${customer_name}%'
         </if>
         <if test="create_time1 != null and create_time1 != ''">
-            and date(create_time) between #{create_time1} and #{create_time2D
+            and date(create_time) between #{create_time1} and #{create_time2}
+        </if>
+    </select>
+    <select id="findCustomer1" resultMap="CustomerMap">
+        select  <include refid="customerCol"/>
+        from customer where salesperson_id is null and customer_type != '过期客户'
+        <if test="customer_stage != null and customer_stage != ''">
+            and customer_stage like '%${customer_stage}%'
+        </if>
+        <if test="customer_name != null and customer_name != ''">
+            and customer_name like '%${customer_name}%'
+        </if>
+        <if test="create_time1 != null and create_time1 != ''">
+            and date(create_time) between #{create_time1} and #{create_time2}
+        </if>
+    </select>
+    <select id="findCustomer2" resultMap="CustomerMap">
+        select  <include refid="customerCol"/>
+        from customer where (salesperson_id = #{salesperson_id} or salesperson_id is null-) and customer_type = '过期客户'
+        <if test="customer_stage != null and customer_stage != ''">
+            and customer_stage like '%${customer_stage}%'
+        </if>
+        <if test="customer_name != null and customer_name != ''">
+            and customer_name like '%${customer_name}%'
+        </if>
+        <if test="create_time1 != null and create_time1 != ''">
+            and date(create_time) between #{create_time1} and #{create_time2}
         </if>
     </select>
     <select id="findCustomers" resultMap="CustomerMap">
         select  <include refid="customerCol"/>
-        from customer where salesperson_id = #{salesperson_id}
+        from customer where salesperson_id = #{salesperson_id} and customer_type != '过期客户'
+    </select>
+    <select id="findCustomers2" resultMap="CustomerMap">
+        select  <include refid="customerCol"/>
+        from customer where salesperson_id is null and customer_type != '过期客户'
     </select>
     <select id="findCusXq" resultType="com.trkj.crmproject.vo.CusXqVo">
         select customer.customer_id,customer.customer_name,customer.customer_type,customer.customer_source,customer.customer_stage,
-        customer.remarks,customer.create_time,contact.contact_id,contact.contact_name,contact.work_phone,contact.my_phone,contact.Founder,
-        address.country,address.address_id,address.province,address.city,address.email,address.phone,address.fax
-        from customer,address,contact where customer.customer_id = #{customer_id} and
-         contact.customer_id = #{customer_id} and address.address_id = customer.address_id
+        customer.remarks,customer.create_time,address.country,address.province,address.city,address.email,address.phone,address.fax
+        from customer,address where customer.customer_id = #{customer_id} and address.address_id = customer.address_id
+    </select>
+    <select id="findCustomerById" resultType="java.lang.Integer">
+        select  customer_id from customer where customer_name=#{customer_name} and customer_stage=#{customer_stage}
+         and customer_type=#{customer_type} and customer_source=#{customer_source} and remarks=#{remarks} and address_id=#{address_id} and salesperson_id=#{salesperson_id}
     </select>
     <insert id="addCustomer" >
         insert into customer(salesperson_id,address_id, customer_name,customer_type,customer_source,customer_stage,remarks)
         values (#{salesperson_id},#{address_id}, #{customer_name},#{customer_type},#{customer_source},#{customer_stage},#{remarks})
     </insert>
-    <insert id="addContact">
-        insert into contact(customer_id,contact_name, work_phone,my_phone,Founder)
-        values (#{customer_id},#{contact_name}, #{work_phone},#{my_phone},#{salesperson_id})
+    <insert id="addConCus">
+        insert into cont_cust(contact_id,customer_id)
+        values (#{contact_id},#{customer_id})
     </insert>
     <update id="updateCustomer">
         update customer
@@ -63,10 +95,18 @@
         </set>
         where customer_id = #{customer_id}
     </update>
-    <delete id="deleteCustomerById">
-        delete from customer where customer_id = #{customer_id}
-    </delete>
-    <delete id="deleteContactById">
-        delete from contact where customer_id = #{customer_id}
-    </delete>
+    <update id="updataCustomerType1">
+        update customer
+        <set>
+            customer_type = '过期客户'
+        </set>
+        where customer_id = #{customer_id}
+    </update>
+    <update id="updataCustomerType2">
+        update customer
+        <set>
+            customer_type = '正式客户'
+        </set>
+        where customer_id = #{customer_id}
+    </update>
 </mapper>

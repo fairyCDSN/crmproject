@@ -1,8 +1,14 @@
-package com.trkj.crmproject.service;
+package com.trkj.crmproject.service.Impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.trkj.crmproject.dao.RoleDao;
 import com.trkj.crmproject.dao.SonmenuDao;
 import com.trkj.crmproject.entity.Sonmenu;
+import com.trkj.crmproject.entity.mybatis_plus.SonmenuMp;
+import com.trkj.crmproject.service.PermissionService;
+import com.trkj.crmproject.util.BeanTools;
 import com.trkj.crmproject.util.MenuUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +35,18 @@ public class PermissionServiceImpl implements PermissionService {
     private List<String> getRoleCodesByUname(String userName){
         log.debug("getRoleCodesByUname:"+roleDao.selectRoleByUserName(userName).toString());
         return roleDao.selectRoleByUserName(userName);
+    }
+
+
+    //查询所有菜单信息【分页】
+    public PageInfo<SonmenuMp> selectAllMenus(int pageNum,int pageSize){
+        Page<SonmenuMp> page=PageHelper.startPage(pageNum,pageSize);
+        List<SonmenuMp> sonmenuMps=sonmenuDao.selectList(null);
+        Page<SonmenuMp> mps=new Page<>();
+        BeanTools.copyList(sonmenuMps,mps,SonmenuMp.class);
+        PageInfo<SonmenuMp> pageInfo=new PageInfo<>(mps);
+        log.debug("这是查询到的菜单分页信息:{}",pageInfo);
+        return pageInfo;
     }
 
 }

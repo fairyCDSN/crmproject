@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trkj.crmproject.dao.CkDao">
-    <resultMap id="CkMap" type="com.trkj.crmproject.entity.Ck">
+    <resultMap id="CkMap" type="com.trkj.crmproject.entity.mybatis_plus.Ck">
         <id property="ckId" column="CKID"/>
         <result property="ckName" column="CKNAME"/>
         <result property="ckState" column="CKSTATE"/>
@@ -11,9 +11,8 @@
 
 <!--    仓库列表  查询全部（根据glyId,userId外键查询userName）-->
     <select id="selectCkuserName" resultType="com.trkj.crmproject.vo.CkVo">
-        select ck.ck_id,ck.ck_name,ck.ck_state,users.user_name from ck
+        select ck.ck_id,ck.ck_name,ck.ck_state,staff.staff_name from ck
             left join staff on ck.gly_id=staff.staff_id
-            left join users on staff.user_id=users.user_id
     </select>
 
 <!--    仓库列表  查询全部（根据CkName模糊查询）-->
@@ -27,13 +26,38 @@
 <!--    <select id="selectUserName" resultType="map">-->
 <!--        select user_name from users-->
 <!--    </select>-->
-<!--    查询管理员ID（staff表）-->
+<!--     //查询管理员username（glyId外键到staff表，userId到users表 ）-->
     <select id="selectGlyid" resultType="com.trkj.crmproject.vo.CkStaffVo">
-         select staff_id from staff
+         select staff.staff_name,staff.staff_id from staff
+            left join users on users.user_id=staff.user_id
+            left join user_role on user_role.users_id=users.user_id
+            left join role ON role.role_id = user_role.role_id
+            where role.role_name='仓库长'
     </select>
 
 <!--    仓库列表  删除（根据ckId把ckState改为1）-->
     <update id="updateCkState">
+        update ck set ck_state=0 where ck_id=#{ckId}
+    </update>
+
+    <!--    仓库列表  启用（根据ckId把ckState改为1）-->
+    <update id="updateCkState1">
         update ck set ck_state=1 where ck_id=#{ckId}
     </update>
+
+<!--    仓库列表 查询仓库的商品总数量为0的 -->
+    <select id="selectCknumber" resultType="java.lang.String">
+        select sum(pro_ck_number) as cknumber from pro_ck where ck_id=#{ckId}
+    </select>
+
+<!--    仓库管理 查询当前登录人的职位（角色名）（判断是否能修改仓库信息）-->
+    <select id="selectCkroleName" resultType="java.lang.String">
+         select role.role_name from role
+            left join user_role on user_role.role_id=role.role_id
+            left join users on users.user_id=user_role.users_id
+            where users.user_name=#{user_name}
+    </select>
+
+
 </mapper>
+

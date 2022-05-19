@@ -2,38 +2,69 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trkj.crmproject.dao.ProductDao">
-    <resultMap id="ProductMap" type="com.trkj.crmproject.entity.Product">
-        <id column="PROID" property="proId" />
-        <result column="PRONAME" property="proName"/>
-        <result column="PROGUIGE" property="proGuige"/>
-        <result column="PROXH" property="proXh"/>
-        <result column="PRODW" property="proDw"/>
-        <result column="PROMONEY" property="proMoney"/>
-        <result column="PROCBJ" property="proCbj"/>
-        <result column="PROKC" property="proKc"/>
-        <result column="CKID" property="ckId"/>
-    </resultMap>
 
-    <!--    商品清单  查询全部（根据ckId外键查询到ckName）-->
+    <!--    商品清单  查询全部（根据pro_id外键查询到pro_ck表的pro_ck_number的和）-->
     <select id="selectProckName" resultType="com.trkj.crmproject.vo.ProductVo">
-        select product.pro_id,product.pro_name,product.pro_guige,
-        product.pro_xh,product.pro_dw,product.pro_cbj,product.pro_money,product.pro_kc,ck.ck_name
-        from product left join ck on product.ck_id=ck.ck_id
+        select product.pro_id,product.pro_name,product.pro_guige,product.pro_money,
+            sum(pro_ck.pro_ck_number) as pro_ck_numbersum from product
+            left join pro_ck on pro_ck.pro_id=product.pro_id
+            group by product.pro_id
     </select>
 
     <!--    商品清单  查询全部（根据proName模糊查询）-->
     <select id="selectProNamelike" resultType="com.trkj.crmproject.vo.ProductVo">
-       select  product.pro_id,product.pro_name,product.pro_guige,
-        product.pro_xh,product.pro_dw,product.pro_cbj,product.pro_money,product.pro_kc,ck.ck_name
-        from product left join ck on product.ck_id=ck.ck_id where pro_name like '%${pro_name}%'
+        select p.pro_id,p.pro_name,p.pro_guige,p.pro_money,
+            sum(pro_ck.pro_ck_number) as pro_ck_numbersum from product p
+            left join pro_ck on pro_ck.pro_id=p.pro_id
+            left join ck on ck.ck_id=pro_ck.ck_id
+            left join pro_cat on pro_cat.pro_id=p.pro_id
+            left join category on category.cat_id=pro_cat.cat_id
+            <where>
+                <if test="param1!='' || param1==null">
+                    p.pro_name like '%${param1}%'
+                </if>
+                <if test="param2!='' || param2==null">
+                    and category.cat_name like '%${param2}%'
+                </if>
+                <if test="param3!='' || param3==null">
+                    and ck.ck_name like '%${param3}%'
+                </if>
+            </where>
+            group by p.pro_id
     </select>
 
-    <!--    商品清单  查询全部（选择下拉框，根据ckName模糊查询）-->
-    <select id="selectProckNamexz" resultType="com.trkj.crmproject.vo.ProductVo">
-        select product.pro_id,product.pro_name,product.pro_guige,
-        product.pro_xh,product.pro_dw,product.pro_cbj,product.pro_money,product.pro_kc,ck.ck_name
-        from product left join ck on product.ck_id=ck.ck_id
-        where ck.ck_name=#{ck_name}
+    <!--    商品清单  查询全部（选择下拉框，根据catName查询）-->
+    <select id="selectProcatNnameAll" resultType="com.trkj.crmproject.vo.ProductVo">
+       select product.pro_id,product.pro_name,product.pro_guige,product.pro_money,
+            sum(pro_ck.pro_ck_number) as pro_ck_numbersum from product
+            left join pro_ck on pro_ck.pro_id=product.pro_id
+            left join ck on ck.ck_id=pro_ck.ck_id
+            left join pro_cat on pro_cat.pro_id=product.pro_id
+            left join category on category.cat_id=pro_cat.cat_id
+            where category.cat_name=#{cat_name}
+            group by product.pro_id
     </select>
+
+    <!--    商品清单  根据ckName查询全部（下拉框）-->
+    <select id="selectProckNameAll" resultType="com.trkj.crmproject.vo.ProductVo">
+        select product.pro_id,product.pro_name,product.pro_guige,product.pro_money,
+            pro_ck.pro_ck_number as pro_ck_numbersum from product
+            left join pro_ck on pro_ck.pro_id=product.pro_id
+            left join ck on ck.ck_id=pro_ck.ck_id
+            where ck.ck_name=#{ck_name}
+            group by product.pro_id
+    </select>
+
+<!--    商品清单  查询商品详情-->
+    <select id="selectProIdxq" resultType="com.trkj.crmproject.vo.ProductVo">
+        select product.pro_id,product.pro_name,product.pro_guige,product.pro_money,product.pro_cbj,
+            product.pro_dw,product.pro_xh,product.pro_say,
+            sum(pro_ck.pro_ck_number) as pro_ck_numbersum from product
+            left join pro_ck on pro_ck.pro_id=product.pro_id
+            left join ck on ck.ck_id=pro_ck.ck_id
+            where product.pro_id=#{pro_id}
+    </select>
+
+
 
 </mapper>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.ContactDao">
+    <select id="findContacts" resultType="com.trkj.crmproject.vo.contactVo">
+        select contact.contact_id,customer_name,contact_name,work_phone,my_phone,customer_type,founder from cont_cust,customer,contact
+        where salesperson_id = #{salesperson_id} and cont_cust.customer_id = customer.customer_id and cont_cust.contact_id = contact.contact_id
+        and customer.customer_type != '过期客户'
+    </select>
+    <select id="findContacts2" resultType="com.trkj.crmproject.entity.contact">
+        select contact.contact_id,customer_name,contact_name,work_phone,my_phone,customer_type,founder from cont_cust,customer,contact
+        where salesperson_id = #{salesperson_id} and cont_cust.customer_id = customer.customer_id and cont_cust.contact_id = contact.contact_id
+          and customer_type != '过期客户'
+        <if test="customerName != null and customerName != ''">
+            and customer_name like '%${customerName}%'
+        </if>
+        <if test="contactName != null and contactName != ''">
+            and contact_name like '%${contactName}%'
+        </if>
+        <if test="customerType != null and customerType != ''">
+            and customer_type like '%${customerType}%'
+        </if>
+    </select>
+    <select id="findContactById" resultType="java.lang.Integer">
+        select  contact_id from contact where contact_name=#{contact_name} and work_phone=#{work_phone} and my_phone=#{my_phone}
+    </select>
+    <select id="findConXq" resultType="com.trkj.crmproject.entity.CusXq">
+        select customer.customer_name,contact.contact_id,contact.contact_name,contact.work_phone,contact.my_phone,contact.founder,
+        contact.create_time from contact,cont_cust,customer where customer.customer_id = cont_cust.customer_id and
+        contact.contact_id = cont_cust.contact_id and cont_cust.customer_id = #{customer_id}
+    </select>
+    <select id="findConCusXq" resultType="com.trkj.crmproject.vo.CusXqVo">
+        select customer.customer_id,customer.customer_name,customer.customer_type,customer.customer_source,customer.customer_stage,
+        customer.remarks,customer.create_time,address.country,address.province,address.city,address.email,address.phone,address.fax,
+        contact.contact_id,contact.contact_name,contact.work_phone,contact.my_phone,contact.founder,contact.create_time
+        from contact,cont_cust,customer,address where customer.customer_id = cont_cust.customer_id and address.address_id = customer.address_id
+        and contact.contact_id = cont_cust.contact_id and cont_cust.customer_id = #{customerId} and contact.contact_id=#{contactId}
+    </select>
+    <select id="findCustomerById" resultType="java.lang.Integer">
+        select customer_id from cont_cust where cont_cust.contact_id = #{contactId}
+    </select>
+    <update id="updateContact">
+        update contact
+        <set>
+            <if test="contactName != null">
+                contact_name = #{contactName},
+            </if>
+            <if test="myPhone != null">
+                my_phone = #{myPhone},
+            </if>
+            <if test="workPhone != null">
+                work_phone = #{workPhone},
+            </if>
+        </set>
+        where contact_id = #{contactId}
+    </update>
+    <select id="countContact" resultType="java.lang.Integer">
+        select count(*) from contact,cont_cust,customer where customer.customer_id = cont_cust.customer_id and
+        contact.contact_id = cont_cust.contact_id and cont_cust.customer_id = #{customer_id}
+    </select>
+    <insert id="addContact">
+        insert into contact(contact_name, work_phone,my_phone,Founder)
+        values (#{contact_name},#{work_phone},#{my_phone},#{salesperson_id})
+    </insert>
+    <delete id="deleteconCus">
+        delete from cont_cust where contact_id=#{contactId}
+    </delete>
+    <delete id="deletecontact">
+        delete from contact where contact_id=#{contactId}
+    </delete>
+</mapper>

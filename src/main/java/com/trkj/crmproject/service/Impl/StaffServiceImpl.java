@@ -1,7 +1,8 @@
-package com.trkj.crmproject.service;
+package com.trkj.crmproject.service.Impl;
 
 import com.trkj.crmproject.dao.StaffDao;
 import com.trkj.crmproject.entity.Staff;
+import com.trkj.crmproject.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

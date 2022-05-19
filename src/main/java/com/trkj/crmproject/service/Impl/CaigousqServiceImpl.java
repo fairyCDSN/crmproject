@@ -1,4 +1,4 @@
-package com.trkj.crmproject.service;
+package com.trkj.crmproject.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -9,6 +9,7 @@ import com.trkj.crmproject.dao.CaigousqDao;
 import com.trkj.crmproject.entity.Caigousq;
 import com.trkj.crmproject.exception.CustomError;
 import com.trkj.crmproject.exception.CustomErrorType;
+import com.trkj.crmproject.service.CaigousqService;
 import com.trkj.crmproject.util.BeanTools;
 import com.trkj.crmproject.vo.CaigousqVo;
 import org.springframework.beans.factory.annotation.Autowired;

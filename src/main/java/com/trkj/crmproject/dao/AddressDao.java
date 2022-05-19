@@ -7,6 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 public interface AddressDao {
     public int findAddById(AddVo addVo);
-    public int findCustomerById(AddVo addVo);
+    public int findAddressById(int customer_id);
     public int insertAddress(AddVo addVo);
 }

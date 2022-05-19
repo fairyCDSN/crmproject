@@ -13,12 +13,12 @@
     <result column="caigou_bz" jdbcType="VARCHAR" property="bz" />
   </resultMap>
   <sql id="Base_Column_List">
-    caigou.cg_id as caigou_cg_id, caigou.sqid as caigou_sqid, caigou.cg_time as caigou_cg_time, 
-    caigou.`state` as `caigou_state`, caigou.kejsr as caigou_kejsr, caigou.jsr as caigou_jsr, 
+    caigou.cg_id as caigou_cg_id, caigou.sqid as caigou_sqid, caigou.cg_time as caigou_cg_time,
+    caigou.`state` as `caigou_state`, caigou.kejsr as caigou_kejsr, caigou.jsr as caigou_jsr,
     caigou.cjr as caigou_cjr, caigou.state_time as caigou_state_time, caigou.bz as caigou_bz
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from caigou caigou
     where caigou.cg_id = #{cg_id,jdbcType=INTEGER}
@@ -137,7 +137,7 @@
     select c.cg_id caigou_cg_id,c.sqid caigou_sqid,c.cg_time caigou_cg_time,c.state `caigou_state`,c.kejsr caigou_kejsr,c.jsr caigou_jsr,c.cjr caigou_cjr,c.state_time caigou_state_time,c.bz caigou_bz
      from apprecords a inner join caigousq q on a.app_records_id=q.state_id
      inner join caigou c on c.sqid=q.sqid
-     where a.app_state='审批通过'
+     where a.app_state='已审批'
   </select>
 
   <select id="selectfkcgid" resultMap="BaseResultMap">

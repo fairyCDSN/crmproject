@@ -5,3 +5,28 @@ Content-Type: application/json
   "username":"wq",
   "password":"123456"
 }
+
+###
+GET http://localhost:8090/crmproject/selectAllDept?pageNum=1&pageSize=3
+Content-Type: application/json
+
+###
+GET http://localhost:8090/crmproject/selectAllStaff
+Content-Type: application/json
+
+###
+POST http://localhost:8090/crmproject/insertUser
+Content-Type: application/json
+
+{
+  "user_id": 1,
+  "post_id": 2,
+  "induction_time": "2022-05-10",
+  "staff_sex": "女",
+  "staff_qq":"1234567890",
+  "staff_wx":"1234567890",
+  "staff_txdz":"湖南省",
+  "deptment_id": 2
+}
+
+

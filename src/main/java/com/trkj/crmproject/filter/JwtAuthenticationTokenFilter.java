@@ -2,7 +2,7 @@ package com.trkj.crmproject.filter;
 
 
 import com.trkj.crmproject.entity.Users;
-import com.trkj.crmproject.service.MyUserDetailsService;
+import com.trkj.crmproject.service.Impl.MyUserDetailsService;
 import com.trkj.crmproject.util.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +38,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     // 令牌自定义标识
     @Value("${jwt.header}")
     private String header;
+
     @Resource
     JwtTokenUtil jwtTokenUtil;
 
@@ -49,6 +50,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
+//        log.debug(MyUserDetailsService.loadUserByUsername);
         String jwtToken = request.getHeader(header);
         log.info("在filter中，jwtToken:{}",jwtToken);
 //        Enumeration en= request.getHeaderNames();
