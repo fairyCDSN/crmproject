@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -92,15 +93,17 @@ public class ConfigController {
         return AjaxResponse.success();
     }
 
-    //根据用户id修改信息
+    //查询旧密码是否正确
+    @GetMapping("/checkPass")
+    public AjaxResponse checkPass(String oldPass,String userName){
+        return AjaxResponse.success(userService.checkPass(oldPass,userName));
+    }
 
-    //删除用户【修改用户使用状态】
-
-    //新增一个职务
-
-    //删除一个职务
-
-    //新增一个部门
+    //修改密码
+//    @PostMapping("/updateUser")
+//    public AjaxResponse updataUser(@RequestBody){
+//        return AjaxResponse.success();
+//    }
 
 
 }
