@@ -4,12 +4,14 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.trkj.crmproject.dao.BsDao;
+import com.trkj.crmproject.entity.Bs;
 import com.trkj.crmproject.service.BsService;
 import com.trkj.crmproject.util.BeanTools;
 import com.trkj.crmproject.vo.BsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -59,5 +61,14 @@ public class BsServiceImpl implements BsService {
     @Override
     public List<BsVo> selectBsckName(String ckName){
         return bsDao.selectBsckName(ckName);
+    }
+
+
+
+    //   报损列表 添加报损列表
+    @Override
+    public int insertBs(Bs bs){
+        bs.setBsTime(new Date());
+        return bsDao.insert(bs);
     }
 }

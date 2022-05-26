@@ -4,12 +4,15 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.trkj.crmproject.dao.ByiDao;
+import com.trkj.crmproject.entity.Byi;
 import com.trkj.crmproject.service.ByiService;
 import com.trkj.crmproject.util.BeanTools;
 import com.trkj.crmproject.vo.ByiVo;
+import com.trkj.crmproject.vo.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -60,5 +63,18 @@ public class ByiServiceImpl implements ByiService {
     @Override
     public List<ByiVo> selectByickName(String ckName){
         return byiDao.selectByickName(ckName);
+    }
+
+
+    // 报溢列表  查询当前登录的人
+    @Override
+    public String selectCreateUser(String userName){
+        return byiDao.selectCreateUser(userName);
+    }
+    //报溢列表 添加报溢表
+    @Override
+    public int insertByi(Byi byi){
+        byi.setByiTime(new Date());
+        return byiDao.insert(byi);
     }
 }

@@ -1,5 +1,6 @@
 package com.trkj.crmproject.vo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 @Data
@@ -12,6 +13,14 @@ public class ProductVo {
     private Double proMoney;
     private Double proCbj;
     private String proSay;
+
+    @TableField(exist = false)
+    private int sl;
+
+    @TableField(exist = false)
+    private int xsl;
+
+
 
     //仓库表 仓库名称（ckName)
     private String ckName;

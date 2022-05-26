@@ -14,5 +14,4 @@ public class Bs {
     private int number;
     private String createUser;
     private String bz;
-    private int pdId;
 }
