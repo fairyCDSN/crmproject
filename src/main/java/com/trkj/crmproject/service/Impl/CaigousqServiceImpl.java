@@ -11,6 +11,7 @@ import com.trkj.crmproject.exception.CustomError;
 import com.trkj.crmproject.exception.CustomErrorType;
 import com.trkj.crmproject.service.CaigousqService;
 import com.trkj.crmproject.util.BeanTools;
+import com.trkj.crmproject.vo.CaigousqVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,8 @@ public class CaigousqServiceImpl implements CaigousqService {
     //点击添加按钮，查询下拉框的值
     @Override
     public List<Caigousq> selectsupname() {
-        return dao.selectsupname();
+//        return dao.selectsupname();
+        return null;
     }
 
     @Override
@@ -41,22 +43,23 @@ public class CaigousqServiceImpl implements CaigousqService {
 
     @Override
     public PageInfo<Caigousq> selectPurchaseplan(int pageNum, int pageSize, Integer sqid, Integer supplierId, String type) {
-        QueryWrapper<Caigousq> qw=new QueryWrapper<>();
-        if(sqid!=0){
-            qw.eq("sqid",sqid);
-        }
-        if(supplierId!=0){
-            qw.eq("supplier_id",supplierId);
-        }
-        if(type!=""){
-            qw.eq("type",type);
-        }
-        Page<Caigousq> page=PageHelper.startPage(pageNum,pageSize);
-        List<Caigousq> pur= dao.selectList(qw);
-        Page<Caigousq> d=new Page<>();
-        BeanTools.copyList(pur,d,Caigousq.class);
-        PageInfo<Caigousq> pageInfo=new PageInfo<>(d);
-        return pageInfo;
+//        QueryWrapper<Caigousq> qw=new QueryWrapper<>();
+//        if(sqid!=0){
+//            qw.eq("sqid",sqid);
+//        }
+//        if(supplierId!=0){
+//            qw.eq("supplier_id",supplierId);
+//        }
+//        if(type!=""){
+//            qw.eq("type",type);
+//        }
+//        Page<Caigousq> page=PageHelper.startPage(pageNum,pageSize);
+//        List<Caigousq> pur= dao.selectList(qw);
+//        Page<Caigousq> d=new Page<>();
+//        BeanTools.copyList(pur,d,Caigousq.class);
+//        PageInfo<Caigousq> pageInfo=new PageInfo<>(d);
+//        return pageInfo;
+        return null;
     }
 
     @Override
@@ -71,15 +74,46 @@ public class CaigousqServiceImpl implements CaigousqService {
 
     @Override
     public List<Caigousq> selectsqid() {
-        return dao.selectsqid();
+//        return dao.selectsqid();
+        return null;
     }
 
     @Override
     public int updatestate(int sqid, String usestate) {
-        UpdateWrapper<Caigousq> uw=new UpdateWrapper<>();
-        uw.set("usestate",usestate).eq("sqid",sqid);
-        int update=dao.update(null,uw);
-        return update;
+//        UpdateWrapper<Caigousq> uw=new UpdateWrapper<>();
+//        uw.set("usestate",usestate).eq("sqid",sqid);
+//        int update=dao.update(null,uw);
+//        return update;
+        return 0;
+    }
+
+    @Override
+    public PageInfo<Caigousq> selectcgsqdd(int pageNum, int pageSize, String cgDh, Integer total) {
+        QueryWrapper<Caigousq> qw=new QueryWrapper<>();
+        if (cgDh!=""){
+            qw.like("cg_dh",cgDh);
+        }
+        if (total!=0){
+            qw.between("total",0,total);
+        }
+        Page<Caigousq> page=PageHelper.startPage(pageNum,pageSize);
+        List<Caigousq> pur= dao.selectList(qw);
+        Page<Caigousq> d=new Page<>();
+        BeanTools.copyList(pur,d,Caigousq.class);
+        PageInfo<Caigousq> pageInfo=new PageInfo<>(d);
+        return pageInfo;
+    }
+
+    @Override
+    public List<CaigousqVo> selectcgmx(int sqid) {
+        return dao.selectcgmx(sqid);
+    }
+
+    @Override
+    public Caigousq selectcgsqid(int sqid) {
+        Caigousq caigousq=dao.selectById(sqid);
+        System.out.println("我在impl层"+caigousq);
+        return caigousq;
     }
 
 }

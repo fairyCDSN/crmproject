@@ -17,7 +17,7 @@ public interface CustomerService {
     public PageInfo<customerVo> findCustomer1(int pageNum, int pageSize,String customer_name,String customer_stage,String create_time1,
                                               String create_time2);
     public PageInfo<customerVo> findCustomer2(int pageNum, int pageSize,String customer_name,
-                                             String customer_stage,String create_time1,String create_time2,int salesperson_id);
+                                              String customer_stage,String create_time1,String create_time2,int salesperson_id);
     public CusXqVo findCusXq(int customer_id);
     public int findCustomerById(AddVo addVo);
     public AddVo addCustomer(AddVo addVo);

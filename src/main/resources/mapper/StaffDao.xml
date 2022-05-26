@@ -178,4 +178,8 @@
     GROUP BY d.department_id
   </select>
 
+  <select id="checkPass" resultType="com.trkj.crmproject.entity.Users">
+    select * from user where user_name=#{name} and user_pass=#{pass}
+  </select>
+
 </mapper>

@@ -2,7 +2,6 @@ package com.trkj.crmproject.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.trkj.crmproject.service.AddressService;
-import com.trkj.crmproject.service.ContactService;
 import com.trkj.crmproject.service.CustomerService;
 import com.trkj.crmproject.vo.AddVo;
 import com.trkj.crmproject.vo.AjaxResponse;
@@ -19,72 +18,40 @@ public class CustomerController {
     private CustomerService customerService;
     @Autowired
     private AddressService addressService;
-    @Autowired
-    private ContactService contactService;
 
     @GetMapping("/findCustomers")
     public AjaxResponse findCustomers(int pageNum, int pageSize,int salesperson_id){
         PageInfo<customerVo> info=customerService.findCustomers(pageNum,pageSize,salesperson_id);
         return AjaxResponse.success(info);
     }
-    @GetMapping("/findCustomers2")
-    public AjaxResponse findCustomers2(int pageNum, int pageSize){
-        PageInfo<customerVo> info=customerService.findCustomers2(pageNum,pageSize);
-        return AjaxResponse.success(info);
-    }
     @GetMapping("/findCustomer")
-    public AjaxResponse findCustomer(int pageNum, int pageSize,String customer_name, String customer_stage,String create_time1,
-                                     String create_time2,int salesperson_id){
-        PageInfo<customerVo> info=customerService.findCustomer(pageNum,pageSize,customer_name,customer_stage,
-                create_time1,create_time2,salesperson_id);
-        return AjaxResponse.success(info);
-    }
-    @GetMapping("/findCustomer1")
-    public AjaxResponse findCustomer1(int pageNum, int pageSize,String customer_name, String customer_stage,String create_time1,
-                                     String create_time2){
-        PageInfo<customerVo> info=customerService.findCustomer1(pageNum,pageSize,customer_name,customer_stage,
-                create_time1,create_time2);
-        return AjaxResponse.success(info);
-    }
-    @GetMapping("/findCustomer2")
-    public AjaxResponse findCustomer2(int pageNum, int pageSize,String customer_name, String customer_stage,String create_time1,
-                                     String create_time2,int salesperson_id){
-        PageInfo<customerVo> info=customerService.findCustomer2(pageNum,pageSize,customer_name,customer_stage,
-                create_time1,create_time2,salesperson_id);
-        return AjaxResponse.success(info);
+    public AjaxResponse findCustomer(String customer_name, String customer_stage,String create_time1,String create_time2,int salesperson_id){
+        return AjaxResponse.success(customerService.findCustomer(customer_name,customer_stage,create_time1,create_time2,salesperson_id));
     }
     @GetMapping("/findCusXq")
     public AjaxResponse findCusXq(int customer_id){
+        System.out.println();
         return AjaxResponse.success(customerService.findCusXq(customer_id));
     }
-
-    @PostMapping("/addCustomer")
+    @PostMapping("/addcustomer")
     public AjaxResponse addCustomer(@RequestBody AddVo addVo){
-        System.out.println(addVo+"asdasdasfdjkvbasdjkbnglaskjdbfakl");
         addressService.insertAddress(addVo);
         int address_id=addressService.findAddById(addVo);
         addVo.setAddress_id(address_id);
         customerService.addCustomer(addVo);
-        int customer_id=customerService.findCustomerById(addVo);
+        int customer_id=addressService.findCustomerById(addVo);
         addVo.setCustomer_id(customer_id);
-        contactService.addContact(addVo);
-        int contact_id=contactService.findContactById(addVo);
-        addVo.setContact_id(contact_id);
-        customerService.addConCus(addVo);
+        customerService.addContact(addVo);
         return AjaxResponse.success();
     }
     @PutMapping("/customer")
     public AjaxResponse updateCustomer(@RequestBody customerVo customerVo){
+        System.out.println("customerVo"+customerVo);
         return AjaxResponse.success(customerService.updateCustomer(customerVo));
     }
-
-    @PutMapping("/customers")
-    public AjaxResponse delCustomer(@RequestBody int customer_id){
-        return AjaxResponse.success(customerService.updataCustomerType1(customer_id));
-    }
-
-    @PutMapping("/customers2")
-    public AjaxResponse delCustomers(@RequestBody int customer_id){
-        return AjaxResponse.success(customerService.updataCustomerType2(customer_id));
+    @DeleteMapping("/customer/{customer_id}")
+    public AjaxResponse delCustomer(@PathVariable("customer_id") int customer_id){
+        customerService.deleteContactById(customer_id);
+        return AjaxResponse.success(customerService.deleteCustomerById(customer_id));
     }
 }

@@ -9,6 +9,7 @@ import com.trkj.crmproject.vo.customerVo;
 
 import java.util.List;
 
+
 public interface ContactService {
     public PageInfo<contactVo> findContacts(int pageNum, int pageSize, int salesperson_id);
     public PageInfo<contactVo> findContacts2(int pageNum, int pageSize,String contactName, String customerName,String customerType, int salesperson_id);
