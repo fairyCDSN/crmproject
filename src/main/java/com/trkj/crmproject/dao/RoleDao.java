@@ -1,14 +1,17 @@
 package com.trkj.crmproject.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.trkj.crmproject.entity.Role;
+import com.trkj.crmproject.entity.mybatis_plus.RoleMp;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 @Mapper
-public interface RoleDao {
+public interface RoleDao extends BaseMapper<RoleMp> {
     int deleteByPrimaryKey(Integer role_id);
 
     int insert(Role record);
@@ -21,6 +24,12 @@ public interface RoleDao {
 
     int updateByPrimaryKey(Role record);
 
+    int updateState(@Param("id") int id, @Param("state") int state);
+
     //根据用户角色关系表联立用户表查询角色信息【多表查询】
     List<String> selectRoleByUserName(String username);
+
+    int selectRoleIdByUserName(String username);
+
+    String selectRoleName(int roleId);
 }

@@ -16,25 +16,29 @@ import java.util.List;
 @Component
 @Mapper
 public interface StaffDao extends BaseMapper<StaffMp> {
-    int deleteByPrimaryKey(Integer staff_id);
 
     int insert(Staff record);
 
-    int insertSelective(Staff record);
-
-    Staff selectByPrimaryKey(Integer staff_id);
-
-    int updateByPrimaryKeySelective(Staff record);
-
-    int updateByPrimaryKey(Staff record);
-
     public List<Staff> selectcgyid();
 
-    public List<StaffMp> selectStaffByNameAndId(String name,int id,int deptid);
+    public List<StaffVo> selectStaffByNameAndId(String name,int id,int deptid);
 
-    public List<StaffMp> selectStaffByDeptId(int deptid);
+    public List<StaffVo> selectStaffByDeptId(int deptid);
 
     List<StaffVo> countStaff();
 
+    String getOldPass(@Param("name") String userName);
+
     List<Users> checkPass(@Param("pass") String oldPass,@Param("name") String userName);
+
+    int updatePass(@Param("name") String userName,@Param("pass") String oldPass,@Param("newPass") String NewPass);
+
+    List<StaffVo> selectByRoleId();
+
+    List<StaffVo> selectByRoleId(@Param("id") int id);
+
+    List<StaffVo> selectStaffVo();
+
+    StaffVo selectDeptNameAndPostNameByRole(@Param("name") String name);
+
 }

@@ -2,6 +2,7 @@ package com.trkj.crmproject.entity.mybatis_plus;
 
 import java.io.Serializable;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -26,4 +27,11 @@ public class DeptMp {
      * 部门地址
      */
     private String departmentAddress;
+
+    /**
+     * 总收益
+     */
+    @TableField(exist = false)
+    private int countNum;
+
 }

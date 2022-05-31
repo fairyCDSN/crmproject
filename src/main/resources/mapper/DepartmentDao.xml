@@ -6,6 +6,15 @@
     <result column="department_department_name" jdbcType="VARCHAR" property="department_name" />
     <result column="department_department_address" jdbcType="VARCHAR" property="department_address" />
   </resultMap>
+
+  <resultMap id="Dept" type="com.trkj.crmproject.vo.DeptVo">
+    <id column="department_id" jdbcType="INTEGER" property="department_id" />
+    <result column="department_name" jdbcType="VARCHAR" property="department_name" />
+    <result column="department_address" jdbcType="VARCHAR" property="department_address" />
+  </resultMap>
+
+
+
   <sql id="Base_Column_List">
     department.department_id as department_department_id, department.department_name as department_department_name,
     department.department_address as department_department_address
@@ -63,4 +72,28 @@
       department_address = #{department_address,jdbcType=VARCHAR}
     where department_id = #{department_id,jdbcType=INTEGER}
   </update>
+
+
+<!--  查询部门人数-->
+  <select id="selectAllDept" resultMap="Dept">
+        select d.*,count(deptment_id) countNum from department d
+        left join staff s on s.deptment_id=d.department_id
+        group by d.department_id
+  </select>
+
+<!--  按条件查询部门信息-->
+  <select id="selectDeptByNumOrDeptId" resultMap="Dept">
+        select d.*,count(deptment_id) countNum from department d
+        left join staff s on s.deptment_id=d.department_id
+        <where>
+          <if test="param1!=0 ">
+            d.department_id = #{param1}
+          </if>
+          <if test="param2!=0 ">
+            and d.department_id = #{param2}
+          </if>
+        </where>
+        group by d.department_id
+
+  </select>
 </mapper>
