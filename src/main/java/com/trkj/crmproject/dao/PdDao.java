@@ -22,4 +22,7 @@ public interface PdDao extends BaseMapper<Pd> {
 
     //盘点单 根据盘点ID查询盘点信息
     PdVo selectPdId(int pdId);
+
+    //盘点单  通过按钮 根据时间，仓库查询
+    List<PdVo> selectPdckNameandTime(String ckName,String kspdTime,String jspdTime);
 }

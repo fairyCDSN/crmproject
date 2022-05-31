@@ -28,4 +28,7 @@ public interface PdService {
     //盘点单 修改,四表改
     int updatePd(Pd pd);
 
+    //盘点单  通过按钮 根据时间，仓库查询
+    List<PdVo> selectPdckNameandTime(String ckName,String kspdTime,String jspdTime);
+
 }

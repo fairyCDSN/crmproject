@@ -138,4 +138,11 @@ public class PdServiceImpl implements PdService {
 
         return pdDao.updateById(pd);
     }
+
+
+    //盘点单  通过按钮 根据时间，仓库查询
+    @Override
+    public List<PdVo> selectPdckNameandTime(String ckName,String kspdTime,String jspdTime){
+        return pdDao.selectPdckNameandTime(ckName,kspdTime,jspdTime);
+    }
 }

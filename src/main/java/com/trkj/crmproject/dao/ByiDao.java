@@ -17,7 +17,7 @@ public interface ByiDao extends BaseMapper<Byi> {
     List<ByiVo> selectbyiAll();
 
     //报溢列表  根据商品名称proName模糊查询
-    List<ByiVo> selectByiproNamelike(String proName,String ckName);
+    List<ByiVo> selectByiproNamelike(String proName,String ckName,String ksbyiTime,String jsbyiTime);
 
     //报溢列表  根据报溢编号查询
     ByiVo selectByibyiId(int byiId);

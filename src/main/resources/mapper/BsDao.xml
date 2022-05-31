@@ -26,6 +26,9 @@
             <if test="param2!='' || param2==null">
                 and ck.ck_name like '%${param2}%'
             </if>
+            <if test="param3!='' || param3==null ||param4!='' || param4==null">
+                and date(bs.bs_time) between #{param3} and #{param4}
+            </if>
         </where>
     </select>
 

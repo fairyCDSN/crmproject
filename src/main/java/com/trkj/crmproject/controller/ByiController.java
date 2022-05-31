@@ -5,7 +5,6 @@ import com.trkj.crmproject.entity.Byi;
 import com.trkj.crmproject.service.ByiService;
 import com.trkj.crmproject.vo.AjaxResponse;
 import com.trkj.crmproject.vo.ByiVo;
-import com.trkj.crmproject.vo.ProductVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,8 +32,9 @@ public class ByiController {
 
     //报溢列表  根据商品名称proName模糊查询
     @GetMapping("/selectByiproNamelike")
-    public AjaxResponse selectByiproNamelike(String proName,String ckName){
-        return AjaxResponse.success(byiService.selectByiproNamelike(proName,ckName));
+    public AjaxResponse selectByiproNamelike(String proName,String ckName,String ksbyiTime,String jsbyiTime){
+        log.debug("开始时间"+ksbyiTime+"结束时间"+jsbyiTime);
+        return AjaxResponse.success(byiService.selectByiproNamelike(proName,ckName,ksbyiTime,jsbyiTime));
     }
 
     //报溢列表  根据报溢编号查询

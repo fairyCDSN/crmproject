@@ -30,5 +30,8 @@ public class ProductVo {
     private int proCkNumbersum;
     //库存数量
     private int proCkNumber;
+
+    //调拨与商品中间表  调拨数量、
+    private int dbNumber;
 }
 

@@ -60,4 +60,10 @@ public class PdController {
         log.debug("盘点单修改数据："+pd);
         return AjaxResponse.success(pdService.updatePd(pd));
     }
+
+    //盘点单  通过按钮 根据时间，仓库查询
+    @GetMapping("/selectPdckNameandTime")
+    public AjaxResponse selectPdckNameandTime(String ckName,String kspdTime,String jspdTime){
+        return AjaxResponse.success(pdService.selectPdckNameandTime(ckName,kspdTime,jspdTime));
+    }
 }

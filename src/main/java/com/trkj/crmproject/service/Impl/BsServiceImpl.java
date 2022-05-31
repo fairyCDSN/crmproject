@@ -40,8 +40,8 @@ public class BsServiceImpl implements BsService {
 
     //报损列表  根据商品名称proName模糊查询
     @Override
-    public List<BsVo> selectBsproNamelike(String proName,String ckName){
-        return bsDao.selectBsproNamelike(proName,ckName);
+    public List<BsVo> selectBsproNamelike(String proName,String ckName,String ksbsTime,String jsbsTime){
+        return bsDao.selectBsproNamelike(proName,ckName,ksbsTime,jsbsTime);
     }
 
     //报损列表  根据报溢编号查询
