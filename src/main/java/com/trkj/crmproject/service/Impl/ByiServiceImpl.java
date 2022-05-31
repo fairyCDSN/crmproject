@@ -42,8 +42,8 @@ public class ByiServiceImpl implements ByiService {
 
     //报溢列表  根据商品名称proName模糊查询
     @Override
-    public List<ByiVo> selectByiproNamelike(String proName,String ckName){
-        return byiDao.selectByiproNamelike(proName,ckName);
+    public List<ByiVo> selectByiproNamelike(String proName,String ckName,String ksbyiTime,String jsbyiTime){
+        return byiDao.selectByiproNamelike(proName,ckName,ksbyiTime,jsbyiTime);
     }
 
     //报溢列表  根据报溢编号查询
