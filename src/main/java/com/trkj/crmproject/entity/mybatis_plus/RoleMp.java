@@ -1,49 +1,47 @@
-package com.trkj.crmproject.entity;
+package com.trkj.crmproject.entity.mybatis_plus;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
  * role
  * @author
  */
 @Data
-public class Role implements Serializable {
+@TableName("role")
+public class RoleMp implements Serializable {
     /**
      * 角色id
      */
-    private Integer role_id;
+    private Integer roleId;
 
     /**
      * 角色名称
      */
-    private String role_name;
+    private String roleName;
 
     /**
      * 角色描述
      */
-    private String role_desc;
+    private String roleDesc;
 
     /**
      * 角色顺序
      */
-    private Integer role_sort;
+    private Integer roleSort;
 
     /**
      * 是否可用
      */
-    private Integer is_use;
+    private Integer isUse;
 
     /**
      * 创建时间
      */
-    private Date create_time;
-
-    //权限菜单
-    private List<Sonmenu> sonmenuList;
+    private Date createTime;
 
     private static final long serialVersionUID = 1L;
 }

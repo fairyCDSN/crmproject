@@ -24,5 +24,12 @@ public interface ByiService {
 
     //报溢列表  根据ckName查询全部
     List<ByiVo> selectByickName(String ckName);
+
+
+
+    // 报溢列表  查询当前登录的人
+    String selectCreateUser(String userName);
+    //    报溢列表 添加报溢表
+    int insertByi(Byi byi);
     
 }

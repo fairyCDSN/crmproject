@@ -2,19 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trkj.crmproject.dao.RoleDao">
   <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Role">
-    <id column="role_role_id" jdbcType="INTEGER" property="role_id" />
-    <result column="role_role_name" jdbcType="VARCHAR" property="role_name" />
-    <result column="role_role_desc" jdbcType="VARCHAR" property="role_desc" />
-    <result column="role_role_sort" jdbcType="INTEGER" property="role_sort" />
-    <result column="role_is_use" jdbcType="INTEGER" property="is_use" />
-    <result column="role_create_time" jdbcType="TIMESTAMP" property="create_time" />
+    <id column="role_id" jdbcType="INTEGER" property="role_id" />
+    <result column="role_name" jdbcType="VARCHAR" property="role_name" />
+    <result column="role_desc" jdbcType="VARCHAR" property="role_desc" />
+    <result column="role_sort" jdbcType="INTEGER" property="role_sort" />
+    <result column="is_use" jdbcType="INTEGER" property="is_use" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
   </resultMap>
   <sql id="Base_Column_List">
     role.role_id as role_role_id, role.role_name as role_role_name, role.role_desc as role_role_desc,
     role.role_sort as role_role_sort, role.is_use as role_is_use, role.create_time as role_create_time
   </sql>
 
-  <!--  根据用户名称查询角色信息-->
+<!--  根据用户名称查询角色信息-->
   <select id="selectRoleByUserName" resultType="java.lang.String" parameterType="string">
     SELECT r.role_name  FROM role r
     LEFT JOIN user_role ur ON r.role_id = ur.role_id
@@ -22,6 +22,17 @@
     WHERE u.user_name = #{username}
   </select>
 
+  <!--  根据用户名称查询角色信息-->
+  <select id="selectRoleIdByUserName" resultType="java.lang.Integer">
+    SELECT r.role_id FROM role r
+    LEFT JOIN user_role ur ON r.role_id = ur.role_id
+    LEFT JOIN users u ON u.user_id = ur.users_id
+    WHERE u.user_name = #{username}
+  </select>
+
+  <select id="selectRoleName" resultType="java.lang.String">
+    SELECT role_name FROM role where role_id = #{roleId}
+  </select>
 
 
 
@@ -108,6 +119,12 @@
       is_use = #{is_use,jdbcType=INTEGER},
       create_time = #{create_time,jdbcType=TIMESTAMP}
     where role_id = #{role_id,jdbcType=INTEGER}
+  </update>
+<!--  修改状态-->
+  <update id="updateState">
+    update role
+    set is_use = #{state}
+    where role_id = #{id}
   </update>
 
   <select id="selectrolename" resultType="com.trkj.crmproject.vo.RoleVo">

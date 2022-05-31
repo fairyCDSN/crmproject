@@ -1,8 +1,10 @@
 package com.trkj.crmproject.vo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class PdVo {
@@ -14,6 +16,9 @@ public class PdVo {
 
     //仓库表
     private String ckName;
-    //用户表
-    private String userName;
+    //员工表
+    private String staffName;
+
+    @TableField(exist = false)
+    private List<ProductVo> product;
 }
