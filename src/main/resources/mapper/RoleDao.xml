@@ -14,6 +14,7 @@
     role.role_sort as role_role_sort, role.is_use as role_is_use, role.create_time as role_create_time
   </sql>
 
+  <!--  根据用户名称查询角色信息-->
   <select id="selectRoleByUserName" resultType="java.lang.String" parameterType="string">
     SELECT r.role_name  FROM role r
     LEFT JOIN user_role ur ON r.role_id = ur.role_id
@@ -108,4 +109,12 @@
       create_time = #{create_time,jdbcType=TIMESTAMP}
     where role_id = #{role_id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectrolename" resultType="com.trkj.crmproject.vo.RoleVo">
+   select a.app_id,a.role_id,r.role_name,f.staff_name,f.user_id from app_role a left join role r on a.role_id=r.role_id
+																											left join user_role u on r.role_id=u.users_id
+																											left join users s on u.users_id=s.user_id
+																											left join staff f on s.user_id=f.user_id
+    where a.app_id=1
+  </select>
 </mapper>

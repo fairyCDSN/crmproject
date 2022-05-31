@@ -1,22 +1,14 @@
-package com.trkj.crmproject.entity;
-
-import java.io.Serializable;
-import java.util.Date;
+package com.trkj.crmproject.vo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
-/**
- * parecord
- * @author 
- */
+import java.util.Date;
+
 @Data
-public class Parecord implements Serializable {
-    /**
-     * 付款计划id
-     */
+public class ParecordVo {
     @TableId(value = "paId",type = IdType.AUTO)
     private Integer paId;
 
@@ -67,7 +59,7 @@ public class Parecord implements Serializable {
      */
     private Integer stateId;
     @TableField(exist = false)
-    private int[] userId;
-
-    private static final long serialVersionUID = 1L;
+    private String staffName;
+    @TableField(exist = false)
+    private String cgDh;
 }

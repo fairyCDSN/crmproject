@@ -18,4 +18,6 @@ public interface CaigousqService {
     public PageInfo<Caigousq> selectcgsqdd(int pageNum,int pageSize,String cgDh,Integer total);
     public List<CaigousqVo> selectcgmx(int sqid);
     public Caigousq selectcgsqid(int sqid);
+    public int addcgsq(Caigousq caigousq);
+    public int updatecgsq(int stateId,int sqid);
 }
