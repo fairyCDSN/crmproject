@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Mapper
@@ -35,8 +36,9 @@ public class StaffVo {
     private String post_describe;
     //部门名称
     private String departmentName;
+    //职位名称
+    private String post_name;
 
-    //用户名称[密码默认为123456]
     private String user_name;
     //组织id
     private int org_id;
@@ -50,6 +52,8 @@ public class StaffVo {
 
     //每个部门的人数
     private int countNum;
+
+    private int[] menusId;
 
     public Date getInduction_time() {
         return induction_time;

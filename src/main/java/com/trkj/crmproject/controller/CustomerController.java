@@ -47,14 +47,14 @@ public class CustomerController {
     //根据客户名称、客户阶段、日期范围搜索所有状态不为过期客户的共享客户的客户信息
     @GetMapping("/findCustomer1")
     public AjaxResponse findCustomer1(int pageNum, int pageSize,String customer_name, String customer_stage,String create_time1,
-                                     String create_time2){
+                                      String create_time2){
         PageInfo<customerVo> info=customerService.findCustomer1(pageNum,pageSize,customer_name,customer_stage,
                 create_time1,create_time2);
         return AjaxResponse.success(info);
     }
     @GetMapping("/findCustomer2")
     public AjaxResponse findCustomer2(int pageNum, int pageSize,String customer_name, String customer_stage,String create_time1,
-                                     String create_time2,int salesperson_id){
+                                      String create_time2,int salesperson_id){
         PageInfo<customerVo> info=customerService.findCustomer2(pageNum,pageSize,customer_name,customer_stage,
                 create_time1,create_time2,salesperson_id);
         return AjaxResponse.success(info);

@@ -1,13 +1,17 @@
 package com.trkj.crmproject.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.trkj.crmproject.entity.Bs;
+import com.trkj.crmproject.entity.Byi;
 import com.trkj.crmproject.service.BsService;
 import com.trkj.crmproject.vo.AjaxResponse;
 import com.trkj.crmproject.vo.BsVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@Slf4j
 public class BsController {
 
     @Autowired
@@ -29,8 +33,8 @@ public class BsController {
 
     //报损列表  根据商品名称proName模糊查询
     @GetMapping("/selectBsproNamelike")
-    public AjaxResponse selectBsproNamelike(String proName){
-        return AjaxResponse.success(bsService.selectBsproNamelike(proName));
+    public AjaxResponse selectBsproNamelike(String proName,String ckName,String ksbsTime,String jsbsTime){
+        return AjaxResponse.success(bsService.selectBsproNamelike(proName,ckName,ksbsTime,jsbsTime));
     }
 
     //报损列表  根据报溢编号查询
@@ -50,5 +54,13 @@ public class BsController {
     @GetMapping("/selectBsckName")
     public AjaxResponse selectBsckName(String ckName){
         return AjaxResponse.success(bsService.selectBsckName(ckName));
+    }
+
+
+    // 报溢列表 添加报溢表
+    @PostMapping("/insertBs")
+    public AjaxResponse insertBs(@RequestBody Bs bs) {
+        log.debug("这是报损获取的对象：{}", bs);
+        return AjaxResponse.success(bsService.insertBs(bs));
     }
 }

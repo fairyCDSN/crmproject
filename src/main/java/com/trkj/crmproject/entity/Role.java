@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * role
@@ -40,6 +41,9 @@ public class Role implements Serializable {
      * 创建时间
      */
     private Date create_time;
+
+    //权限菜单
+    private List<Sonmenu> sonmenuList;
 
     private static final long serialVersionUID = 1L;
 }

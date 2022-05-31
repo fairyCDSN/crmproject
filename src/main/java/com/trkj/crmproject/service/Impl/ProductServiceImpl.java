@@ -7,6 +7,7 @@ import com.github.pagehelper.PageInfo;
 import com.trkj.crmproject.dao.CategoryDao;
 import com.trkj.crmproject.dao.ProductDao;
 import com.trkj.crmproject.entity.Category;
+import com.trkj.crmproject.entity.ProCk;
 import com.trkj.crmproject.entity.mybatis_plus.Product;
 import com.trkj.crmproject.service.ProductService;
 import com.trkj.crmproject.util.BeanTools;
@@ -69,19 +70,49 @@ public class ProductServiceImpl implements ProductService {
     }
 
     //商品清单  查询全部（选择下拉框，根据catName查询）
+    @Override
     public List<ProductVo> selectProcatNnameAll(String catName){
         return productDao.selectProcatNnameAll(catName);
     }
     //商品清单  根据ckName查询全部（下拉框）
+    @Override
     public List<ProductVo> selectProckNameAll(String ckName){
         return productDao.selectProckNameAll(ckName);
     }
 
 
     // 商品清单  查询商品详情
+    @Override
     public ProductVo selectProIdxq(int proId){
         return productDao.selectProIdxq(proId);
     }
+
+
+
+    //商品清单 根据ckid查询商品
+    @Override
+    public List<ProductVo> selectProckId(int ckId){
+        return productDao.selectProckId(ckId);
+    }
+
+    //商品清单 根据ckid,proId查询商品的库存
+    @Override
+    public int selectProckIdAndproId(int ckId , int proId){
+        return productDao.selectProckIdAndproId(ckId,proId);
+    }
+
+    //商品清单  根据仓库ID，商品ID，报损报溢的查询数量修改库存
+    @Override
+    public int updateProCkNumber(ProCk proCk){
+       return productDao.updateProCkNumber(proCk);
+    }
+
+    //盘点单  根据盘点ID查询商品
+    @Override
+    public List<ProductVo> selectPdIdproAll(int pdId){
+        return productDao.selectPdIdproAll(pdId);
+    }
+
 
     //zys
     @Override

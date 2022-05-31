@@ -55,18 +55,18 @@ public class CaigouServiceImpl implements CaigouService {
 
     @Override
     public int addsgdd(Caigou caigou) {
-        int row = dao.insert(caigou);
-        if (row==0){
-            throw new CustomError(CustomErrorType.DATABASE_OP_ERROR,"数据插入失败");
-        }
-        UpdateWrapper<Caigousq> uw=new UpdateWrapper<>();
-        String use="在使用";
-        uw.set("usestate",use).eq("sqid",caigou.getSqid());
-        int update=caigousqDao.update(null,uw);
-        if (update==0){
-            throw new CustomError(CustomErrorType.DATABASE_OP_ERROR,"修改失败");
-        }
-        return row;
+//        int row = dao.insert(caigou);
+//        if (row==0){
+//            throw new CustomError(CustomErrorType.DATABASE_OP_ERROR,"数据插入失败");
+//        }
+//        UpdateWrapper<Caigousq> uw=new UpdateWrapper<>();
+//        String use="在使用";
+//        uw.set("usestate",use).eq("sqid",caigou.getSqid());
+//        int update=caigousqDao.update(null,uw);
+//        if (update==0){
+//            throw new CustomError(CustomErrorType.DATABASE_OP_ERROR,"修改失败");
+//        }
+        return 0;
     }
 
     @Override

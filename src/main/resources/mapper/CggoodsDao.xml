@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.CggoodsDao">
+  <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Cggoods">
+    <id column="cggoods_gd_id" jdbcType="INTEGER" property="gdId" />
+    <result column="cggoods_supplier_id" jdbcType="INTEGER" property="supplierId" />
+    <result column="cggoods_gd_name" jdbcType="VARCHAR" property="gdName" />
+    <result column="cggoods_gd_price" jdbcType="INTEGER" property="gdPrice" />
+    <result column="cggoods_gd_number" jdbcType="INTEGER" property="gdNumber" />
+    <result column="cggoods_gd_guige" jdbcType="VARCHAR" property="gdGuige" />
+    <result column="cggoods_gd_type" jdbcType="VARCHAR" property="gdType" />
+    <result column="cggoods_gd_total" jdbcType="INTEGER" property="gdTotal" />
+    <result column="cggoods_bz" jdbcType="VARCHAR" property="bz" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    cggoods.gd_id as cggoods_gd_id, cggoods.supplier_id as cggoods_supplier_id, cggoods.gd_name as cggoods_gd_name, 
+    cggoods.gd_price as cggoods_gd_price, cggoods.gd_number as cggoods_gd_number, cggoods.gd_guige as cggoods_gd_guige, 
+    cggoods.gd_type as cggoods_gd_type, cggoods.gd_total as cggoods_gd_total, cggoods.bz as cggoods_bz
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cggoods cggoods
+    where cggoods.gd_id = #{gd_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cggoods
+    where gd_id = #{gd_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="gd_id" keyProperty="gd_id" parameterType="com.trkj.crmproject.entity.Cggoods" useGeneratedKeys="true">
+    insert into cggoods (supplier_id, gd_name, gd_price, 
+      gd_number, gd_guige, gd_type, 
+      gd_total, bz)
+    values (#{supplier_id,jdbcType=INTEGER}, #{gd_name,jdbcType=VARCHAR}, #{gd_price,jdbcType=INTEGER}, 
+      #{gd_number,jdbcType=INTEGER}, #{gd_guige,jdbcType=VARCHAR}, #{gd_type,jdbcType=VARCHAR}, 
+      #{gd_total,jdbcType=INTEGER}, #{bz,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="gd_id" keyProperty="gd_id" parameterType="com.trkj.crmproject.entity.Cggoods" useGeneratedKeys="true">
+    insert into cggoods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="supplier_id != null">
+        supplier_id,
+      </if>
+      <if test="gd_name != null">
+        gd_name,
+      </if>
+      <if test="gd_price != null">
+        gd_price,
+      </if>
+      <if test="gd_number != null">
+        gd_number,
+      </if>
+      <if test="gd_guige != null">
+        gd_guige,
+      </if>
+      <if test="gd_type != null">
+        gd_type,
+      </if>
+      <if test="gd_total != null">
+        gd_total,
+      </if>
+      <if test="bz != null">
+        bz,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="supplier_id != null">
+        #{supplier_id,jdbcType=INTEGER},
+      </if>
+      <if test="gd_name != null">
+        #{gd_name,jdbcType=VARCHAR},
+      </if>
+      <if test="gd_price != null">
+        #{gd_price,jdbcType=INTEGER},
+      </if>
+      <if test="gd_number != null">
+        #{gd_number,jdbcType=INTEGER},
+      </if>
+      <if test="gd_guige != null">
+        #{gd_guige,jdbcType=VARCHAR},
+      </if>
+      <if test="gd_type != null">
+        #{gd_type,jdbcType=VARCHAR},
+      </if>
+      <if test="gd_total != null">
+        #{gd_total,jdbcType=INTEGER},
+      </if>
+      <if test="bz != null">
+        #{bz,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trkj.crmproject.entity.Cggoods">
+    update cggoods
+    <set>
+      <if test="supplier_id != null">
+        supplier_id = #{supplier_id,jdbcType=INTEGER},
+      </if>
+      <if test="gd_name != null">
+        gd_name = #{gd_name,jdbcType=VARCHAR},
+      </if>
+      <if test="gd_price != null">
+        gd_price = #{gd_price,jdbcType=INTEGER},
+      </if>
+      <if test="gd_number != null">
+        gd_number = #{gd_number,jdbcType=INTEGER},
+      </if>
+      <if test="gd_guige != null">
+        gd_guige = #{gd_guige,jdbcType=VARCHAR},
+      </if>
+      <if test="gd_type != null">
+        gd_type = #{gd_type,jdbcType=VARCHAR},
+      </if>
+      <if test="gd_total != null">
+        gd_total = #{gd_total,jdbcType=INTEGER},
+      </if>
+      <if test="bz != null">
+        bz = #{bz,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where gd_id = #{gd_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.trkj.crmproject.entity.Cggoods">
+    update cggoods
+    set supplier_id = #{supplier_id,jdbcType=INTEGER},
+      gd_name = #{gd_name,jdbcType=VARCHAR},
+      gd_price = #{gd_price,jdbcType=INTEGER},
+      gd_number = #{gd_number,jdbcType=INTEGER},
+      gd_guige = #{gd_guige,jdbcType=VARCHAR},
+      gd_type = #{gd_type,jdbcType=VARCHAR},
+      gd_total = #{gd_total,jdbcType=INTEGER},
+      bz = #{bz,jdbcType=VARCHAR}
+    where gd_id = #{gd_id,jdbcType=INTEGER}
+  </update>
+
+  <select id="findgoods" resultType="com.trkj.crmproject.vo.CggoodsVo">
+select c.gd_id,c.gd_name,c.gd_price,c.gd_number,c.gd_total,s.supplier_name
+from cggoods c LEFT JOIN supplier s on c.supplier_id=s.supplier_id
+  </select>
+
+  <select id="selectgoods" resultType="com.trkj.crmproject.vo.CggoodsVo">
+select c.gd_id,c.gd_name,c.gd_price,c.gd_number,c.gd_total,s.supplier_name
+from cggoods c LEFT JOIN supplier s on c.supplier_id=s.supplier_id
+<if test="gdName!=null">
+where gd_name like '%${gdName}%'
+</if>
+  </select>
+</mapper>

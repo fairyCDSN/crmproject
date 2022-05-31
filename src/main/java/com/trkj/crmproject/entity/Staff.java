@@ -56,5 +56,7 @@ public class Staff implements Serializable {
 
     private Date birthday;
 
+    private String staffName;
+
     private static final long serialVersionUID = 1L;
 }

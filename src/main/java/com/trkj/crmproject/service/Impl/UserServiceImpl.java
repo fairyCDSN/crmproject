@@ -3,24 +3,25 @@ package com.trkj.crmproject.service.Impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.trkj.crmproject.dao.DepartmentDao;
-import com.trkj.crmproject.dao.PostDao;
-import com.trkj.crmproject.dao.StaffDao;
-import com.trkj.crmproject.dao.UsersDao;
+import com.trkj.crmproject.dao.*;
+import com.trkj.crmproject.entity.Role;
 import com.trkj.crmproject.entity.Staff;
 import com.trkj.crmproject.entity.Users;
 import com.trkj.crmproject.entity.mybatis_plus.DeptMp;
 import com.trkj.crmproject.entity.mybatis_plus.PostMp;
+import com.trkj.crmproject.entity.mybatis_plus.RoleMp;
 import com.trkj.crmproject.entity.mybatis_plus.StaffMp;
+import com.trkj.crmproject.exception.CustomError;
+import com.trkj.crmproject.exception.CustomErrorType;
 import com.trkj.crmproject.service.UserService;
 import com.trkj.crmproject.util.BeanTools;
+import com.trkj.crmproject.vo.DeptVo;
 import com.trkj.crmproject.vo.StaffVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 @Service
@@ -36,32 +37,37 @@ public class UserServiceImpl implements UserService {
     private UsersDao usersDao;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private RoleDao roleDao;
 
     //
 
     //查询员工信息的所有信息【员工表staff】
-    public PageInfo<StaffMp> selectAllStaff(int pageNum,int pageSize){
+    public PageInfo<StaffVo> selectAllStaff(int pageNum,int pageSize){
         //分页
         Page<StaffMp> page = PageHelper.startPage(pageNum,pageSize);
-        List<StaffMp> staffMpList =staffDao.selectList(null);
-        Page<StaffMp> staffMps=new Page<>();
-        BeanTools.copyList(staffMpList,staffMps,StaffMp.class);
-        PageInfo<StaffMp> pageInfo=new PageInfo<>(staffMps);
+        List<StaffVo> staffMpList =staffDao.selectStaffVo();
+        //查询部门名称
+        Page<StaffVo> staffMps=new Page<>();
+        BeanTools.copyList(staffMpList,staffMps,StaffVo.class);
+        PageInfo<StaffVo> pageInfo=new PageInfo<>(staffMps);
         log.debug("staff:"+ pageInfo);
         return pageInfo;
     }
+
     public List<StaffMp> selectAllStaff(){
         List<StaffMp> staffMpList =staffDao.selectList(null);
         return staffMpList;
     }
-    public PageInfo<DeptMp> selectAllDept(int pageNum,int pageSize){
-//        System.out.println("这是调用了密码加密后，原密码为：12dajslhkd 加密后为："+passwordEncoder.encode("12dajslhkd"));
+
+    public PageInfo<DeptVo> selectAllDept(int pageNum,int pageSize){
         //分页
-        Page<DeptMp> page = PageHelper.startPage(pageNum,pageSize);
-        List<DeptMp> deptMps =departmentDao.selectList(null);
-        Page<DeptMp> depts=new Page<>();
-        BeanTools.copyList(deptMps,depts,DeptMp.class);
-        PageInfo<DeptMp> pageInfo=new PageInfo<>(depts);
+        Page<DeptVo> page = PageHelper.startPage(pageNum,pageSize);
+        List<DeptVo> deptMps =departmentDao.selectAllDept();
+        log.debug("这是部门查询所有的信息：{}",deptMps);
+        Page<DeptVo> depts=new Page<>();
+        BeanTools.copyList(deptMps,depts,DeptVo.class);
+        PageInfo<DeptVo> pageInfo=new PageInfo<>(depts);
         log.debug("dept:"+ pageInfo);
         return pageInfo;
     }
@@ -87,9 +93,9 @@ public class UserServiceImpl implements UserService {
     }
 
     //查询部门表【计算每个部门有多少人】
-    public List<StaffMp> selectDept(int deptid){
-        List<StaffMp> staffMps=staffDao.selectStaffByDeptId(deptid);
-
+    public List<StaffVo> selectDept(int deptid){
+        List<StaffVo> staffMps=staffDao.selectStaffByDeptId(deptid);
+        log.debug("这是查询出来的员工信息：{}",staffMps);
         return staffMps;
     }
 
@@ -133,14 +139,27 @@ public class UserServiceImpl implements UserService {
 
 
     //条件查询员工
-    public PageInfo<StaffMp> selectStaffByNameOrNum(int pageNum, int pageSize, String name , int bianhao,int deptid){
+    public PageInfo<StaffVo> selectStaffByNameOrNum(int pageNum, int pageSize, String name , int bianhao,int deptid){
         //分页
         Page<StaffMp> page = PageHelper.startPage(pageNum,pageSize);
-        System.out.println(deptid+"实现类中的部门");
-        List<StaffMp> staffMpList =staffDao.selectStaffByNameAndId(name,bianhao,deptid);
-        Page<StaffMp> staffMps=new Page<>();
-        BeanTools.copyList(staffMpList,staffMps,StaffMp.class);
-        PageInfo<StaffMp> pageInfo=new PageInfo<>(staffMps);
+        List<StaffVo> staffMpList =staffDao.selectStaffByNameAndId(name,bianhao,deptid);
+        Page<StaffVo> staffMps=new Page<>();
+        BeanTools.copyList(staffMpList,staffMps,StaffVo.class);
+        PageInfo<StaffVo> pageInfo=new PageInfo<>(staffMps);
+        log.debug("staff:"+ pageInfo);
+        return pageInfo;
+    }
+
+    public PageInfo<DeptVo> selectDeptByNumOrDeptName(int pageNum,int pageSize,int number,int deptId ){
+        //分页
+        Page<DeptVo> page = PageHelper.startPage(pageNum,pageSize);
+        log.debug("number:"+number);
+        log.debug("deptId:"+deptId);
+        List<DeptVo> staffMpList =departmentDao.selectDeptByNumOrDeptId(number,deptId);
+        log.debug("xxxxxxxxxx:"+departmentDao.selectDeptByNumOrDeptId(number,deptId));
+        Page<DeptVo> staffMps=new Page<>();
+        BeanTools.copyList(staffMpList,staffMps,DeptVo.class);
+        PageInfo<DeptVo> pageInfo=new PageInfo<>(staffMps);
         log.debug("staff:"+ pageInfo);
         return pageInfo;
     }
@@ -148,5 +167,103 @@ public class UserServiceImpl implements UserService {
     //查询每个部门的人数
     public List<StaffVo> selectCountStaff(){
         return staffDao.countStaff();
+    }
+    //获取部门名称【查询全部员工】
+    public List<StaffVo> selectStaffDeptName() {
+
+        return null;
+    }
+
+    //验证密码是否正确
+    public List<Users> checkPass(String oldPass,String userName){
+        log.debug("这是检查旧密码的实现类！");
+        String pass=passwordEncoder.encode(oldPass);
+        log.debug(oldPass);
+        log.debug("这是根据用户名查询出来的密码：{}",staffDao.getOldPass(userName));
+        log.debug("比较密码是否可以转为jwt加密模式：{}",passwordEncoder.matches(oldPass,staffDao.getOldPass(userName)));
+        List<Users> list;
+        if(passwordEncoder.matches(oldPass,staffDao.getOldPass(userName))){
+            list=staffDao.checkPass(staffDao.getOldPass(userName),userName);
+        }else{
+            list=staffDao.checkPass(oldPass,userName);
+        }
+        return list;
+    }
+
+    //修改密码
+    public int updatePass(String userName,String pass){
+        int row=0;
+        //密码加密
+        log.debug("这是修改后的状态：{}",staffDao.updatePass(userName,staffDao.getOldPass(userName),passwordEncoder.encode(pass)));
+        row=staffDao.updatePass(userName,staffDao.getOldPass(userName),passwordEncoder.encode(pass));
+        if(row==0){
+            throw new CustomError(CustomErrorType.ACCOUNT_ERROR,"数据更新异常");
+        }
+        return row;
+    }
+
+    public Role selectRoleIdAndName(String username){
+        log.debug("前端传来的用户名：{}",username);
+        int roleId=roleDao.selectRoleIdByUserName(username);
+        String roleName=roleDao.selectRoleName(roleId);
+        Role role=new Role();
+        role.setRole_id(roleId);
+        role.setRole_name(roleName);
+        log.debug("实现类查询出来的角色信息role:{}",role);
+        return role;
+    }
+
+    //查询角色
+    public PageInfo<RoleMp> selectRole(int pageNum, int pageSize){
+        Page<RoleMp> page=PageHelper.startPage(pageNum,pageSize);
+        List<RoleMp> roleMps=roleDao.selectList(null);
+        Page<RoleMp> roles=new Page<>();
+        BeanTools.copyList(roleMps,roles,RoleMp.class);
+        PageInfo<RoleMp> pageInfo=new PageInfo<>(roles);
+        log.debug("role:{}",pageInfo);
+        return pageInfo;
+    }
+    //查询部门和职务信息
+    public StaffVo selectDeptNameAndPostNameByRole(String name){
+        StaffVo staffVo=staffDao.selectDeptNameAndPostNameByRole(name);
+        return staffVo;
+    }
+
+    //修改权限状态
+    public int updateRole(RoleMp roleMp){
+        int state=0;
+        log.debug("这是修改前的状态",roleMp.getIsUse());
+        if(roleMp.getIsUse()==1){
+            state=0;
+        }else {
+            state=1;
+        }
+        int row=roleDao.updateState(roleMp.getRoleId(),state);
+        return row;
+    }
+
+    //根据角色id查询用户
+    public PageInfo<StaffVo> selectUserByRoleId(int pageNum,int pageSize,int id){
+        log.debug("这是实现类中的用户id:{}",id);
+        Page<StaffVo> page=PageHelper.startPage(pageNum,pageSize);
+        List<StaffVo> staffVos=staffDao.selectByRoleId(id);
+        Page<StaffVo> staffVoPage=new Page<>();
+        log.debug(staffVos.toString());
+        BeanTools.copyList(staffVos,staffVoPage,StaffVo.class);
+        PageInfo<StaffVo> pageInfo=new PageInfo<>(staffVoPage);
+        log.debug("role:{}",pageInfo);
+        return pageInfo;
+    }
+
+    //添加角色[未涉及权限]
+    @Transactional
+    public int insertRole(Role role){
+        int row=0;
+        log.debug("这是实现类接收到的role参数:{}",role);
+        row=roleDao.insert(role);
+        if(row==0 && role.getRole_name()==null){
+            throw new CustomError(CustomErrorType.USER_INPUT_ERROR);
+        }
+        return row;
     }
 }

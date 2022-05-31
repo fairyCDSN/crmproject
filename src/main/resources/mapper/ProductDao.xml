@@ -66,6 +66,45 @@
     </select>
 
 
+<!--    商品清单 根据ckid查询商品-->
+    <select id="selectProckId" resultType="com.trkj.crmproject.vo.ProductVo">
+        select product.pro_id,product.pro_name,pro_ck.pro_ck_number from product
+            left join pro_ck on pro_ck.pro_id=product.pro_id
+            where pro_ck.ck_id=#{ck_id}
+    </select>
+
+    <!--    商品清单 根据ckid,proId查询商品的库存-->
+    <select id="selectProckIdAndproId" resultType="java.lang.Integer">
+        select pro_ck.pro_ck_number from product
+            left join pro_ck on pro_ck.pro_id=product.pro_id
+        <where>
+            <if test="param1!='' || param1==null || param1 !=0">
+                pro_ck.ck_id=#{param1}
+            </if>
+            <if test="param2!='' || param2==null || param2 !=0">
+                and pro_ck.pro_id=#{param2}
+            </if>
+        </where>
+    </select>
+
+
+<!--    商品清单  根据仓库ID，商品ID，报损报溢的查询数量修改库存-->
+    <update id="updateProCkNumber">
+        update pro_ck set pro_ck_number=#{proCkNumber} where ck_id=#{ckId} and pro_id=#{proId}
+    </update>
+
+
+    <!--    盘点单  根据盘点ID查询商品-->
+    <select id="selectPdIdproAll" resultType="com.trkj.crmproject.vo.ProductVo">
+         select product.pro_id,product.pro_name,product.pro_money,pro_ck.pro_ck_number as sl,
+            pro_ck.pro_ck_number as pro_ck_numbersum from product
+            left join pro_ck on pro_ck.pro_id=product.pro_id
+            left join ck on ck.ck_id=pro_ck.ck_id
+			left join pd_pro on product.pro_id=pd_pro.pro_id
+            where pd_pro.pd_id=#{pdId}
+			group by product.pro_id
+    </select>
+
     <select id="findproduct" resultType="com.trkj.crmproject.vo.ProductVo">
         select pro_id,pro_name,pro_type,pro_guige,pro_xh,pro_dw,pro_money,pro_cbj
         from product where 1=1

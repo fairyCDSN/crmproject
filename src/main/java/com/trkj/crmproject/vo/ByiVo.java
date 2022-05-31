@@ -12,7 +12,6 @@ public class ByiVo {
     private int number;
     private String createUser;
     private String bz;
-
     //商品表pro
     private String proName;
     //仓库表

@@ -4,9 +4,51 @@
 <mapper namespace="com.trkj.crmproject.dao.PdDao">
 
 
-<!--    盘点单  查询全部（根据proId外键查询proName-->
-    <select id="selectPdproName" resultType="com.trkj.crmproject.vo.PdVo">
-         select pd.pd_id,pd.state,pd.pd_title,pd.pd_time,pd.create_user,pd.bz,product.pro_name from pd
-            left join product on pd.pro_id=product.pro_id
+<!--    盘点单  查询全部（根据ckId中间表外键查询ckName-->
+    <select id="selectPdckNameAll" resultType="com.trkj.crmproject.vo.PdVo">
+         select pd.pd_id,pd.pd_time,pd.bz,ck.ck_name,staff.staff_name from pd
+            left join ck on ck.ck_id=pd.ck_id
+			left join staff on staff.staff_id=pd.staff_id
+			group by pd.pd_id
+    </select>
+
+<!--    盘点单  查询全部（根据仓库名称查询）-->
+    <select id="selectPdckName" resultType="com.trkj.crmproject.vo.PdVo">
+        select pd.pd_id,pd.pd_time,pd.bz,ck.ck_name,staff.staff_name from pd
+            left join ck on ck.ck_id=pd.ck_id
+			left join staff on staff.staff_id=pd.staff_id
+			where ck.ck_name=#{ckName}
+			group by pd.pd_id
+    </select>
+
+
+    <!-- 盘点单  查询userName当前登录的人的staffId-->
+    <select id="selectPdUserName" resultType="java.lang.Integer">
+        select staff.staff_id from staff
+            left join users on staff.user_id=users.user_id
+             where users.user_name=#{user_name}
+    </select>
+
+<!--盘点单 根据盘点ID查询盘点信息-->
+    <select id="selectPdId" resultType="com.trkj.crmproject.vo.PdVo">
+        select pd.pd_id,staff.staff_name,pd.ck_id,ck.ck_name,pd.bz,staff.staff_id from pd
+            left join staff on staff.staff_id=pd.staff_id
+            left join ck on ck.ck_id=pd.ck_id
+            where pd.pd_id=#{pdId}
+    </select>
+
+    <!--  盘点单  通过按钮 根据时间，仓库查询-->
+    <select id="selectPdckNameandTime" resultType="com.trkj.crmproject.vo.PdVo">
+        select pd.pd_id,pd.pd_time,pd.bz,ck.ck_name,staff.staff_name from pd
+        left join ck on ck.ck_id=pd.ck_id
+        left join staff on staff.staff_id=pd.staff_id
+        <where>
+            <if test="param1!='' || param1==null">
+                ck.ck_name like '%${param1}%'
+            </if>
+            <if test="param2!='' || param2==null || param3!='' || param3==null">
+                and date(pd.pd_time) between #{param2} and #{param3}
+            </if>
+        </where>
     </select>
 </mapper>

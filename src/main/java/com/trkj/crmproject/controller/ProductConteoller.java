@@ -1,10 +1,13 @@
 package com.trkj.crmproject.controller;
 import com.github.pagehelper.PageInfo;
+import com.trkj.crmproject.entity.ProCk;
 import com.trkj.crmproject.service.ProductService;
 import com.trkj.crmproject.vo.AjaxResponse;
 import com.trkj.crmproject.vo.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class ProductConteoller {
@@ -65,7 +68,8 @@ public class ProductConteoller {
     @GetMapping("/selectProckNameAll")
     public AjaxResponse selectProckNameAll(String ckName){
         System.out.println("123456789"+ckName);
-        return AjaxResponse.success(productService.selectProckNameAll(ckName));
+        List<ProductVo> productVos = productService.selectProckNameAll(ckName);
+        return AjaxResponse.success(productVos);
     }
 
     // 商品清单  查询商品详情
@@ -73,6 +77,33 @@ public class ProductConteoller {
     public AjaxResponse selectProIdxq(int proId){
         return AjaxResponse.success(productService.selectProIdxq(proId));
     }
+
+
+
+    //商品清单 根据ckid查询商品
+    @GetMapping("/selectProckId")
+    public AjaxResponse selectProckId(int ckId){
+        System.out.println("123456789"+ckId);
+        return AjaxResponse.success(productService.selectProckId(ckId));
+    }
+
+    //商品清单 根据ckid,proId查询商品的库存
+    @GetMapping("/selectProckIdAndproId")
+    public AjaxResponse selectProckIdAndproId(int ckId , int proId){
+        return AjaxResponse.success(productService.selectProckIdAndproId(ckId,proId));
+    }
+    //商品清单  根据仓库ID，商品ID，报损报溢的查询数量修改库存
+    @PutMapping("/updateProCkNumber")
+    public AjaxResponse updateProCkNumber(@RequestBody ProCk proCk){
+        return AjaxResponse.success(productService.updateProCkNumber(proCk));
+    }
+
+    //盘点单  根据盘点ID查询商品
+    @GetMapping("/selectPdIdproAll")
+    public AjaxResponse selectPdIdproAll(int pdId){
+        return AjaxResponse.success(productService.selectPdIdproAll(pdId));
+    }
+
 
     //李玉春的代码
     @GetMapping("/findproduct")

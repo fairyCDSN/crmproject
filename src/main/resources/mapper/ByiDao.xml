@@ -19,7 +19,17 @@
             left join product on product.pro_id=byi.pro_id
             left join pd_pro on pd_pro.pro_id=product.pro_id
             left join ck on pd_pro.ck_id= ck.ck_id
-            where product.pro_name like '%${pro_name}%'
+        <where>
+            <if test="param1!='' || param1==null">
+                product.pro_name like '%${param1}%'
+            </if>
+            <if test="param2!='' || param2==null">
+                and ck.ck_name like '%${param2}%'
+            </if>
+            <if test="param3!='' || param3==null ||param4!='' || param4==null">
+                and date(byi.byi_time) between #{param3} and #{param4}
+            </if>
+        </where>
     </select>
 
 <!--    报溢列表  根据报溢编号查询-->
@@ -46,5 +56,14 @@
             left join ck on pd_pro.ck_id= ck.ck_id
             where ck.ck_name=#{ckName}
     </select>
+
+
+    <!--    报溢列表  查询当前登录的人-->
+    <select id="selectCreateUser" resultType="java.lang.String">
+        select staff.staff_name from staff
+            left join users on staff.user_id=users.user_id
+             where users.user_name=#{user_name}
+    </select>
+
 
 </mapper>

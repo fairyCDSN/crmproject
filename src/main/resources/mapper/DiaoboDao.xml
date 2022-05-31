@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.DiaoboDao">
+
+<!--    调拨列表 查询全部（ckName[dcName,drName]）-->
+    <select id="selectDbAll" resultType="com.trkj.crmproject.vo.DiaoboVo">
+        SELECT co.ck_name dc_name ,ct.ck_name dr_name,
+            diaobo.db_id,diaobo.db_time,diaobo.create_user,diaobo.bz,diaobo.toexamine,diaobo.state_id
+            FROM diaobo
+            LEFT JOIN ck co ON co.ck_id=diaobo.ck_id
+            LEFT JOIN ck ct ON ct.ck_id=diaobo.ckdr_id
+    </select>
+
+<!--    调拨详情  根据调拨id查询商品信息-->
+    <select id="selectDbidproName" resultType="com.trkj.crmproject.vo.ProductVo">
+        select product.pro_id,product.pro_name,product.pro_guige,product.pro_money,db_pro.db_number from product
+            LEFT JOIN db_pro on db_pro.pro_id=product.pro_id
+            LEFT JOIN diaobo on diaobo.db_id=db_pro.db_id
+            WHERE diaobo.db_id=#{dbId}
+    </select>
+<!--    调拨详情 根据调拨id查询调拨信息-->
+    <select id="selectDbidxq" resultType="com.trkj.crmproject.vo.DiaoboVo">
+        SELECT co.ck_name dc_name ,ct.ck_name dr_name ,diaobo.db_id,diaobo.db_time,
+            diaobo.create_user,diaobo.bz,diaobo.toexamine,diaobo.state_id from diaobo
+            LEFT JOIN ck co ON co.ck_id=diaobo.ck_id
+            LEFT JOIN ck ct ON ct.ck_id=diaobo.ckdr_id
+            WHERE diaobo.db_id=#{dbId}
+    </select>
+
+</mapper>

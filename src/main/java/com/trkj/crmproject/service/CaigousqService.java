@@ -2,6 +2,7 @@ package com.trkj.crmproject.service;
 
 import com.github.pagehelper.PageInfo;
 import com.trkj.crmproject.entity.Caigousq;
+import com.trkj.crmproject.vo.CaigousqVo;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,4 +15,7 @@ public interface CaigousqService {
     public int addcaigousq(Caigousq caigousq);
     public List<Caigousq> selectsqid();
     public int updatestate(int sqid,String usestate);
+    public PageInfo<Caigousq> selectcgsqdd(int pageNum,int pageSize,String cgDh,Integer total);
+    public List<CaigousqVo> selectcgmx(int sqid);
+    public Caigousq selectcgsqid(int sqid);
 }
