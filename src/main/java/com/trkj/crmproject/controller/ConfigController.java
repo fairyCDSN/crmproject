@@ -1,6 +1,10 @@
 package com.trkj.crmproject.controller;
 
+import com.github.pagehelper.PageInfo;
+import com.trkj.crmproject.entity.Role;
 import com.trkj.crmproject.entity.Sonmenu;
+import com.trkj.crmproject.entity.Users;
+import com.trkj.crmproject.entity.mybatis_plus.RoleMp;
 import com.trkj.crmproject.service.Impl.JwtAuthService;
 import com.trkj.crmproject.service.PermissionService;
 import com.trkj.crmproject.service.UserService;
@@ -44,12 +48,15 @@ public class ConfigController {
     public AjaxResponse selectAllStaff(int pageNum,int pageSize){
         return AjaxResponse.success(userService.selectAllStaff(pageNum,pageSize));
     }
+
     @GetMapping("/selectStaff")
     public AjaxResponse selectAllStaff(){
         return AjaxResponse.success(userService.selectAllStaff());
     }
+
     @GetMapping("/selectAllDept")
     public AjaxResponse selectAllDept(int pageNum,int pageSize){
+        log.debug("这是控制层的部门信息：{}",userService.selectAllDept(pageNum,pageSize));
         return AjaxResponse.success(userService.selectAllDept(pageNum,pageSize));
     }
     @GetMapping("/selectAllPost")
@@ -78,32 +85,90 @@ public class ConfigController {
         return AjaxResponse.success(userService.selectStaffByNameOrNum(pageNum,pageSize,name,bianhao,deptId));
     }
 
+    @GetMapping("/selectDeptByNumOrDeptName")
+    public AjaxResponse selectDeptByNumOrDeptName(int pageNum,int pageSize,int number,int deptId){
+        log.debug("不知道这是什么："+userService.selectDeptByNumOrDeptName(pageNum,pageSize,number,deptId));
+        return AjaxResponse.success(userService.selectDeptByNumOrDeptName(pageNum,pageSize,number,deptId));
+    }
+
     //查询每个部门多少人数
     @GetMapping("/selectCountStaff")
     public AjaxResponse selectCountStaff(){
         return AjaxResponse.success(userService.selectCountStaff());
     }
 
+    //根据登录的人查询角色id和角色名称
+    @GetMapping("/selectRoleId")
+    public AjaxResponse selectRole(String username){
+        log.debug("controller中的role:{}",userService.selectRoleIdAndName(username));
+        return AjaxResponse.success(userService.selectRoleIdAndName(username));
+    }
+
+    //根据登录的人查询部门和职务名称
+    @GetMapping("/selectDeptNameAndPostNameByRole")
+    public AjaxResponse selectDeptNameAndPostNameByRole(String username){
+        log.debug("这是查询部门和职务：{}",userService.selectDeptNameAndPostNameByRole(username));
+        return AjaxResponse.success(userService.selectDeptNameAndPostNameByRole(username));
+    }
+
     //新增一个用户【同时关联职务表、部门表、用户表】
     @PostMapping("/insertUser")
     public AjaxResponse insertUser(@RequestBody StaffVo staffVo){
         log.debug("==========================");
-        log.debug(staffVo.getDeptment_id()+"验证一下有没有传参啊");
-        log.debug("添加验证："+userService.insertStaff(staffVo));
-        return AjaxResponse.success();
+        log.debug(staffVo+"验证一下有没有传参啊");
+        if(staffVo.getMenusId()==null){
+            log.debug("菜单权限为空！");
+        }else{
+            log.debug("添加验证："+userService.insertStaff(staffVo));
+            return AjaxResponse.success();
+        }
+
+        return null;
     }
 
     //查询旧密码是否正确
     @GetMapping("/checkPass")
     public AjaxResponse checkPass(String oldPass,String userName){
+        log.debug("进入检查旧密码的方法！");
         return AjaxResponse.success(userService.checkPass(oldPass,userName));
     }
 
     //修改密码
-//    @PostMapping("/updateUser")
-//    public AjaxResponse updataUser(@RequestBody){
-//        return AjaxResponse.success();
-//    }
+    @PostMapping("/updatePass")
+    public AjaxResponse updatePass(@RequestBody Users user){
+        log.debug("查看传的参数：{}，{}",user.getUser_name(),user.getUser_pass());
+        return AjaxResponse.success(userService.updatePass(user.getUser_name(),user.getUser_pass()));
+    }
+
+    //查询角色信息
+    @GetMapping("/selectRole")
+    public AjaxResponse selectRole(int pageNum,int pageSize){
+        PageInfo<RoleMp> roleMpPageInfo=userService.selectRole(pageNum,pageSize);
+        log.debug("这是controller中接收到的实体类：{}",roleMpPageInfo);
+        return AjaxResponse.success(roleMpPageInfo);
+    }
+
+    //修改角色状态
+    @PutMapping("/updateRole")
+    public AjaxResponse updateRole(@RequestBody RoleMp role){
+        log.debug("这是controller中接收到的修改对象：{}",role);
+        return AjaxResponse.success(userService.updateRole(role));
+    }
+
+    //查询用户根据角色id
+    @GetMapping("/selectUserByRoleId")
+    public AjaxResponse selectUserByRoleId(int pageNum,int pageSize,int id){
+        log.debug("这是角色id:{}",id);
+        return AjaxResponse.success(userService.selectUserByRoleId(pageNum,pageSize,id));
+    }
+
+    //添加角色
+    @PostMapping("/insertRole")
+    public AjaxResponse insertRole(@RequestBody Role role){
+        log.debug("这是controller中接收到的role参数:{}",role);
+        return AjaxResponse.success(userService.insertRole(role));
+    }
+
 
 
 }
