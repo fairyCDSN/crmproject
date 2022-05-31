@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.trkj.crmproject.entity.Caigousq;
 import com.trkj.crmproject.vo.CaigousqVo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,4 +23,9 @@ public interface CaigousqDao extends BaseMapper<Caigousq> {
     int updateByPrimaryKey(Caigousq record);
 
     List<CaigousqVo> selectcgmx(int sqid);
+
+    List<Caigousq> findcgsq();
+
+    List<Caigousq> selectcgsqdd(@Param("cgDh") String cgDh,@Param("total") int total);
+
 }

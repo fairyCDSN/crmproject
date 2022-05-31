@@ -3,6 +3,7 @@ package com.trkj.crmproject.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.trkj.crmproject.entity.Role;
 import com.trkj.crmproject.entity.mybatis_plus.RoleMp;
+import com.trkj.crmproject.vo.RoleVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -32,4 +33,7 @@ public interface RoleDao extends BaseMapper<RoleMp> {
     int selectRoleIdByUserName(String username);
 
     String selectRoleName(int roleId);
+
+    //查询角色为采购审批的角色名称
+    List<RoleVo> selectrolename();
 }

@@ -33,7 +33,7 @@ public class CaigousqServiceImpl implements CaigousqService {
     @Override
     public PageInfo<Caigousq> findpur(int pageNum, int pageSize) {
         Page<Caigousq> page= PageHelper.startPage(pageNum,pageSize);
-        List<Caigousq> list=dao.selectList(null);
+        List<Caigousq> list=dao.findcgsq();
         Page<Caigousq> depts=new Page<>();
         BeanTools.copyList(list,depts,Caigousq.class);
         PageInfo<Caigousq> pageInfo=new PageInfo<>(depts);
@@ -89,15 +89,18 @@ public class CaigousqServiceImpl implements CaigousqService {
 
     @Override
     public PageInfo<Caigousq> selectcgsqdd(int pageNum, int pageSize, String cgDh, Integer total) {
-        QueryWrapper<Caigousq> qw=new QueryWrapper<>();
-        if (cgDh!=""){
-            qw.like("cg_dh",cgDh);
-        }
-        if (total!=0){
-            qw.between("total",0,total);
+//        QueryWrapper<Caigousq> qw=new QueryWrapper<>();
+//        if (cgDh!=""){
+//            qw.like("cg_dh",cgDh);
+//        }
+//        if (total!=0){
+//            qw.between("total",0,total);
+//        }
+        if (total==null){
+            total=0;
         }
         Page<Caigousq> page=PageHelper.startPage(pageNum,pageSize);
-        List<Caigousq> pur= dao.selectList(qw);
+        List<Caigousq> pur= dao.selectcgsqdd(cgDh,total);
         Page<Caigousq> d=new Page<>();
         BeanTools.copyList(pur,d,Caigousq.class);
         PageInfo<Caigousq> pageInfo=new PageInfo<>(d);
@@ -114,6 +117,20 @@ public class CaigousqServiceImpl implements CaigousqService {
         Caigousq caigousq=dao.selectById(sqid);
         System.out.println("我在impl层"+caigousq);
         return caigousq;
+    }
+
+    @Override
+    public int addcgsq(Caigousq caigousq) {
+        return dao.insert(caigousq);
+    }
+
+    @Override
+    public int updatecgsq(int stateId,int sqid) {
+        System.out.println("进入添加审批状态方法");
+        UpdateWrapper<Caigousq> uw=new UpdateWrapper<>();
+        uw.set("state_id",stateId).eq("sqid",sqid);
+        int row=dao.update(null,uw);
+        return row;
     }
 
 }

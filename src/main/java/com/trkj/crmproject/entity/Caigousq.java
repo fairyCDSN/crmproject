@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
@@ -16,7 +18,7 @@ public class Caigousq implements Serializable {
     /**
      * 申请ID
      */
-    @TableId
+    @TableId(value = "sqid",type = IdType.AUTO)
     private Integer sqid;
 
     /**
@@ -81,6 +83,12 @@ public class Caigousq implements Serializable {
     private String cgGuige;
 
     private String cgType;
+    @TableField(exist = false)
+    private String staffName;
+    @TableField(exist = false)
+    private int[] userId;
+    @TableField(exist = false)
+    private Parecord parecord;
 
     private static final long serialVersionUID = 1L;
 }

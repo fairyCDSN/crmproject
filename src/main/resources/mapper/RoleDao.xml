@@ -126,4 +126,12 @@
     set is_use = #{state}
     where role_id = #{id}
   </update>
+
+  <select id="selectrolename" resultType="com.trkj.crmproject.vo.RoleVo">
+   select a.app_id,a.role_id,r.role_name,f.staff_name,f.user_id from app_role a left join role r on a.role_id=r.role_id
+																											left join user_role u on r.role_id=u.users_id
+																											left join users s on u.users_id=s.user_id
+																											left join staff f on s.user_id=f.user_id
+    where a.app_id=1
+  </select>
 </mapper>

@@ -65,7 +65,7 @@
 
 <!--  查询采购员的方法-->
   <select id="selectcgyid" resultMap="BaseResultMap">
-    select staff.staff_id
+    select staff.staff_id,staff.staff_name
     from staff
     INNER JOIN post ON  staff.post_id=post.post_id WHERE post.post_name='采购员';
   </select>
@@ -152,6 +152,19 @@
     where u.user_name=#{name}
   </select>
 
+  <select id="selectsfattname" resultType="com.trkj.crmproject.vo.staffnameVo">
+    select s.staff_id,s.staff_name,s.user_id
+    from staff s left join user_role u on s.user_id=u.users_id
+						 left join app_role p on u.role_id=p.role_id
+						 left join approval v on p.app_id=v.app_id
+    where p.role_id=#{roleId}
+  </select>
+
+  <select id="selectcgyname" resultType="com.trkj.crmproject.vo.cgyVo">
+    select staff.staff_name,staff.staff_id
+        from staff
+                 INNER JOIN post ON  staff.post_id=post.post_id WHERE post.post_name='采购员' and staff.staff_id=#{staffid}
+  </select>
   <select id="findStaffId" resultType="java.lang.Integer">
     select staff_id from staff where user_id = #{user_id}
   </select>

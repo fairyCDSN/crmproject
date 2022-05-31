@@ -37,15 +37,15 @@
     where sqid = #{sqid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="sqid" keyProperty="sqid" parameterType="com.trkj.crmproject.entity.Caigousq" useGeneratedKeys="true">
-    insert into caigousq (supplier_id, cg_title, cg_dh, 
+    insert into caigousq (supplier_id, cg_type, cg_guige, cg_title, cg_dh,
       total, salesperson_id, fksm, 
       jfsm, toexamine, state_id, 
       usestate, `type`, cg_time, 
       bz)
-    values (#{supplier_id,jdbcType=INTEGER}, #{cg_title,jdbcType=VARCHAR}, #{cg_dh,jdbcType=VARCHAR}, 
-      #{total,jdbcType=DECIMAL}, #{salesperson_id,jdbcType=INTEGER}, #{fksm,jdbcType=VARCHAR}, 
-      #{jfsm,jdbcType=VARCHAR}, #{toexamine,jdbcType=INTEGER}, #{state_id,jdbcType=INTEGER}, 
-      #{usestate,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{cg_time,jdbcType=TIMESTAMP}, 
+    values (#{supplierId,jdbcType=INTEGER},#{cgType,jdbcType=VARCHAR},#{cgGuige,jdbcType=VARCHAR}, #{cgTitle,jdbcType=VARCHAR}, #{cgDh,jdbcType=VARCHAR},
+      #{total,jdbcType=DECIMAL}, #{salespersonId,jdbcType=INTEGER}, #{fksm,jdbcType=VARCHAR},
+      #{jfsm,jdbcType=VARCHAR}, #{toexamine,jdbcType=INTEGER}, #{stateId,jdbcType=INTEGER},
+      #{usestate,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{cgTime,jdbcType=TIMESTAMP},
       #{bz,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="sqid" keyProperty="sqid" parameterType="com.trkj.crmproject.entity.Caigousq" useGeneratedKeys="true">
@@ -203,4 +203,27 @@
 							 inner join supplier s on c.supplier_id=s.supplier_id
 							 where a.sqid='${sqid}'
   </select>
+
+  <select id="findcgsq" resultType="com.trkj.crmproject.entity.Caigousq">
+    select c.sqid,c.cg_title,c.cg_dh,c.total,c.fksm,c.jfsm,c.cg_time,c.cg_guige,c.cg_type,c.bz,s.staff_name
+    from caigousq c left join staff s on staff_id=c.salesperson_id
+		left join apprecords p on c.state_id=p.app_records_id
+where p.app_state='审批通过'
+  </select>
+
+  <select id="selectcgsqdd" resultType="com.trkj.crmproject.entity.Caigousq">
+select c.sqid,c.cg_title,c.cg_dh,c.total,c.fksm,c.jfsm,c.cg_time,c.cg_guige,c.cg_type,c.bz,s.staff_name
+from caigousq c left join staff s on staff_id=c.salesperson_id
+    left join apprecords p on c.state_id=p.app_records_id
+<where>
+    <if test="cgDh!=''">
+     cg_dh like '%${cgDh}%'
+    </if>
+    <if test="total!=0">
+     and c.total BETWEEN 0 AND '${total}'
+    </if>
+  and p.app_state='审批通过'
+</where>
+  </select>
+
 </mapper>
