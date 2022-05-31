@@ -3,7 +3,9 @@ package com.trkj.crmproject.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.trkj.crmproject.entity.Byi;
 import com.trkj.crmproject.vo.ByiVo;
+import com.trkj.crmproject.vo.ProductVo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,5 +27,11 @@ public interface ByiDao extends BaseMapper<Byi> {
 
     //报溢列表  根据ckName查询全部
     List<ByiVo> selectByickName(String ckName);
+
+
+
+    // 报溢列表  查询当前登录的人
+    String selectCreateUser(String userName);
+
 }
 

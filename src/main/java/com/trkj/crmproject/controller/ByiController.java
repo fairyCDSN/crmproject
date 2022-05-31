@@ -1,13 +1,17 @@
 package com.trkj.crmproject.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.trkj.crmproject.entity.Byi;
 import com.trkj.crmproject.service.ByiService;
 import com.trkj.crmproject.vo.AjaxResponse;
 import com.trkj.crmproject.vo.ByiVo;
+import com.trkj.crmproject.vo.ProductVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@Slf4j
 public class ByiController {
 
     @Autowired
@@ -50,5 +54,21 @@ public class ByiController {
     @GetMapping("/selectByickName")
     public AjaxResponse selectByickName(String ckName){
         return AjaxResponse.success(byiService.selectByickName(ckName));
+    }
+
+
+
+
+    //报溢列表  查询当前登录的人
+    @GetMapping("/selectCreateUser")
+    public AjaxResponse selectCreateUser(String userName){
+        return AjaxResponse.success(byiService.selectCreateUser(userName));
+    }
+
+    // 报溢列表 添加报溢表
+    @PostMapping("/insertByi")
+    public AjaxResponse insertByi(@RequestBody Byi byi){
+        log.debug("这是报溢获取的对象：{}",byi);
+        return AjaxResponse.success(byiService.insertByi(byi));
     }
 }

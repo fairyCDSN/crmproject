@@ -16,4 +16,10 @@ public interface PdDao extends BaseMapper<Pd> {
 
     //盘点单  查询全部（根据仓库名称查询）
     public List<PdVo> selectPdckName(String ckName);
+
+    //盘点单  查询userName当前登录的人的staffId
+    int selectPdUserName(String userName);
+
+    //盘点单 根据盘点ID查询盘点信息
+    PdVo selectPdId(int pdId);
 }

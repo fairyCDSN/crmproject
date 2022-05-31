@@ -1,6 +1,7 @@
 package com.trkj.crmproject.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.trkj.crmproject.entity.ProCk;
 import com.trkj.crmproject.vo.ProductVo;
 import com.trkj.crmproject.entity.mybatis_plus.Product;
 import com.trkj.crmproject.vo.ProductVo;
@@ -28,5 +29,17 @@ public interface ProductDao extends BaseMapper<Product> {
     // 商品清单  查询商品详情
     public ProductVo selectProIdxq(int proId);
 
+
+
+    //商品清单 根据ckid查询商品
+    public List<ProductVo> selectProckId(int ckId);
+    //商品清单 根据ckid,proId查询商品的库存
+    public int selectProckIdAndproId(@Param("ck_id") int ckId ,@Param("pro_id") int proId);
+
+    //商品清单  根据仓库ID，商品ID，报损报溢的查询数量修改库存
+    int updateProCkNumber(ProCk proCk);
+
+    //盘点单  根据盘点ID查询商品
+    List<ProductVo> selectPdIdproAll(int pdId);
 
 }

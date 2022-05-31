@@ -32,7 +32,7 @@
             left join users on users.user_id=staff.user_id
             left join user_role on user_role.users_id=users.user_id
             left join role ON role.role_id = user_role.role_id
-            where role.role_name='仓库长'
+            where role.role_name='ck'
     </select>
 
 <!--    仓库列表  删除（根据ckId把ckState改为1）-->
