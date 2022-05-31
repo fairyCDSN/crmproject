@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.trkj.crmproject.dao.ContactDao;
 import com.trkj.crmproject.dao.CustomerDao;
+import com.trkj.crmproject.dao.StaffDao;
 import com.trkj.crmproject.entity.CusXq;
 import com.trkj.crmproject.entity.contact;
 import com.trkj.crmproject.entity.customer;
@@ -26,6 +27,8 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerDao customerDao;
+    @Autowired
+    private StaffDao staffDao;
 
     @Override
     public PageInfo<customerVo> findCustomer(int pageNum, int pageSize,String customer_name, String customer_stage,
@@ -132,5 +135,14 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public int updataCustomerType2(int customer_id) {
         return customerDao.updataCustomerType2(customer_id);
+    }
+
+    @Override
+    public int updateSeId(AddVo[] addVo,int user_id) {
+        for(int i=0;i<addVo.length;i++){
+            int customer_id=addVo[i].getCustomer_id();
+            System.out.println(customerDao.updateSeId(customer_id,staffDao.findStaffId(user_id)));
+        }
+        return 1;
     }
 }

@@ -33,4 +33,6 @@ public interface StaffDao extends BaseMapper<StaffMp> {
     public List<StaffMp> selectStaffByDeptId(int deptid);
 
     List<StaffVo> countStaff();
+
+    int findStaffId(int user_id);
 }

@@ -21,5 +21,13 @@ public class ProductVo {
     private int proCkNumbersum;
     //库存数量
     private int proCkNumber;
+
+
+    //产品状态
+    private String proType;
+    //数量
+    private int sl;
+    //报价
+    private int mo;
 }
 

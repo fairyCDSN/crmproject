@@ -29,4 +29,7 @@ public interface ProductDao extends BaseMapper<Product> {
     public ProductVo selectProIdxq(int proId);
 
 
+
+    public List<ProductVo> findproduct(@Param("pro_name") String pro_name,@Param("pro_type") String pro_type);
+
 }

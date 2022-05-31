@@ -42,4 +42,7 @@ public interface ProductService {
 
     //zsy
     public List<Product> selectcpname();
+
+
+    public PageInfo<ProductVo> findproduct(int pageNum, int pageSize,String pro_name,String pro_type);
 }

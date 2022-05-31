@@ -25,4 +25,5 @@ public interface CustomerService {
     public customerVo updateCustomer(customerVo customerVo);
     public int updataCustomerType1(int customer_id);
     public int updataCustomerType2(int customer_id);
+    public int updateSeId(AddVo[] addVo,int user_id);
 }

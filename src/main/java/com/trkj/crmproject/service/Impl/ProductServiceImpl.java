@@ -92,4 +92,15 @@ public class ProductServiceImpl implements ProductService {
         return list;
     }
 
+
+    @Override
+    public PageInfo<ProductVo> findproduct(int pageNum, int pageSize,String pro_name,String pro_type){
+        Page<ProductVo> page= PageHelper.startPage(pageNum,pageSize);
+        List<ProductVo> list=productDao.findproduct(pro_name,pro_type);
+        Page<ProductVo> depts=new Page<>();
+        BeanTools.copyList(list,depts,ProductVo.class);
+        PageInfo<ProductVo> pageInfo=new PageInfo<>(depts);
+        return pageInfo;
+    }
+
 }

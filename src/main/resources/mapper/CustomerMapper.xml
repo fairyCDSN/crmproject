@@ -31,7 +31,7 @@
     </select>
     <select id="findCustomer1" resultMap="CustomerMap">
         select  <include refid="customerCol"/>
-        from customer where salesperson_id is null and customer_type != '过期客户'
+        from customer where salesperson_id is null or customer_type = '过期客户'
         <if test="customer_stage != null and customer_stage != ''">
             and customer_stage like '%${customer_stage}%'
         </if>
@@ -44,7 +44,7 @@
     </select>
     <select id="findCustomer2" resultMap="CustomerMap">
         select  <include refid="customerCol"/>
-        from customer where (salesperson_id = #{salesperson_id} or salesperson_id is null-) and customer_type = '过期客户'
+        from customer where (salesperson_id = #{salesperson_id} or salesperson_id is null) and customer_type = '过期客户'
         <if test="customer_stage != null and customer_stage != ''">
             and customer_stage like '%${customer_stage}%'
         </if>
@@ -58,10 +58,13 @@
     <select id="findCustomers" resultMap="CustomerMap">
         select  <include refid="customerCol"/>
         from customer where salesperson_id = #{salesperson_id} and customer_type != '过期客户'
+
+        select  <include refid="customerCol"/>
+        from customer where salesperson_id = #{salesperson_id} and customer_type != '过期客户'
     </select>
     <select id="findCustomers2" resultMap="CustomerMap">
         select  <include refid="customerCol"/>
-        from customer where salesperson_id is null and customer_type != '过期客户'
+        from customer where salesperson_id is null or customer_type = '过期客户'
     </select>
     <select id="findCusXq" resultType="com.trkj.crmproject.vo.CusXqVo">
         select customer.customer_id,customer.customer_name,customer.customer_type,customer.customer_source,customer.customer_stage,
@@ -109,4 +112,12 @@
         </set>
         where customer_id = #{customer_id}
     </update>
+    <update id="updateSeId">
+        update customer
+        <set>
+            salesperson_id = #{staff_id}
+        </set>
+        where customer_id = #{customer_id}
+    </update>
+
 </mapper>
