@@ -2,6 +2,9 @@ package com.trkj.crmproject.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 /**
@@ -13,6 +16,7 @@ public class Payment implements Serializable {
     /**
      * 付款id
      */
+    @TableId(value = "py_id",type = IdType.AUTO)
     private Integer pyId;
 
     /**
@@ -49,6 +53,8 @@ public class Payment implements Serializable {
      * 实际付款日期
      */
     private Date pyMntime;
+    //期次实付金额
+    private Integer pySfmn;
 
     private static final long serialVersionUID = 1L;
 }

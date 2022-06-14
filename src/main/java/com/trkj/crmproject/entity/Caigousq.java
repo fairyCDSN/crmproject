@@ -3,6 +3,7 @@ package com.trkj.crmproject.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -89,6 +90,8 @@ public class Caigousq implements Serializable {
     private int[] userId;
     @TableField(exist = false)
     private Parecord parecord;
+    @TableField(exist = false)
+    private List<Cgcp> cgcp;
 
     private static final long serialVersionUID = 1L;
 }

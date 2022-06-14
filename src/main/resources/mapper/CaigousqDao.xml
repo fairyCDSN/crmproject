@@ -197,8 +197,8 @@
   </update>
 
   <select id="selectcgmx" resultType="com.trkj.crmproject.vo.CaigousqVo">
-    select c.gd_name,c.gd_price,c.gd_number,s.supplier_name
-    from cggoods c inner join goodsq g on g.gd_id=c.gd_id
+    select c.gd_id,c.gd_name,c.gd_price,c.gd_number,s.supplier_name
+    from cgcp c inner join goodsq g on g.gd_id=c.gd_id
 							 inner join caigousq a on a.sqid=g.sqid
 							 inner join supplier s on c.supplier_id=s.supplier_id
 							 where a.sqid='${sqid}'

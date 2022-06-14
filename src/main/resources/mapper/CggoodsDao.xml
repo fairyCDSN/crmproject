@@ -7,10 +7,11 @@
     <result column="cggoods_gd_name" jdbcType="VARCHAR" property="gdName" />
     <result column="cggoods_gd_price" jdbcType="INTEGER" property="gdPrice" />
     <result column="cggoods_gd_number" jdbcType="INTEGER" property="gdNumber" />
-    <result column="cggoods_gd_guige" jdbcType="VARCHAR" property="gdGuige" />
     <result column="cggoods_gd_type" jdbcType="VARCHAR" property="gdType" />
     <result column="cggoods_gd_total" jdbcType="INTEGER" property="gdTotal" />
     <result column="cggoods_bz" jdbcType="VARCHAR" property="bz" />
+    <result column="cggoods_gd_cbprice" jdbcType="INTEGER" property="gdCbprice" />
+    <result column="cggoods_gd_cbtotal" jdbcType="INTEGER" property="gdCbtotal" />
   </resultMap>
   <sql id="Base_Column_List">
     cggoods.gd_id as cggoods_gd_id, cggoods.supplier_id as cggoods_supplier_id, cggoods.gd_name as cggoods_gd_name, 
@@ -27,13 +28,13 @@
     delete from cggoods
     where gd_id = #{gd_id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="gd_id" keyProperty="gd_id" parameterType="com.trkj.crmproject.entity.Cggoods" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="gdId" keyProperty="gdId" parameterType="com.trkj.crmproject.entity.Cggoods" useGeneratedKeys="true">
     insert into cggoods (supplier_id, gd_name, gd_price, 
-      gd_number, gd_guige, gd_type, 
-      gd_total, bz)
-    values (#{supplier_id,jdbcType=INTEGER}, #{gd_name,jdbcType=VARCHAR}, #{gd_price,jdbcType=INTEGER}, 
-      #{gd_number,jdbcType=INTEGER}, #{gd_guige,jdbcType=VARCHAR}, #{gd_type,jdbcType=VARCHAR}, 
-      #{gd_total,jdbcType=INTEGER}, #{bz,jdbcType=VARCHAR})
+      gd_number, gd_type,
+      gd_total, bz, gd_cbtotal, gd_cbprice)
+    values (#{supplierId,jdbcType=INTEGER}, #{gdName,jdbcType=VARCHAR}, #{gdPrice,jdbcType=INTEGER},
+      #{gdNumber,jdbcType=INTEGER}, #{gdType,jdbcType=VARCHAR},
+      #{gdTotal,jdbcType=INTEGER}, #{bz,jdbcType=VARCHAR}, #{gdCbtotal,jdbcType=INTEGER}, #{gdCbprice,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="gd_id" keyProperty="gd_id" parameterType="com.trkj.crmproject.entity.Cggoods" useGeneratedKeys="true">
     insert into cggoods
@@ -134,12 +135,12 @@
   </update>
 
   <select id="findgoods" resultType="com.trkj.crmproject.vo.CggoodsVo">
-select c.gd_id,c.gd_name,c.gd_price,c.gd_number,c.gd_total,s.supplier_name
+select c.gd_id,c.gd_name,c.gd_price,c.gd_number,c.gd_total,c.supplier_id,s.supplier_name
 from cggoods c LEFT JOIN supplier s on c.supplier_id=s.supplier_id
   </select>
 
   <select id="selectgoods" resultType="com.trkj.crmproject.vo.CggoodsVo">
-select c.gd_id,c.gd_name,c.gd_price,c.gd_number,c.gd_total,s.supplier_name
+select c.gd_id,c.gd_name,c.gd_price,c.gd_number,c.gd_total,c.supplier_id,s.supplier_name
 from cggoods c LEFT JOIN supplier s on c.supplier_id=s.supplier_id
 <if test="gdName!=null">
 where gd_name like '%${gdName}%'

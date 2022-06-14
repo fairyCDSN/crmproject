@@ -68,4 +68,17 @@ public class CggoodsServiceImpl implements CggoodsService {
         PageInfo<CggoodsVo> pageInfo=new PageInfo<>(cggoods);
         return pageInfo;
     }
+
+    @Override
+    public List<Cggoods> findsCggoods(int supplierId) {
+        QueryWrapper<Cggoods> qw=new QueryWrapper<>();
+        qw.eq("supplier_id",supplierId);
+        List<Cggoods> i=dao.selectList(qw);
+        return i;
+    }
+
+    @Override
+    public int addgoods(Cggoods cggoods) {
+        return dao.insert(cggoods);
+    }
 }

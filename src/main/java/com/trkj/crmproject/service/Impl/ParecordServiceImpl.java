@@ -66,4 +66,55 @@ public class ParecordServiceImpl implements ParecordService {
         System.out.println("我是查询出来的"+i);
         return i;
     }
+
+    @Override
+    public List<ParecordVo> selectfkjhmx(int sqid) {
+        return dao.selectfkjhmx(sqid);
+    }
+
+    @Override
+    public ParecordVo selectonefkjh(int sqid) {
+        return dao.selectonefkjh(sqid);
+    }
+
+    @Override
+    public int upstate(int paId) {
+        UpdateWrapper<Parecord> uw=new UpdateWrapper<>();
+        uw.set("isfk",1).eq("pa_id",paId);
+        int row=dao.update(null,uw);
+        return row;
+    }
+
+    @Override
+    public int uppare(int paId, int paMn) {
+        UpdateWrapper<Parecord> uw=new UpdateWrapper<>();
+        uw.set("isfk",1).set("pa_mn",paMn).eq("pa_id",paId);
+        int row=dao.update(null,uw);
+        return row;
+    }
+
+    @Override
+    public int addpare(Parecord parecord) {
+        int i=dao.selectmaxqc(parecord.getSqid());
+        Parecord parecord1=new Parecord();
+        parecord1.setPaMn(parecord.getPaMn()-parecord.getFkjh().getPySfmn());
+        parecord1.setPaDate(parecord.getPaDate());
+        parecord1.setPaQc(i+1);
+        parecord1.setIsfk(0);
+        parecord1.setPaPel(parecord.getPaPel());
+        parecord1.setSqid(parecord.getSqid());
+        parecord1.setPaTotal(parecord.getPaTotal());
+        int j=dao.insert(parecord1);
+
+        return j;
+    }
+
+    @Override
+    public int uppateqc(Parecord parecord) {
+        int i=dao.selectmaxqc(parecord.getSqid());
+        UpdateWrapper<Parecord> uw=new UpdateWrapper<>();
+        uw.set("pa_qc",i).eq("sqid",parecord.getSqid()).isNotNull("state_id");
+        int row=dao.update(null,uw);
+        return row;
+    }
 }

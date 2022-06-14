@@ -25,4 +25,10 @@ public interface ParecordDao extends BaseMapper<Parecord> {
     List<ParecordVo> findfkjh();
     List<ParecordVo> selectfkjh(@Param("cgDh")String cgDh,@Param("total")Integer total);
     ParecordVo selectpayment(int paId);
+
+    List<ParecordVo> selectfkjhmx(int sqid);
+
+    ParecordVo selectonefkjh(int sqid);
+
+    int selectmaxqc(int sqid);
 }
