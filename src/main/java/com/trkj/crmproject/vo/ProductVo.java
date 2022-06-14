@@ -33,5 +33,11 @@ public class ProductVo {
 
     //调拨与商品中间表  调拨数量、
     private int dbNumber;
+
+
+    //产品状态
+    private String proType;
+    //报价
+    private int mo;
 }
 

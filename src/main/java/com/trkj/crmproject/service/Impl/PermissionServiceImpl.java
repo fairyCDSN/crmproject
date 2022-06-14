@@ -39,14 +39,14 @@ public class PermissionServiceImpl implements PermissionService {
 
 
     //查询所有菜单信息【分页】
-    public PageInfo<SonmenuMp> selectAllMenus(int pageNum,int pageSize){
-        Page<SonmenuMp> page=PageHelper.startPage(pageNum,pageSize);
+    public List<SonmenuMp> selectAllMenus(){
+//        Page<SonmenuMp> page=PageHelper.startPage(pageNum,pageSize);
         List<SonmenuMp> sonmenuMps=sonmenuDao.selectList(null);
-        Page<SonmenuMp> mps=new Page<>();
-        BeanTools.copyList(sonmenuMps,mps,SonmenuMp.class);
-        PageInfo<SonmenuMp> pageInfo=new PageInfo<>(mps);
-        log.debug("这是查询到的菜单分页信息:{}",pageInfo);
-        return pageInfo;
+//        Page<SonmenuMp> mps=new Page<>();
+//        BeanTools.copyList(sonmenuMps,mps,SonmenuMp.class);
+//        PageInfo<SonmenuMp> pageInfo=new PageInfo<>(mps);
+//        log.debug("这是查询到的菜单分页信息:{}",pageInfo);
+        return sonmenuMps;
     }
 
 }

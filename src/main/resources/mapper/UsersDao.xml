@@ -169,4 +169,11 @@
   <select id="selectMaxUserId" resultType="java.lang.Integer">
         select max(user_id) from users
   </select>
+
+  <select id="findUserName" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" /> from users where user_name!=#{user_name}
+  </select>
+  <select id="selectUserId" resultType="java.lang.Integer">
+    select user_id from users where user_name=#{user_name}
+  </select>
 </mapper>

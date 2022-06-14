@@ -1,5 +1,7 @@
 package com.trkj.crmproject.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -15,6 +17,7 @@ public class Role implements Serializable {
     /**
      * 角色id
      */
+    @TableId(value = "role_id",type = IdType.AUTO)
     private Integer role_id;
 
     /**
@@ -44,6 +47,9 @@ public class Role implements Serializable {
 
     //权限菜单
     private List<Sonmenu> sonmenuList;
+
+    //菜单id
+    private List<Integer> role_menus;
 
     private static final long serialVersionUID = 1L;
 }

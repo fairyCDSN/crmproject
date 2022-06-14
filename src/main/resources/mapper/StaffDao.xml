@@ -79,7 +79,7 @@
       <if test="param1!='' || param1==null || param1 !=0">
             staff_name like concat('%','${param1}','%')
       </if>
-      <if test="param2!='' || param2==null">
+      <if test="param2 !='' || param2 ==null">
         and staff_id like concat('%'+'${param2}'+'%')
       </if>
       <if test="param3!='' || param3 == null || param3 !=0">
@@ -164,5 +164,8 @@
     select staff.staff_name,staff.staff_id
         from staff
                  INNER JOIN post ON  staff.post_id=post.post_id WHERE post.post_name='采购员' and staff.staff_id=#{staffid}
+  </select>
+  <select id="findStaffId" resultType="java.lang.Integer">
+    select staff_id from staff where user_id = #{user_id}
   </select>
 </mapper>

@@ -30,4 +30,5 @@ public interface CustomerDao {
     public int updateCustomer(customer customer);
     public int updataCustomerType1(int customer_id);
     public int updataCustomerType2(int customer_id);
+    public int updateSeId(@Param("customer_id") int customer_id,@Param("staff_id") int staff_id);
 }

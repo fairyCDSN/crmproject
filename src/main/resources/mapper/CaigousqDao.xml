@@ -20,14 +20,15 @@
     <result column="caigousq_cg_type" jdbcType="VARCHAR" property="cgType" />
   </resultMap>
   <sql id="Base_Column_List">
-    caigousq.sqid as caigousq_sqid, caigousq.supplier_id as caigousq_supplier_id, caigousq.cg_title as caigousq_cg_title, 
-    caigousq.cg_dh as caigousq_cg_dh, caigousq.total as caigousq_total, caigousq.salesperson_id as caigousq_salesperson_id, 
-    caigousq.fksm as caigousq_fksm, caigousq.jfsm as caigousq_jfsm, caigousq.toexamine as caigousq_toexamine, 
-    caigousq.state_id as caigousq_state_id, caigousq.usestate as caigousq_usestate, caigousq.`type` as `caigousq_type`, 
+    caigousq.sqid as caigousq_sqid, caigousq.supplier_id as caigousq_supplier_id, caigousq.cg_title as caigousq_cg_title,
+    caigousq.cg_dh as caigousq_cg_dh, caigousq.total as caigousq_total, caigousq.salesperson_id as caigousq_salesperson_id,
+    caigousq.fksm as caigousq_fksm, caigousq.jfsm as caigousq_jfsm, caigousq.toexamine as caigousq_toexamine,
+    caigousq.state_id as caigousq_state_id, caigousq.usestate as caigousq_usestate, caigousq.`type` as `caigousq_type`,
     caigousq.cg_time as caigousq_cg_time, caigousq.bz as caigousq_bz
   </sql>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from caigousq caigousq
     where caigousq.sqid = #{sqid,jdbcType=INTEGER}
@@ -38,9 +39,9 @@
   </delete>
   <insert id="insert" keyColumn="sqid" keyProperty="sqid" parameterType="com.trkj.crmproject.entity.Caigousq" useGeneratedKeys="true">
     insert into caigousq (supplier_id, cg_type, cg_guige, cg_title, cg_dh,
-      total, salesperson_id, fksm, 
-      jfsm, toexamine, state_id, 
-      usestate, `type`, cg_time, 
+      total, salesperson_id, fksm,
+      jfsm, toexamine, state_id,
+      usestate, `type`, cg_time,
       bz)
     values (#{supplierId,jdbcType=INTEGER},#{cgType,jdbcType=VARCHAR},#{cgGuige,jdbcType=VARCHAR}, #{cgTitle,jdbcType=VARCHAR}, #{cgDh,jdbcType=VARCHAR},
       #{total,jdbcType=DECIMAL}, #{salespersonId,jdbcType=INTEGER}, #{fksm,jdbcType=VARCHAR},

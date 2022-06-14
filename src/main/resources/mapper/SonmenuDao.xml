@@ -50,6 +50,11 @@
     </trim>
   </select>
 
+  <select id="selectAll" resultType="com.trkj.crmproject.entity.Sonmenu">
+    select * from sonmenu m
+  </select>
+
+
 
 
 

@@ -29,6 +29,8 @@ public interface StaffDao extends BaseMapper<StaffMp> {
 
     List<StaffVo> countStaff();
 
+    int findStaffId(int user_id);
+
     String getOldPass(@Param("name") String userName);
 
     List<Users> checkPass(@Param("pass") String oldPass,@Param("name") String userName);

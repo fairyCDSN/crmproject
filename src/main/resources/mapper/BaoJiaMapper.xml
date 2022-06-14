@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.BaoJiaDao">
+    <select id="findBaojia" resultType="com.trkj.crmproject.entity.BaoJia">
+        select baojia.bjid,baojia.state_time,approval.app_type,customer.customer_name,users.user_name,apprecords.app_state
+        from baojia,users,staff,customer,approval,apprecords where baojia.salesperson_id =#{salesperson_id} and
+        customer.customer_type != '过期客户' and users.user_id=staff.user_id and baojia.salesperson_id = staff.staff_id and
+        baojia.toexamine = approval.app_id and customer.customer_id =baojia.customer_id and approval.app_type='报价审批' and
+        apprecords.app_records_id = baojia.state_id
+        <if test="customer_name != null and customer_name != ''">
+            and customer.customer_name like '%${customer_name}%'
+        </if>
+        <if test="user_name != null and user_name != ''">
+            and users.user_name like '%${user_name}%'
+        </if>
+        <if test="state != null and state != ''">
+            and apprecords.app_state like '%${state}%'
+        </if>
+        <if test="time1 != null and time1 != '' and time2!=null and time2 != ''">
+            and date(baojia.state_time) between #{time1} and #{time2}
+        </if>
+    </select>
+    <insert id="insertProduct">
+        insert into baojia(contact_id,customer_id)
+        values (#{contact_id},#{customer_id})
+    </insert>
+</mapper>
