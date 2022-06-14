@@ -29,4 +29,6 @@ public interface SonmenuDao extends BaseMapper<SonmenuMp> {
 
     //根据角色查询权限
     List<Sonmenu> findMenusByRoleNames(@Param("roleNames") List<String> roleNames);
+
+    List<Sonmenu> selectAll();
 }

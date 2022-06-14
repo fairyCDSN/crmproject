@@ -1,4 +1,4 @@
-package com.trkj.crmproject.service;
+package com.trkj.crmproject.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -7,6 +7,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.trkj.crmproject.dao.CggoodsDao;
 import com.trkj.crmproject.entity.Cggoods;
+import com.trkj.crmproject.service.CggoodsService;
 import com.trkj.crmproject.util.BeanTools;
 import com.trkj.crmproject.vo.CggoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -10,6 +10,7 @@
             left join product on product.pro_id=bs.pro_id
             left join pd_pro on pd_pro.pro_id=product.pro_id
             left join ck on pd_pro.ck_id= ck.ck_id
+            group by bs.bs_id
     </select>
 
     <!--  报损列表  根据商品名称proName模糊查询-->
@@ -30,6 +31,7 @@
                 and date(bs.bs_time) between #{param3} and #{param4}
             </if>
         </where>
+        group by bs.bs_id
     </select>
 
     <!--    报损列表  根据报溢编号查询-->
@@ -40,6 +42,7 @@
             left join pd_pro on pd_pro.pro_id=product.pro_id
             left join ck on pd_pro.ck_id= ck.ck_id
             where bs.bs_id=#{bs_id}
+            group by bs.bs_id
     </select>
 
     <!--    报损列表 修改（修改备注）-->
@@ -55,6 +58,7 @@
             left join pd_pro on pd_pro.pro_id=product.pro_id
             left join ck on pd_pro.ck_id= ck.ck_id
             where ck.ck_name=#{ckName}
+            group by bs.bs_id
     </select>
 
 </mapper>

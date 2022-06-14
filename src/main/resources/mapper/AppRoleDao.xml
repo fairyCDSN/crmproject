@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.AppRoleDao">
+  <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.AppRole">
+    <id column="app_role_app_role_id" jdbcType="INTEGER" property="app_role_id" />
+    <result column="app_role_app_id" jdbcType="INTEGER" property="app_id" />
+    <result column="app_role_role_id" jdbcType="INTEGER" property="role_id" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    app_role.app_role_id as app_role_app_role_id, app_role.app_id as app_role_app_id,
+    app_role.role_id as app_role_role_id
+  </sql>
+
+<!--  wq-->
+<!--  删除中间表-->
+  <delete id="delectAppRole" parameterType="java.lang.Integer">
+    delete from app_role
+    where role_id=#{id} and app_id=#{appId}
+  </delete>
+
+  <delete id="delectById" parameterType="java.lang.Integer">
+    delete from app_role
+    where app_id=#{id}
+  </delete>
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from app_role app_role
+    where app_role.app_role_id = #{app_role_id,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" keyColumn="app_role_id" keyProperty="app_role_id" parameterType="com.trkj.crmproject.entity.AppRole" useGeneratedKeys="true">
+    insert into app_role (app_id, role_id)
+    values (#{app_id,jdbcType=INTEGER}, #{role_id,jdbcType=INTEGER})
+  </insert>
+
+
+</mapper>

@@ -15,7 +15,8 @@ public class PermissionsController {
     private PermissionService permissionService;
 
     @GetMapping("/selectMenus")
-    public AjaxResponse selectMenus(int pageNum,int pageSize){
-        return AjaxResponse.success(permissionService.selectAllMenus(pageNum,pageSize));
+    public AjaxResponse selectMenus(){
+        return AjaxResponse.success(permissionService.selectAllMenus());
     }
+
 }

@@ -1,6 +1,7 @@
-package com.trkj.crmproject.service;
+package com.trkj.crmproject.service.Impl;
 
 import com.trkj.crmproject.dao.PaymentDao;
+import com.trkj.crmproject.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
