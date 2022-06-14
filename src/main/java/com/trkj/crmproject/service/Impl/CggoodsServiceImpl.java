@@ -1,4 +1,4 @@
-package com.trkj.crmproject.service;
+package com.trkj.crmproject.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -7,6 +7,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.trkj.crmproject.dao.CggoodsDao;
 import com.trkj.crmproject.entity.Cggoods;
+import com.trkj.crmproject.service.CggoodsService;
 import com.trkj.crmproject.util.BeanTools;
 import com.trkj.crmproject.vo.CggoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,5 +68,18 @@ public class CggoodsServiceImpl implements CggoodsService {
         BeanTools.copyList(list,cggoods,CggoodsVo.class);
         PageInfo<CggoodsVo> pageInfo=new PageInfo<>(cggoods);
         return pageInfo;
+    }
+
+    @Override
+    public List<Cggoods> findsCggoods(int supplierId) {
+        QueryWrapper<Cggoods> qw=new QueryWrapper<>();
+        qw.eq("supplier_id",supplierId);
+        List<Cggoods> i=dao.selectList(qw);
+        return i;
+    }
+
+    @Override
+    public int addgoods(Cggoods cggoods) {
+        return dao.insert(cggoods);
     }
 }

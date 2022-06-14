@@ -42,4 +42,7 @@ public interface ProductDao extends BaseMapper<Product> {
     //盘点单  根据盘点ID查询商品
     List<ProductVo> selectPdIdproAll(int pdId);
 
+
+    public List<ProductVo> findproduct(@Param("pro_name") String pro_name,@Param("pro_type") String pro_type);
+
 }

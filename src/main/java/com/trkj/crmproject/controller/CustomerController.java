@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(maxAge = 3600)
 @Slf4j
@@ -22,16 +24,19 @@ public class CustomerController {
     @Autowired
     private ContactService contactService;
 
+    //查询属于编号为salesperson_id的员工的所有状态不为过期客户的客户信息
     @GetMapping("/findCustomers")
     public AjaxResponse findCustomers(int pageNum, int pageSize,int salesperson_id){
         PageInfo<customerVo> info=customerService.findCustomers(pageNum,pageSize,salesperson_id);
         return AjaxResponse.success(info);
     }
+    //查询所有共享客户的状态不为过期客户的客户信息
     @GetMapping("/findCustomers2")
     public AjaxResponse findCustomers2(int pageNum, int pageSize){
         PageInfo<customerVo> info=customerService.findCustomers2(pageNum,pageSize);
         return AjaxResponse.success(info);
     }
+    //根据客户名称、客户阶段、日期范围搜索编号为salesperson_id的员工的所有状态不为过期客户的客户信息
     @GetMapping("/findCustomer")
     public AjaxResponse findCustomer(int pageNum, int pageSize,String customer_name, String customer_stage,String create_time1,
                                      String create_time2,int salesperson_id){
@@ -39,6 +44,7 @@ public class CustomerController {
                 create_time1,create_time2,salesperson_id);
         return AjaxResponse.success(info);
     }
+    //根据客户名称、客户阶段、日期范围搜索所有状态不为过期客户的共享客户的客户信息
     @GetMapping("/findCustomer1")
     public AjaxResponse findCustomer1(int pageNum, int pageSize,String customer_name, String customer_stage,String create_time1,
                                       String create_time2){
@@ -86,5 +92,12 @@ public class CustomerController {
     @PutMapping("/customers2")
     public AjaxResponse delCustomers(@RequestBody int customer_id){
         return AjaxResponse.success(customerService.updataCustomerType2(customer_id));
+    }
+
+    @PutMapping("/updateSeId")
+    public AjaxResponse updateSeId(@RequestBody AddVo[] ss,int user_id){
+        System.out.println(user_id+"asfokjsadfiasjidfhnakjsdf");
+        customerService.updateSeId(ss,user_id);
+        return AjaxResponse.success();
     }
 }

@@ -5,6 +5,7 @@ import com.trkj.crmproject.handler.UserAuthAccessDeniedHandler;
 import com.trkj.crmproject.handler.UserAuthenticationEntryPointHandler;
 import com.trkj.crmproject.handler.UserLogoutSuccessHandler;
 import com.trkj.crmproject.service.Impl.MyUserDetailsService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
@@ -27,6 +28,7 @@ import java.util.List;
 
 //@Configuration
 @EnableWebSecurity
+@Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     MyUserDetailsService myUserDetailsService;
@@ -54,6 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         //禁用CSRF保护,指跨站请求伪造，我们使用JWT机制基本可以预防
         ExceptionHandlingConfigurer<HttpSecurity> httpSecurityExceptionHandlingConfigurer = http.csrf().disable()
                 .cors()

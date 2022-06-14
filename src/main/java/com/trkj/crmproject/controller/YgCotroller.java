@@ -16,8 +16,8 @@ public class YgCotroller {
 //    @Autowired
 //    private PurchaseplanService purchaseplanService;
 
-    @Autowired
-    private ParecordService parecordService;
+//    @Autowired
+//    private ParecordService parecordService;
 
     @Autowired
     private CaigousqService caigousqService;
@@ -78,26 +78,26 @@ public class YgCotroller {
         return AjaxResponse.success(caigousqService.addcaigousq(caigousq));
     }
 
-    @GetMapping("findfkpy")
-    public AjaxResponse findfkpy(int pageNum,int pageSize){
-        System.out.println("11111111");
-        PageInfo<Parecord> info=parecordService.findrb(pageNum,pageSize);
-        return AjaxResponse.success(info);
-    }
-
-    @RequestMapping("selectfk")
-    public AjaxResponse selectfk(Parecord vo,int pageNum,int pageSize){
-        System.out.println(vo);
-        PageInfo<Parecord> info=parecordService.selectfk(vo.getPaId(),pageNum,pageSize);
-        System.out.println(info+"==================================");
-        return AjaxResponse.success(info);
-    }
-
-    @PostMapping("addfkjh")
-    public AjaxResponse addfkjh(@RequestBody Parecord parecord){
-        int row =parecordService.addfkjh(parecord);
-        return AjaxResponse.success(row);
-    }
+//    @GetMapping("findfkpy")
+//    public AjaxResponse findfkpy(int pageNum,int pageSize){
+//        System.out.println("11111111");
+//        PageInfo<Parecord> info=parecordService.findrb(pageNum,pageSize);
+//        return AjaxResponse.success(info);
+//    }
+//
+//    @RequestMapping("selectfk")
+//    public AjaxResponse selectfk(Parecord vo,int pageNum,int pageSize){
+//        System.out.println(vo);
+//        PageInfo<Parecord> info=parecordService.selectfk(vo.getPaId(),pageNum,pageSize);
+//        System.out.println(info+"==================================");
+//        return AjaxResponse.success(info);
+//    }
+//
+//    @PostMapping("addfkjh")
+//    public AjaxResponse addfkjh(@RequestBody Parecord parecord){
+//        int row =parecordService.addfkjh(parecord);
+//        return AjaxResponse.success(row);
+//    }
 
     //采购订单、添加按钮，查询供应商名称
     @GetMapping("selectsupname")

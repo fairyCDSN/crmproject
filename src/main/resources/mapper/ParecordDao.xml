@@ -4,23 +4,22 @@
   <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Parecord">
     <id column="parecord_pa_id" jdbcType="INTEGER" property="paId" />
     <result column="parecord_cg_id" jdbcType="INTEGER" property="cgId" />
-    <result column="parecord_bi_id" jdbcType="INTEGER" property="biId" />
+    <result column="parecord_sqid" jdbcType="INTEGER" property="sqid" />
     <result column="parecord_pa_total" jdbcType="INTEGER" property="paTotal" />
-    <result column="parecord_pa_pel" jdbcType="VARCHAR" property="paPel" />
+    <result column="parecord_pa_pel" jdbcType="INTEGER" property="paPel" />
     <result column="parecord_pa_qc" jdbcType="INTEGER" property="paQc" />
     <result column="parecord_pa_date" jdbcType="TIMESTAMP" property="paDate" />
     <result column="parecord_pa_mn" jdbcType="INTEGER" property="paMn" />
     <result column="parecord_pa_remark" jdbcType="VARCHAR" property="paRemark" />
-    <result column="parecord_pa_jspopl" jdbcType="VARCHAR" property="paJspopl" />
     <result column="parecord_toexamine" jdbcType="INTEGER" property="toexamine" />
     <result column="parecord_state_id" jdbcType="INTEGER" property="stateId" />
+    <result column="parecord_isfk" jdbcType="INTEGER" property="isfk" />
   </resultMap>
   <sql id="Base_Column_List">
-    parecord.pa_id as parecord_pa_id, parecord.cg_id as parecord_cg_id, parecord.bi_id as parecord_bi_id, 
+    parecord.pa_id as parecord_pa_id, parecord.cg_id as parecord_cg_id, parecord.sqid as parecord_sqid, 
     parecord.pa_total as parecord_pa_total, parecord.pa_pel as parecord_pa_pel, parecord.pa_qc as parecord_pa_qc, 
     parecord.pa_date as parecord_pa_date, parecord.pa_mn as parecord_pa_mn, parecord.pa_remark as parecord_pa_remark, 
-    parecord.pa_jspopl as parecord_pa_jspopl, parecord.toexamine as parecord_toexamine, 
-    parecord.state_id as parecord_state_id
+    parecord.toexamine as parecord_toexamine, parecord.state_id as parecord_state_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -32,15 +31,15 @@
     delete from parecord
     where pa_id = #{pa_id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="pa_id" keyProperty="paId" parameterType="com.trkj.crmproject.entity.Parecord" useGeneratedKeys="true">
-    insert into parecord (cg_id, bi_id, pa_total, 
+  <insert id="insert" keyColumn="paId" keyProperty="paId" parameterType="com.trkj.crmproject.entity.Parecord" useGeneratedKeys="true">
+    insert into parecord (cg_id, sqid, pa_total, 
       pa_pel, pa_qc, pa_date, 
-      pa_mn, pa_remark, pa_jspopl, 
-      toexamine, state_id)
-    values (#{cgId,jdbcType=INTEGER}, #{biId,jdbcType=INTEGER}, #{paTotal,jdbcType=INTEGER},
-      #{paPel,jdbcType=VARCHAR}, #{paQc,jdbcType=INTEGER}, #{paDate,jdbcType=TIMESTAMP},
-      #{paMn,jdbcType=INTEGER}, #{paRemark,jdbcType=VARCHAR}, #{paJspopl,jdbcType=VARCHAR},
-      #{toexamine,jdbcType=INTEGER}, #{stateId,jdbcType=INTEGER})
+      pa_mn, pa_remark, toexamine, 
+      state_id, isfk)
+    values (#{cgId,jdbcType=INTEGER}, #{sqid,jdbcType=INTEGER}, #{paTotal,jdbcType=INTEGER},
+      #{paPel,jdbcType=INTEGER}, #{paQc,jdbcType=INTEGER}, #{paDate,jdbcType=TIMESTAMP},
+      #{paMn,jdbcType=INTEGER}, #{paRemark,jdbcType=VARCHAR}, #{toexamine,jdbcType=INTEGER},
+      #{stateId,jdbcType=INTEGER}, #{isfk,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="pa_id" keyProperty="pa_id" parameterType="com.trkj.crmproject.entity.Parecord" useGeneratedKeys="true">
     insert into parecord
@@ -48,8 +47,8 @@
       <if test="cg_id != null">
         cg_id,
       </if>
-      <if test="bi_id != null">
-        bi_id,
+      <if test="sqid != null">
+        sqid,
       </if>
       <if test="pa_total != null">
         pa_total,
@@ -69,9 +68,6 @@
       <if test="pa_remark != null">
         pa_remark,
       </if>
-      <if test="pa_jspopl != null">
-        pa_jspopl,
-      </if>
       <if test="toexamine != null">
         toexamine,
       </if>
@@ -83,14 +79,14 @@
       <if test="cg_id != null">
         #{cg_id,jdbcType=INTEGER},
       </if>
-      <if test="bi_id != null">
-        #{bi_id,jdbcType=INTEGER},
+      <if test="sqid != null">
+        #{sqid,jdbcType=INTEGER},
       </if>
       <if test="pa_total != null">
         #{pa_total,jdbcType=INTEGER},
       </if>
       <if test="pa_pel != null">
-        #{pa_pel,jdbcType=VARCHAR},
+        #{pa_pel,jdbcType=INTEGER},
       </if>
       <if test="pa_qc != null">
         #{pa_qc,jdbcType=INTEGER},
@@ -103,9 +99,6 @@
       </if>
       <if test="pa_remark != null">
         #{pa_remark,jdbcType=VARCHAR},
-      </if>
-      <if test="pa_jspopl != null">
-        #{pa_jspopl,jdbcType=VARCHAR},
       </if>
       <if test="toexamine != null">
         #{toexamine,jdbcType=INTEGER},
@@ -121,14 +114,14 @@
       <if test="cg_id != null">
         cg_id = #{cg_id,jdbcType=INTEGER},
       </if>
-      <if test="bi_id != null">
-        bi_id = #{bi_id,jdbcType=INTEGER},
+      <if test="sqid != null">
+        sqid = #{sqid,jdbcType=INTEGER},
       </if>
       <if test="pa_total != null">
         pa_total = #{pa_total,jdbcType=INTEGER},
       </if>
       <if test="pa_pel != null">
-        pa_pel = #{pa_pel,jdbcType=VARCHAR},
+        pa_pel = #{pa_pel,jdbcType=INTEGER},
       </if>
       <if test="pa_qc != null">
         pa_qc = #{pa_qc,jdbcType=INTEGER},
@@ -142,9 +135,6 @@
       <if test="pa_remark != null">
         pa_remark = #{pa_remark,jdbcType=VARCHAR},
       </if>
-      <if test="pa_jspopl != null">
-        pa_jspopl = #{pa_jspopl,jdbcType=VARCHAR},
-      </if>
       <if test="toexamine != null">
         toexamine = #{toexamine,jdbcType=INTEGER},
       </if>
@@ -157,31 +147,65 @@
   <update id="updateByPrimaryKey" parameterType="com.trkj.crmproject.entity.Parecord">
     update parecord
     set cg_id = #{cg_id,jdbcType=INTEGER},
-      bi_id = #{bi_id,jdbcType=INTEGER},
+      sqid = #{sqid,jdbcType=INTEGER},
       pa_total = #{pa_total,jdbcType=INTEGER},
-      pa_pel = #{pa_pel,jdbcType=VARCHAR},
+      pa_pel = #{pa_pel,jdbcType=INTEGER},
       pa_qc = #{pa_qc,jdbcType=INTEGER},
       pa_date = #{pa_date,jdbcType=TIMESTAMP},
       pa_mn = #{pa_mn,jdbcType=INTEGER},
       pa_remark = #{pa_remark,jdbcType=VARCHAR},
-      pa_jspopl = #{pa_jspopl,jdbcType=VARCHAR},
       toexamine = #{toexamine,jdbcType=INTEGER},
       state_id = #{state_id,jdbcType=INTEGER}
     where pa_id = #{pa_id,jdbcType=INTEGER}
   </update>
 
-  <select id="selectfk" resultType="com.trkj.crmproject.entity.Parecord">
-    select parecord.pa_id,parecord.cg_id,parecord.bi_id,parecord.pa_total,parecord.pa_pel,parecord.pa_qc,parecord.pa_date,parecord.pa_mn,parecord.pa_remark,parecord.pa_jspopl,parecord.toexamine,apprecords.app_state
-    from parecord LEFT JOIN apprecords on parecord.state_id=apprecords.app_records_id
+  <select id="findfkjh" resultType="com.trkj.crmproject.vo.ParecordVo">
+    select p.pa_id,p.sqid,p.pa_total,p.pa_qc,p.pa_date,p.pa_mn,s.staff_name,c.cg_dh from parecord p left join apprecords a
+on p.state_id=a.app_records_id
+left join staff s on p.pa_pel=s.staff_id
+left join caigousq c on p.sqid=c.sqid
+where a.app_state='审批通过' and p.isfk=0
   </select>
 
-  <select id="pagefk" resultType="com.trkj.crmproject.entity.Parecord">
-    select parecord.pa_id,parecord.cg_id,parecord.bi_id,parecord.pa_total,parecord.pa_pel,parecord.pa_qc,parecord.pa_date,parecord.pa_mn,parecord.pa_remark,parecord.pa_jspopl,parecord.toexamine,apprecords.app_state
-    from parecord LEFT JOIN apprecords on parecord.state_id=apprecords.app_records_id
+  <select id="selectfkjh" resultType="com.trkj.crmproject.vo.ParecordVo">
+    select p.pa_id,p.sqid,p.pa_total,p.pa_qc,p.pa_date,p.pa_mn,s.staff_name,c.cg_dh from parecord p left join apprecords a
+on p.state_id=a.app_records_id
+left join staff s on p.pa_pel=s.staff_id
+left join caigousq c on p.sqid=c.sqid
     <where>
-      <if test="paId !=0 ">
-        pa_id = #{paId,jdbcType=INTEGER}
+      <if test="cgDh!=''">
+        c.cg_dh like '%${cgDh}%'
       </if>
+      <if test="total!=0">
+        and p.pa_total BETWEEN 0 AND '${total}'
+      </if>
+     and a.app_state='审批通过' and p.isfk=0
     </where>
   </select>
+
+  <select id="selectpayment" resultType="com.trkj.crmproject.vo.ParecordVo">
+    select p.pa_id,p.pa_total,p.pa_qc,p.pa_mn from parecord p where p.pa_id=#{paId}
+  </select>
+
+  <select id="selectfkjhmx" resultType="com.trkj.crmproject.vo.ParecordVo">
+    select p.pa_id,p.sqid,p.pa_total,p.pa_qc,p.pa_date,p.pa_mn,p.isfk,s.staff_name,c.cg_dh from parecord p left join apprecords a
+on p.state_id=a.app_records_id
+left join staff s on p.pa_pel=s.staff_id
+left join caigousq c on p.sqid=c.sqid
+where p.sqid=#{sqid} and p.state_id is null
+  </select>
+
+  <select id="selectonefkjh" resultType="com.trkj.crmproject.vo.ParecordVo">
+    select p.pa_id,p.sqid,p.pa_total,MIN(p.pa_qc) paQc,p.pa_date,p.pa_mn,p.isfk,p.pa_pel,s.staff_name,c.cg_dh from parecord p left join apprecords a
+on p.state_id=a.app_records_id
+left join staff s on p.pa_pel=s.staff_id
+left join caigousq c on p.sqid=c.sqid
+where p.sqid=#{sqid} and p.state_id is null and p.isfk=0
+  </select>
+
+  <select id="selectmaxqc" resultType="java.lang.Integer">
+    select MAX(p.pa_qc) from parecord p where p.sqid=#{sqid} and p.state_id is null and p.isfk=0
+  </select>
+
+
 </mapper>

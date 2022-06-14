@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.PaymentDao">
+  <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Payment">
+    <id column="payment_py_id" jdbcType="INTEGER" property="pyId" />
+    <result column="payment_pa_id" jdbcType="INTEGER" property="paId" />
+    <result column="payment_py_type" jdbcType="VARCHAR" property="pyType" />
+    <result column="payment_py_qc" jdbcType="INTEGER" property="pyQc" />
+    <result column="payment_py_mn" jdbcType="INTEGER" property="pyMn" />
+    <result column="payment_is_bi" jdbcType="VARCHAR" property="isBi" />
+    <result column="payment_py_class" jdbcType="VARCHAR" property="pyClass" />
+    <result column="payment_py_mntime" jdbcType="TIMESTAMP" property="pyMntime" />
+    <result column="payment_py_sfmn" jdbcType="INTEGER" property="pySfmn" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    payment.py_id as payment_py_id, payment.pa_id as payment_pa_id, payment.py_type as payment_py_type, 
+    payment.py_qc as payment_py_qc, payment.py_mn as payment_py_mn, payment.is_bi as payment_is_bi, 
+    payment.py_class as payment_py_class, payment.py_mntime as payment_py_mntime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from payment payment
+    where payment.py_id = #{py_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from payment
+    where py_id = #{py_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="pyId" keyProperty="pyId" parameterType="com.trkj.crmproject.entity.Payment" useGeneratedKeys="true">
+    insert into payment (pa_id, py_type, py_qc, 
+      py_mn, is_bi, py_class, 
+      py_mntime, py_sfmn)
+    values (#{paId,jdbcType=INTEGER}, #{pyType,jdbcType=VARCHAR}, #{pyQc,jdbcType=INTEGER},
+      #{pyMn,jdbcType=INTEGER}, #{isBi,jdbcType=VARCHAR}, #{pyClass,jdbcType=VARCHAR},
+      #{pyMntime,jdbcType=TIMESTAMP}, #{pySfmn,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="py_id" keyProperty="py_id" parameterType="com.trkj.crmproject.entity.Payment" useGeneratedKeys="true">
+    insert into payment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pa_id != null">
+        pa_id,
+      </if>
+      <if test="py_type != null">
+        py_type,
+      </if>
+      <if test="py_qc != null">
+        py_qc,
+      </if>
+      <if test="py_mn != null">
+        py_mn,
+      </if>
+      <if test="is_bi != null">
+        is_bi,
+      </if>
+      <if test="py_class != null">
+        py_class,
+      </if>
+      <if test="py_mntime != null">
+        py_mntime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pa_id != null">
+        #{pa_id,jdbcType=INTEGER},
+      </if>
+      <if test="py_type != null">
+        #{py_type,jdbcType=VARCHAR},
+      </if>
+      <if test="py_qc != null">
+        #{py_qc,jdbcType=INTEGER},
+      </if>
+      <if test="py_mn != null">
+        #{py_mn,jdbcType=INTEGER},
+      </if>
+      <if test="is_bi != null">
+        #{is_bi,jdbcType=VARCHAR},
+      </if>
+      <if test="py_class != null">
+        #{py_class,jdbcType=VARCHAR},
+      </if>
+      <if test="py_mntime != null">
+        #{py_mntime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trkj.crmproject.entity.Payment">
+    update payment
+    <set>
+      <if test="pa_id != null">
+        pa_id = #{pa_id,jdbcType=INTEGER},
+      </if>
+      <if test="py_type != null">
+        py_type = #{py_type,jdbcType=VARCHAR},
+      </if>
+      <if test="py_qc != null">
+        py_qc = #{py_qc,jdbcType=INTEGER},
+      </if>
+      <if test="py_mn != null">
+        py_mn = #{py_mn,jdbcType=INTEGER},
+      </if>
+      <if test="is_bi != null">
+        is_bi = #{is_bi,jdbcType=VARCHAR},
+      </if>
+      <if test="py_class != null">
+        py_class = #{py_class,jdbcType=VARCHAR},
+      </if>
+      <if test="py_mntime != null">
+        py_mntime = #{py_mntime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where py_id = #{py_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.trkj.crmproject.entity.Payment">
+    update payment
+    set pa_id = #{pa_id,jdbcType=INTEGER},
+      py_type = #{py_type,jdbcType=VARCHAR},
+      py_qc = #{py_qc,jdbcType=INTEGER},
+      py_mn = #{py_mn,jdbcType=INTEGER},
+      is_bi = #{is_bi,jdbcType=VARCHAR},
+      py_class = #{py_class,jdbcType=VARCHAR},
+      py_mntime = #{py_mntime,jdbcType=TIMESTAMP}
+    where py_id = #{py_id,jdbcType=INTEGER}
+  </update>
+
+  <select id="tjqc" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(*) as py_qc from payment where pa_id=#{paId}
+  </select>
+</mapper>

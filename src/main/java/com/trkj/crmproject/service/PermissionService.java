@@ -14,6 +14,6 @@ public interface PermissionService {
     public List<Sonmenu> getMenuByUname(String userName);
 
     //查询所有的菜单信息【分页】
-    public PageInfo<SonmenuMp> selectAllMenus(int pageNum,int pageSize);
+    public List<SonmenuMp> selectAllMenus();
 
 }

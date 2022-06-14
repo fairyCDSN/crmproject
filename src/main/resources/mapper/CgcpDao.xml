@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.CgcpDao">
+  <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Cgcp">
+    <id column="cgcp_gd_id" jdbcType="INTEGER" property="gdId" />
+    <result column="cgcp_gd_name" jdbcType="VARCHAR" property="gdName" />
+    <result column="cgcp_gd_number" jdbcType="INTEGER" property="gdNumber" />
+    <result column="cgcp_gd_price" jdbcType="INTEGER" property="gdPrice" />
+    <result column="cgcp_gd_type" jdbcType="VARCHAR" property="gdType" />
+    <result column="cgcp_supplier_id" jdbcType="INTEGER" property="supplierId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    cgcp.gd_id as cgcp_gd_id, cgcp.gd_name as cgcp_gd_name, cgcp.gd_number as cgcp_gd_number, 
+    cgcp.gd_price as cgcp_gd_price
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cgcp cgcp
+    where cgcp.gd_id = #{gd_id,jdbcType=INTEGER}
+  </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cgcp
+    where gd_id = #{gd_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="gdId" keyProperty="gdId" parameterType="com.trkj.crmproject.entity.Cgcp" useGeneratedKeys="true">
+    insert into cgcp (gd_name, gd_number, gd_price, gd_type, supplier_id
+      )
+    values (#{gdName,jdbcType=VARCHAR}, #{gdNumber,jdbcType=INTEGER}, #{gdPrice,jdbcType=INTEGER}, #{gdType,jdbcType=VARCHAR}, #{supplierId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="gd_id" keyProperty="gd_id" parameterType="com.trkj.crmproject.entity.Cgcp" useGeneratedKeys="true">
+    insert into cgcp
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="gd_name != null">
+        gd_name,
+      </if>
+      <if test="gd_number != null">
+        gd_number,
+      </if>
+      <if test="gd_price != null">
+        gd_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="gd_name != null">
+        #{gd_name,jdbcType=VARCHAR},
+      </if>
+      <if test="gd_number != null">
+        #{gd_number,jdbcType=INTEGER},
+      </if>
+      <if test="gd_price != null">
+        #{gd_price,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trkj.crmproject.entity.Cgcp">
+    update cgcp
+    <set>
+      <if test="gd_name != null">
+        gd_name = #{gd_name,jdbcType=VARCHAR},
+      </if>
+      <if test="gd_number != null">
+        gd_number = #{gd_number,jdbcType=INTEGER},
+      </if>
+      <if test="gd_price != null">
+        gd_price = #{gd_price,jdbcType=INTEGER},
+      </if>
+    </set>
+    where gd_id = #{gd_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.trkj.crmproject.entity.Cgcp">
+    update cgcp
+    set gd_name = #{gd_name,jdbcType=VARCHAR},
+      gd_number = #{gd_number,jdbcType=INTEGER},
+      gd_price = #{gd_price,jdbcType=INTEGER}
+    where gd_id = #{gd_id,jdbcType=INTEGER}
+  </update>
+
+  <select id="findscgcp" resultType="com.trkj.crmproject.entity.Cgcp">
+    select g.gd_id,g.gd_name,g.gd_number,g.gd_price,g.gd_type,s.supplier_name from cgcp g LEFT JOIN supplier s
+on g.supplier_id=s.supplier_id
+where g.supplier_id=#{supplierId}
+  </select>
+</mapper>

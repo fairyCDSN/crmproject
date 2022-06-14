@@ -26,4 +26,8 @@ public interface UsersDao extends BaseMapper<StaffMp> {
     int updateByPrimaryKey(Users record);
 
     int selectMaxUserId();
+
+    //李玉春的代码
+    public Users[] findUserName(String user_name);
+    public int selectUserId(String user_name);
 }

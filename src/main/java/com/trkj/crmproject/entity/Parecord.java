@@ -4,8 +4,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * parecord
@@ -16,15 +19,15 @@ public class Parecord implements Serializable {
     /**
      * 付款计划id
      */
-    @TableId(value = "pa_id",type = IdType.AUTO)
+    @TableId(value = "paId",type = IdType.AUTO)
     private Integer paId;
 
     private Integer cgId;
 
     /**
-     * 采购订单id
+     * 采购申请订单id
      */
-    private Integer biId;
+    private Integer sqid;
 
     /**
      * 总金额
@@ -32,9 +35,9 @@ public class Parecord implements Serializable {
     private Integer paTotal;
 
     /**
-     * 创建人
+     * 采购员id
      */
-    private String paPel;
+    private Integer paPel;
 
     /**
      * 期次
@@ -57,11 +60,6 @@ public class Parecord implements Serializable {
     private String paRemark;
 
     /**
-     * 创建人
-     */
-    private String paJspopl;
-
-    /**
      * 审批id
      */
     private Integer toexamine;
@@ -71,5 +69,18 @@ public class Parecord implements Serializable {
      */
     private Integer stateId;
 
+    private Integer isfk;
+
+    @TableField(exist = false)
+    private Payment fkjh;
+    @TableField(exist = false)
+    private int[] userId;
+    //这是选中的时间
+    @TableField(exist = false)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date[] fruit;
+    @TableField(exist = false)
+    private int[] price;
     private static final long serialVersionUID = 1L;
 }
