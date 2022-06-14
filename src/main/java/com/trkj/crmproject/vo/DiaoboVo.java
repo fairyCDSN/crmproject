@@ -13,7 +13,7 @@ public class DiaoboVo {
     private String createUser;
     private String bz;
     private int toexamine;
-    private int stateId;
+    private int appRecordsId;
 
     private String dcName;
     private String drName;
