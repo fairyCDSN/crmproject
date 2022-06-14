@@ -33,6 +33,8 @@ public class ProductConteoller {
         PageInfo<ProductVo> info=productService.findpro(pageNum,pageSize);
         return AjaxResponse.success(info);
     }
+
+
     //商品清单  查询全部（根据pro_id外键查询到pro_ck表的pro_ck_number的和）
     @GetMapping("/selectProckName")
     public AjaxResponse selectProckName(){
@@ -69,11 +71,6 @@ public class ProductConteoller {
         List<ProductVo> productVos = productService.selectProckNameAll(ckName);
         return AjaxResponse.success(productVos);
     }
-    @GetMapping("/findprockName")
-    public AjaxResponse findprockName(String ckName,int pageNum, int pageSize){
-        PageInfo<ProductVo> info=productService.findprockName(ckName,pageNum,pageSize);
-        return AjaxResponse.success(info);
-    }
 
     // 商品清单  查询商品详情
     @GetMapping("/selectProIdxq")
@@ -105,11 +102,6 @@ public class ProductConteoller {
     @GetMapping("/selectPdIdproAll")
     public AjaxResponse selectPdIdproAll(int pdId){
         return AjaxResponse.success(productService.selectPdIdproAll(pdId));
-    }
-    @GetMapping("/findPdIdpro")
-    public AjaxResponse findPdIdpro(int pdId,int pageNum, int pageSize) {
-        PageInfo<ProductVo> info = productService.findPdIdpro(pdId, pageNum, pageSize);
-        return AjaxResponse.success(info);
     }
 
 }

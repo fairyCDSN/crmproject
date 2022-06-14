@@ -3,24 +3,15 @@ package com.trkj.crmproject.service.Impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.trkj.crmproject.dao.ApprecordsDao;
-import com.trkj.crmproject.dao.ApprecordsSonDao;
-import com.trkj.crmproject.dao.DbProDao;
 import com.trkj.crmproject.dao.DiaoboDao;
-import com.trkj.crmproject.entity.Apprecords;
-import com.trkj.crmproject.entity.ApprecordsSon;
-import com.trkj.crmproject.entity.DbPro;
 import com.trkj.crmproject.entity.Diaobo;
 import com.trkj.crmproject.service.DiaoboService;
 import com.trkj.crmproject.util.BeanTools;
-import com.trkj.crmproject.vo.CkUserVo;
-import com.trkj.crmproject.vo.CkVo;
 import com.trkj.crmproject.vo.DiaoboVo;
 import com.trkj.crmproject.vo.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -28,12 +19,6 @@ public class DiaoboServiceImpl implements DiaoboService {
 
     @Autowired
     private DiaoboDao diaoboDao;
-    @Autowired
-    private DbProDao dbProDao;
-    @Autowired
-    private ApprecordsDao apprecordsDao;
-    @Autowired
-    private ApprecordsSonDao apprecordsSonDao;
 
     //调拨列表 查询全部（ckName[dcName,drName]
     @Override
@@ -57,17 +42,6 @@ public class DiaoboServiceImpl implements DiaoboService {
     public List<ProductVo> selectDbidproName(int dbId) {
         return diaoboDao.selectDbidproName(dbId);
     }
-    @Override
-    public PageInfo<ProductVo> finddbproName(int dbId, int pageNum, int pageSize) {
-        Page<ProductVo> page= PageHelper.startPage(pageNum,pageSize);
-        List<ProductVo> list=diaoboDao.selectDbidproName(dbId);
-        Page<ProductVo> depts=new Page<>();
-        BeanTools.copyList(list,depts,ProductVo.class);
-        PageInfo<ProductVo> pageInfo=new PageInfo<>(depts);
-        System.out.println(pageInfo);
-        return pageInfo;
-    }
-
     //调拨详情 根据调拨id查询调拨信息
     @Override
     public DiaoboVo selectDbidxq(int dbId) {
@@ -76,128 +50,8 @@ public class DiaoboServiceImpl implements DiaoboService {
 
     //调拨管理  修改
     @Override
-    public int updateDbidbz(DiaoboVo diaoboVo) {
-        return diaoboDao.updateDbidbz(diaoboVo);
+    public int updateDbidbz(Diaobo diaobo) {
+        return diaoboDao.updateById(diaobo);
     }
-
-
-    //调拨列表 根据调出仓库查询全部
-    @Override
-    public List<DiaoboVo> selectDbdcName(String dcName){
-        return diaoboDao.selectDbdcName(dcName);
-    }
-    //调拨列表 根据调入仓库查询全部
-    @Override
-    public List<DiaoboVo> selectDbdrName(String drName){
-        return diaoboDao.selectDbdrName(drName);
-    }
-
-    //调拨列表 根据时间，调出调入仓库查询
-    @Override
-    public List<DiaoboVo> selectDbTimeandckName(String dcName,String drName,String ksdbTime,String jsdbTime){
-        return diaoboDao.selectDbTimeandckName(dcName,drName,ksdbTime,jsdbTime);
-    }
-
-    //调拨表 根据仓库id，商品名称查询
-    @Override
-    public ProductVo selectPdckIdproName(int ckId, String proName) {
-        return diaoboDao.selectPdckIdproName(ckId,proName);
-    }
-
-
-
-
-    //调拨表 查询不等于出库id的入库id
-    @Override
-    public List<CkVo> selectdbckdrId(int ckId) {
-        return diaoboDao.selectdbckdrId(ckId);
-    }
-
-    //审批，查询最大编号
-    @Override
-    public int selectdbAppId(){
-        return diaoboDao.selectdbAppId();
-    }
-
-    //查询调拨最大编号
-    @Override
-    public int selectdbId() {
-        return diaoboDao.selectdbId();
-    }
-
-
-    //添加审批子表，查询有审批权限的用户id
-    @Override
-    public List<CkUserVo> selectdbusersId() {
-        return diaoboDao.selectdbusersId();
-    }
-
-    //添加调拨单
-    @Override
-    public int insertDiaobo(Diaobo diaobo){
-        System.out.println("出库："+diaobo.getCkId());
-        System.out.println("审批表id："+diaobo.getAppRecordsId());
-        int apprecordsid=diaobo.getAppRecordsId()+1;
-        System.out.println("审批表id+1"+apprecordsid);
-        int diaoboid=diaobo.getDbId()+1;
-
-        diaobo.setDbTime(new Date());
-        diaobo.setCkId(diaobo.getCkId());
-        diaobo.setToexamine(3);
-        diaobo.setAppRecordsId(1);
-        diaobo.setDbId(diaoboid);
-
-        diaoboDao.insert(diaobo);
-
-        List<ProductVo> products=diaobo.getProductss();
-        for(ProductVo o:products){
-            DbPro dbPro=new DbPro();
-
-            dbPro.setCkId(diaobo.getCkId());
-            dbPro.setDbId(diaoboid);
-            dbPro.setDbNumber(o.getSl());
-            dbPro.setProId(o.getProId());
-
-            dbProDao.insert(dbPro);
-
-        }
-
-        Apprecords apprecords=new Apprecords();
-
-        apprecords.setAppRecordsId(apprecordsid);
-        apprecords.setAppId(3);
-        apprecords.setAppState("待审批");
-        apprecords.setSqid(diaoboid+1);
-        apprecords.setCreateTime(new Date());
-
-        apprecordsDao.insert(apprecords);
-
-
-        List<CkUserVo> ckUserVos=diaobo.getUsersId();
-        for(CkUserVo o:ckUserVos){
-            ApprecordsSon apprecordsSon=new ApprecordsSon();
-
-            apprecordsSon.setAppRecordsId(apprecordsid);
-            apprecordsSon.setCreateTime(new Date());
-            apprecordsSon.setAppState("待审批");
-            apprecordsSon.setUserId(o.getUsersId());
-
-            apprecordsSonDao.insert(apprecordsSon);
-        }
-
-        diaobo.setAppRecordsId(apprecordsid);
-        diaoboDao.updateById(diaobo);
-
-
-        return 1;
-    }
-
-
-    //根据调拨id查询审批状态（通过）
-    @Override
-    public Apprecords selectdbappState(int dbId) {
-        return diaoboDao.selectdbappState(dbId);
-    }
-
 
 }

@@ -18,6 +18,8 @@ public interface ProductService {
 
     //分页
     public PageInfo<ProductVo> findpro(int pageNum, int pageSize);
+
+
     //商品清单  查询全部（根据pro_id外键查询到pro_ck表的pro_ck_number的和）
     public List<ProductVo> selectProckName();
 
@@ -34,7 +36,6 @@ public interface ProductService {
     public List<ProductVo> selectProcatNnameAll(String catName);
     //商品清单  根据ckName查询全部（下拉框）
     public List<ProductVo> selectProckNameAll(String ckName);
-    public PageInfo<ProductVo> findprockName(String ckName,int pageNum, int pageSize);
 
     // 商品清单  查询商品详情
     public ProductVo selectProIdxq(int proId);
@@ -52,7 +53,6 @@ public interface ProductService {
 
     //盘点单  根据盘点ID查询商品
     List<ProductVo> selectPdIdproAll(int pdId);
-    PageInfo<ProductVo> findPdIdpro(int pdId,int pageNum, int pageSize);
 
 
     //zsy

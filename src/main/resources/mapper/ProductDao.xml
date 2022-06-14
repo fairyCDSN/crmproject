@@ -105,6 +105,4 @@
 			group by product.pro_id
     </select>
 
-
-
 </mapper>
