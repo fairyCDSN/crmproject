@@ -22,64 +22,75 @@ public class CggoodsServiceImpl implements CggoodsService {
 
     @Override
     public PageInfo<CggoodsVo> findgoods(int pageNum, int pageSize) {
-        Page<CggoodsVo> page= PageHelper.startPage(pageNum,pageSize);
-        List<CggoodsVo> list=dao.findgoods();
-        Page<CggoodsVo> cggoods=new Page<>();
-        System.out.println("这是impl层"+list);
-        BeanTools.copyList(list,cggoods,CggoodsVo.class);
-        PageInfo<CggoodsVo> pageInfo=new PageInfo<>(cggoods);
+        Page<CggoodsVo> page = PageHelper.startPage(pageNum, pageSize);
+        List<CggoodsVo> list = dao.findgoods();
+        Page<CggoodsVo> cggoods = new Page<>();
+        System.out.println("这是impl层" + list);
+        BeanTools.copyList(list, cggoods, CggoodsVo.class);
+        PageInfo<CggoodsVo> pageInfo = new PageInfo<>(cggoods);
         return pageInfo;
     }
 
     @Override
-    public PageInfo<CggoodsVo> selectgoods(int pageNum, int pageSize, String gdName) {
-        Page<CggoodsVo> page= PageHelper.startPage(pageNum,pageSize);
-        List<CggoodsVo> list=dao.selectgoods(gdName);
-        Page<CggoodsVo> cggoods=new Page<>();
-        System.out.println("这是impl层"+list);
-        BeanTools.copyList(list,cggoods,CggoodsVo.class);
-        PageInfo<CggoodsVo> pageInfo=new PageInfo<>(cggoods);
+    public PageInfo<CggoodsVo> selectgoods(int pageNum, int pageSize, String gdName ,String type) {
+        Page<CggoodsVo> page = PageHelper.startPage(pageNum, pageSize);
+        List<CggoodsVo> list = dao.selectgoods(gdName,type);
+        Page<CggoodsVo> cggoods = new Page<>();
+        System.out.println("这是impl层" + list);
+        BeanTools.copyList(list, cggoods, CggoodsVo.class);
+        PageInfo<CggoodsVo> pageInfo = new PageInfo<>(cggoods);
         return pageInfo;
     }
 
     @Override
-    public PageInfo<CggoodsVo> updategoods(Integer gdNumber,Integer gdId,int pageNum,int pageSize,String gdname) {
-        UpdateWrapper<Cggoods> uw=new UpdateWrapper<>();
-        uw.set("gd_number",gdNumber+1).eq("gd_Id",gdId);
-        int update=dao.update(null,uw);
-        Page<CggoodsVo> page= PageHelper.startPage(pageNum,pageSize);
-        List<CggoodsVo> list=dao.selectgoods(gdname);
-        Page<CggoodsVo> cggoods=new Page<>();
-        System.out.println("这是impl层"+list);
-        BeanTools.copyList(list,cggoods,CggoodsVo.class);
-        PageInfo<CggoodsVo> pageInfo=new PageInfo<>(cggoods);
+    public PageInfo<CggoodsVo> updategoods(Integer gdNumber, Integer gdId, int pageNum, int pageSize, String gdname,String type) {
+        UpdateWrapper<Cggoods> uw = new UpdateWrapper<>();
+        uw.set("gd_number", gdNumber + 1).eq("gd_Id", gdId);
+        int update = dao.update(null, uw);
+        Page<CggoodsVo> page = PageHelper.startPage(pageNum, pageSize);
+        List<CggoodsVo> list = dao.selectgoods(gdname,type);
+        Page<CggoodsVo> cggoods = new Page<>();
+        System.out.println("这是impl层" + list);
+        BeanTools.copyList(list, cggoods, CggoodsVo.class);
+        PageInfo<CggoodsVo> pageInfo = new PageInfo<>(cggoods);
         return pageInfo;
     }
 
     @Override
-    public PageInfo<CggoodsVo> updategoodsjs(Integer gdNumber,Integer gdId,int pageNum,int pageSize,String gdname) {
-        UpdateWrapper<Cggoods> uw=new UpdateWrapper<>();
-        uw.set("gd_number",gdNumber-1).eq("gd_Id",gdId);
-        int update=dao.update(null,uw);
-        Page<CggoodsVo> page= PageHelper.startPage(pageNum,pageSize);
-        List<CggoodsVo> list=dao.selectgoods(gdname);
-        Page<CggoodsVo> cggoods=new Page<>();
-        System.out.println("这是impl层"+list);
-        BeanTools.copyList(list,cggoods,CggoodsVo.class);
-        PageInfo<CggoodsVo> pageInfo=new PageInfo<>(cggoods);
+    public PageInfo<CggoodsVo> updategoodsjs(Integer gdNumber, Integer gdId, int pageNum, int pageSize, String gdname,String type) {
+        UpdateWrapper<Cggoods> uw = new UpdateWrapper<>();
+        uw.set("gd_number", gdNumber - 1).eq("gd_Id", gdId);
+        int update = dao.update(null, uw);
+        Page<CggoodsVo> page = PageHelper.startPage(pageNum, pageSize);
+        List<CggoodsVo> list = dao.selectgoods(gdname,type);
+        Page<CggoodsVo> cggoods = new Page<>();
+        System.out.println("这是impl层" + list);
+        BeanTools.copyList(list, cggoods, CggoodsVo.class);
+        PageInfo<CggoodsVo> pageInfo = new PageInfo<>(cggoods);
         return pageInfo;
     }
 
     @Override
     public List<Cggoods> findsCggoods(int supplierId) {
-        QueryWrapper<Cggoods> qw=new QueryWrapper<>();
-        qw.eq("supplier_id",supplierId);
-        List<Cggoods> i=dao.selectList(qw);
+        QueryWrapper<Cggoods> qw = new QueryWrapper<>();
+        qw.eq("supplier_id", supplierId);
+        List<Cggoods> i = dao.selectList(qw);
         return i;
     }
 
     @Override
     public int addgoods(Cggoods cggoods) {
         return dao.insert(cggoods);
+    }
+
+    @Override
+    public String yzgoodname(int supplierId, String goodname) {
+        System.out.println("进入实现类方法"+goodname+supplierId);
+        return dao.yzgoodname(supplierId,goodname);
+    }
+
+    @Override
+    public List<String> findgoodstype() {
+        return dao.findgoodstype();
     }
 }

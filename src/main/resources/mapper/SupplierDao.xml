@@ -149,7 +149,7 @@
     select * from supplier where use_status=1
   </select>
   <select id="findsuptype" resultType="java.lang.String">
-    select distinct s.supplier_type from supplier s
+    select DISTINCT s.supplier_type from supplier s where s.use_status=1
   </select>
 
   <select id="selectsupplier" resultType="com.trkj.crmproject.entity.Supplier">
@@ -168,4 +168,11 @@
   <select id="selectsuptype" resultType="java.lang.String">
 select supplier.supplier_type from supplier where supplier_id=#{supplierId}
   </select>
+    <select id="yzsuppliername" resultType="java.lang.String">
+      select supplier_name from supplier where supplier_name=#{supplierName}
+    </select>
+  <select id="yzsupplierphone" resultType="java.lang.String">
+    select phone from supplier where phone=#{supplierphone}
+  </select>
+
 </mapper>

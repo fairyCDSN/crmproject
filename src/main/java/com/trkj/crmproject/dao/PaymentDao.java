@@ -2,6 +2,9 @@ package com.trkj.crmproject.dao;
 
 import com.trkj.crmproject.entity.Payment;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Date;
 
 @Mapper
 public interface PaymentDao {
@@ -18,4 +21,6 @@ public interface PaymentDao {
     int updateByPrimaryKey(Payment record);
 
     int tjqc(int paId);
+
+    Date yzPyMntime(@Param("sqid") int sqid,@Param("paqc") int paqc);
 }

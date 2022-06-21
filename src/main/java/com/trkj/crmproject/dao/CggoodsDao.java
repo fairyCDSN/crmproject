@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.trkj.crmproject.entity.Cggoods;
 import com.trkj.crmproject.vo.CggoodsVo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -23,7 +24,11 @@ public interface CggoodsDao extends BaseMapper<Cggoods> {
 
     List<CggoodsVo> findgoods();
 
-    List<CggoodsVo> selectgoods(String gdName);
+    List<CggoodsVo> selectgoods(@Param("gdName")String gdName,@Param("type")String type);
+
+    String yzgoodname(@Param("supplierId")int supplierId, @Param("goodname")String goodname);
+
+    List<String> findgoodstype();
 
 
 }

@@ -126,4 +126,9 @@
   <select id="tjqc" parameterType="java.lang.Integer" resultType="java.lang.Integer">
     select count(*) as py_qc from payment where pa_id=#{paId}
   </select>
+    <select id="yzPyMntime" resultType="java.util.Date">
+select y.py_mntime from payment y LEFT JOIN parecord p
+on y.pa_id=p.pa_id
+where p.sqid=#{sqid} and p.pa_qc=#{paqc}
+    </select>
 </mapper>

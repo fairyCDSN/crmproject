@@ -2,6 +2,7 @@ package com.trkj.crmproject.dao;
 
 import com.trkj.crmproject.entity.Cgcp;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface CgcpDao {
     int updateByPrimaryKey(Cgcp record);
 
     List<Cgcp> findscgcp(int supplierId);
+
+
 }

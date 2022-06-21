@@ -83,4 +83,5 @@
 on g.supplier_id=s.supplier_id
 where g.supplier_id=#{supplierId}
   </select>
+
 </mapper>

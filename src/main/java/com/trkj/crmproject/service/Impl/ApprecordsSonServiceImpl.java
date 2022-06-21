@@ -5,6 +5,7 @@ import com.trkj.crmproject.dao.ApprecordsSonDao;
 import com.trkj.crmproject.dao.CaigousqDao;
 import com.trkj.crmproject.dao.UsersDao;
 import com.trkj.crmproject.entity.ApprecordsSon;
+import com.trkj.crmproject.entity.Caigousq;
 import com.trkj.crmproject.entity.Caigou;
 import com.trkj.crmproject.entity.Caigousq;
 import com.trkj.crmproject.exception.CustomError;

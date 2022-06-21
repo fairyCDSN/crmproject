@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+
 @RestController
 public class FkjhController {
 
@@ -77,5 +79,13 @@ public class FkjhController {
     public AjaxResponse updatepare(@RequestBody Parecord addfkjh){
         System.out.println("输出++++："+addfkjh);
         return AjaxResponse.success(parecordService.uppare(addfkjh.getPaId(),addfkjh.getFkjh().getPySfmn())+paymentService.addfkjh(addfkjh.getFkjh())+parecordService.addpare(addfkjh)+parecordService.uppateqc(addfkjh));
+    }
+
+    @GetMapping("/yzPyMntime")
+    public AjaxResponse yzPyMntime(int sqid,int paqc){
+        System.out.println("sqid:"+sqid);
+        System.out.println("paqc:"+paqc);
+        Date a=paymentService.yzPyMntime(sqid,paqc);
+        return AjaxResponse.success(a);
     }
 }

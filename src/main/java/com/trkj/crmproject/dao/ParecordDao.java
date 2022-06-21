@@ -31,4 +31,6 @@ public interface ParecordDao extends BaseMapper<Parecord> {
     ParecordVo selectonefkjh(int sqid);
 
     int selectmaxqc(int sqid);
+
+    int selectmaxqctwo(int sqid);
 }

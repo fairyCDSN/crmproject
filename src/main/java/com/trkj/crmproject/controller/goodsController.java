@@ -24,21 +24,28 @@ public class goodsController {
     }
 
     @GetMapping("/selectgoods")
-    public AjaxResponse selectgoods(int pageNum,int pageSize,String gdName){
-        PageInfo<CggoodsVo> pageInfo=service.selectgoods(pageNum,pageSize,gdName);
+    public AjaxResponse selectgoods(int pageNum,int pageSize,String gdName,String type){
+        PageInfo<CggoodsVo> pageInfo=service.selectgoods(pageNum,pageSize,gdName,type);
         return AjaxResponse.success(pageInfo);
     }
 
     @RequestMapping("/updategoods")
-    public AjaxResponse updategoods(Cggoods cggoods,int pageNum,int pageSize,String gdname){
-        PageInfo<CggoodsVo> row=service.updategoods(cggoods.getGdNumber(),cggoods.getGdId(),pageNum,pageSize,gdname);
+    public AjaxResponse updategoods(Cggoods cggoods,int pageNum,int pageSize,String gdname,String type){
+        PageInfo<CggoodsVo> row=service.updategoods(cggoods.getGdNumber(),cggoods.getGdId(),pageNum,pageSize,gdname,type);
         return AjaxResponse.success(row);
     }
 
     @RequestMapping("/updategoodsjs")
-    public AjaxResponse updategoodsjs(Cggoods cggoods,int pageNum,int pageSize,String gdname){
-        PageInfo<CggoodsVo> row=service.updategoodsjs(cggoods.getGdNumber(),cggoods.getGdId(),pageNum,pageSize,gdname);
+    public AjaxResponse updategoodsjs(Cggoods cggoods,int pageNum,int pageSize,String gdname,String type){
+        PageInfo<CggoodsVo> row=service.updategoodsjs(cggoods.getGdNumber(),cggoods.getGdId(),pageNum,pageSize,gdname,type);
         return AjaxResponse.success(row);
+    }
+
+    @GetMapping("/findgoodstype")
+    public AjaxResponse findgoodstype(){
+        List<String> a=service.findgoodstype();
+        System.out.println(a+"=========");
+        return AjaxResponse.success(a);
     }
 
 }

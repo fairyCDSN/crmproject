@@ -95,7 +95,7 @@ public class ParecordServiceImpl implements ParecordService {
 
     @Override
     public int addpare(Parecord parecord) {
-        int i=dao.selectmaxqc(parecord.getSqid());
+        int i=dao.selectmaxqctwo(parecord.getSqid());
         Parecord parecord1=new Parecord();
         parecord1.setPaMn(parecord.getPaMn()-parecord.getFkjh().getPySfmn());
         parecord1.setPaDate(parecord.getPaDate());
