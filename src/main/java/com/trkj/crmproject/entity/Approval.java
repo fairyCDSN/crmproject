@@ -1,6 +1,7 @@
 package com.trkj.crmproject.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
@@ -12,5 +13,6 @@ public class Approval {
     private int appId;
     private String appType;
     private int appState;
+    @TableField(exist = false)
     private int count;
 }

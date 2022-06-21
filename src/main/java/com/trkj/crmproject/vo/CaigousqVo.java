@@ -9,4 +9,6 @@ public class CaigousqVo {
     private int gdPrice;
     private int gdNumber;
     private String supplierName;
+    //wq
+    private String staffName;
 }

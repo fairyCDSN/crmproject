@@ -1,9 +1,11 @@
 package com.trkj.crmproject.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.trkj.crmproject.entity.Role;
 import com.trkj.crmproject.entity.Users;
 import com.trkj.crmproject.entity.mybatis_plus.StaffMp;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -26,6 +28,12 @@ public interface UsersDao extends BaseMapper<StaffMp> {
     int updateByPrimaryKey(Users record);
 
     int selectMaxUserId();
+
+    Role selectRole(@Param("name") String name);
+
+    int selectStaff_idByUserName(@Param("userName")String name);
+
+    String selectStateByUserName(@Param("userName")String name,@Param("ggId")int id);
 
     //李玉春的代码
     public Users[] findUserName(String user_name);

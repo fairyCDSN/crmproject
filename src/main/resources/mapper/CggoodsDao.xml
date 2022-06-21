@@ -142,8 +142,22 @@ from cggoods c LEFT JOIN supplier s on c.supplier_id=s.supplier_id
   <select id="selectgoods" resultType="com.trkj.crmproject.vo.CggoodsVo">
 select c.gd_id,c.gd_name,c.gd_price,c.gd_number,c.gd_total,c.supplier_id,s.supplier_name
 from cggoods c LEFT JOIN supplier s on c.supplier_id=s.supplier_id
+<where>
 <if test="gdName!=null">
-where gd_name like '%${gdName}%'
+gd_name like '%${gdName}%'
 </if>
+<if test="type!=null">
+  and gd_type=#{type}
+</if>
+</where>
   </select>
+
+    <select id="yzgoodname" resultType="java.lang.String">
+      select gd_name from cggoods where supplier_id=#{supplierId} and gd_name=#{goodname}
+    </select>
+
+  <select id="findgoodstype" resultType="java.lang.String">
+select distinct gd_type from cggoods
+  </select>
+
 </mapper>

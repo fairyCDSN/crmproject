@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.OrdertableDao">
+
+    <select id="findOrdertable" resultType="com.trkj.crmproject.entity.OrderTable">
+        select order_id,bjid,order_bh,fk,order_title,state_time,end_time,khqyr,state,beizhu,cjr,cj_time
+        from ordertable where cjr=#{user_name}
+        <if test="order_bh != null and order_bh != ''">
+            and order_bh like '%${order_bh}%'
+        </if>
+        <if test="order_title != null and order_title != ''">
+            and order_title like '%${order_title}%'
+        </if>
+        <if test="khqyr != null and khqyr != ''">
+            and khqyr like '%${khqyr}%'
+        </if>
+        <if test="state != null and state != ''">
+            and state like '%${state}%'
+        </if>
+        <if test="time1 != null and time1 != '' and time2!=null and time2 != ''">
+            and date(baojia.state_time) between #{time1} and #{time2}
+        </if>
+    </select>
+</mapper>

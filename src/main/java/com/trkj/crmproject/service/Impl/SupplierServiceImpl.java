@@ -70,4 +70,14 @@ public class SupplierServiceImpl implements SupplierService {
     public String selectsuptype(int supplierId) {
         return dao.selectsuptype(supplierId);
     }
+
+    @Override
+    public String yzsuppliername(String supplierName) {
+        return dao.yzsuppliername(supplierName);
+    }
+
+    @Override
+    public String yzsupplierphone(String supplierphone) {
+        return dao.yzsupplierphone(supplierphone);
+    }
 }

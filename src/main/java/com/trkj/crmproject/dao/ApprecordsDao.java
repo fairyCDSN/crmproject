@@ -28,4 +28,5 @@ public interface ApprecordsDao extends BaseMapper<ApprecordsMp> {
     //修改审批记录表的状态
     int updateStateAndBzById(@Param("id") int id, @Param("state") String state,@Param("bz") String bz );
 
+
   }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.JiaoFuDao">
+    <select id="findJiaoFu" resultType="com.trkj.crmproject.entity.JiaoFu">
+        select max(order_id) orderId1,count(order_id) qs,(select state from jiaofu where order_id=#{order_id} and
+        jf_id=(select MAX(jf_id) from jiaofu where order_id=#{order_id})) state,cjr
+        from jiaofu where order_id=#{order_id}
+    </select>
+    <select id="findorderId" resultType="java.lang.Integer">
+        select distinct order_id from jiaofu
+    </select>
+    <select id="findmint" resultType="java.lang.String">
+        select DATE_FORMAT(min(plan_jftime),"%Y-%m-%d") from jiaofu where order_id=#{order_id}
+    </select>
+    <select id="findmaxt" resultType="java.lang.String">
+        select DATE_FORMAT(max(plan_jftime),"%Y-%m-%d") from jiaofu where order_id=#{order_id}
+    </select>
+</mapper>

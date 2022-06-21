@@ -27,4 +27,10 @@ public interface SupplierDao extends BaseMapper<Supplier> {
     List<Supplier> selectsupplier(@Param("suppliername")String suppliername,@Param("suppliertype")String suppliertype);
 
     String selectsuptype(int supplierId);
+
+    String yzsuppliername(String supplierName);
+
+    String yzsupplierphone(String supplierphone);
+
+
 }

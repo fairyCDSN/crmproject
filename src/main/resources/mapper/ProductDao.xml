@@ -105,6 +105,9 @@
 			group by product.pro_id
     </select>
 
+
+<!--    李玉春的sql语句-->
+<!--    查询及搜索产品-->
     <select id="findproduct" resultType="com.trkj.crmproject.vo.ProductVo">
         select pro_id,pro_name,pro_type,pro_guige,pro_xh,pro_dw,pro_money,pro_cbj
         from product where 1=1
@@ -115,4 +118,29 @@
             and pro_type like '%${pro_type}%'
         </if>
     </select>
+    <select id="findproduct1" resultType="com.trkj.crmproject.vo.ProductVo">
+        select pro_id,pro_name,pro_type,pro_guige,pro_xh,pro_dw,
+        pro_money,pro_cbj
+        from product where product.pro_id not in (select pro_id from bj_pro where bjid=#{bjid})
+        <if test="pro_name != null and pro_name != ''">
+            and pro_name like '%${pro_name}%'
+        </if>
+        <if test="pro_type != null and pro_type != ''">
+            and pro_type like '%${pro_type}%'
+        </if>
+    </select>
+    <select id="cheackProId" resultType="java.lang.Integer">
+        select pro_id
+        from bj_pro where bjid=#{bjid}
+    </select>
+
+    <!--    添加产品及报价中间表-->
+    <insert id="insertProduct">
+        insert into bj_pro(bjid,pro_id,good_number,good_monery)
+        values (#{bjid},#{proId},#{sl},#{mo})
+    </insert>
+    <insert id="insertProduct1">
+        insert into bj_pro(bjid,pro_id,good_number,good_monery)
+        values (#{bjid},#{proId},#{sl},#{mo})
+    </insert>
 </mapper>

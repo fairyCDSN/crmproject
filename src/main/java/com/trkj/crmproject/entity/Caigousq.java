@@ -12,7 +12,7 @@ import lombok.Data;
 
 /**
  * caigousq
- * @author 
+ * @author
  */
 @Data
 public class Caigousq implements Serializable {
@@ -82,6 +82,8 @@ public class Caigousq implements Serializable {
     private String bz;
 
     private String cgGuige;
+
+    private String staff_name;
 
     private String cgType;
     @TableField(exist = false)

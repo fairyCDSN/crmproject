@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -50,7 +54,7 @@ public class AddcgController {
     Parecord parecordd=new Parecord();
     //采购申请添加
     @PostMapping("/addcgsq")
-    public AjaxResponse addcgsq(@RequestBody Caigousq addcg){
+    public AjaxResponse addcgsq(@RequestBody Caigousq addcg) throws ParseException {
         System.out.println("====="+addcg);
         System.out.println("我是采购实体类里的付款计划:"+addcg.getParecord());
         System.out.println("我是采购实体类里的采购商品"+addcg.getCgcp());
@@ -58,6 +62,12 @@ public class AddcgController {
         int row=caigousqService.addcgsq(addcg);
         apprecords.setSqid(addcg.getSqid());
         apprecords.setApp_state("待审批");
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        Date date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(now);
+        System.out.println(date+"当前时间====");
+        apprecords.setCreate_time(date);
+        apprecords.setApp_id(1);
         int ji=apprecordsService.addApprecords(apprecords);
 
         addcg.setStateId(apprecords.getApp_records_id());

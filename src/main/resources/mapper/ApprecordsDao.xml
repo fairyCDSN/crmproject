@@ -19,7 +19,7 @@
   </sql>
 
   <update id="updateStateAndBzById">
-    update apprecords_son
+    update apprecords
     set app_state=#{state} ,app_bz=#{bz}
     where app_records_id=#{id}
   </update>
@@ -44,8 +44,7 @@
   <insert id="insert" keyColumn="app_records_id" keyProperty="app_records_id" parameterType="com.trkj.crmproject.entity.Apprecords" useGeneratedKeys="true">
     insert into apprecords (sqid, app_state, app_time,create_time,
       app_bz,app_id)
-    values (#{sqid,jdbcType=INTEGER}, #{app_state,jdbcType=VARCHAR}, #{app_time,jdbcType=TIMESTAMP},#{create_time,jdbcType=TIMESTAMP}
-      #{app_bz,jdbcType=VARCHAR},#{app_id,javaType=INTEGER})
+    values (#{sqid,jdbcType=INTEGER},#{app_state,jdbcType=VARCHAR},#{app_time,jdbcType=TIMESTAMP},#{create_time,jdbcType=TIMESTAMP},#{app_bz,jdbcType=VARCHAR},#{app_id,javaType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="app_records_id" keyProperty="app_records_id" parameterType="com.trkj.crmproject.entity.Apprecords" useGeneratedKeys="true">
     insert into apprecords

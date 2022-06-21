@@ -30,12 +30,6 @@ public class ApprovalController {
         return AjaxResponse.success(approvalService.selectAllApp(pageNum,pageSize));
     }
 
-    //修改审批记录状态
-    @PutMapping("/updateApprecords")
-    public AjaxResponse updateApprecords(@RequestBody ApprecordsVo apprecordsVo){
-        //获取map集合中的用户id(app_son_user_id)和apprecords对象
-        return AjaxResponse.success(approvalService.updateApprecords(apprecordsVo.getApp_son_user_id(),apprecordsVo));
-    }
 
     @GetMapping("/selectByStateAndName")
     public AjaxResponse selectByStateAndName(int state,String type,int pageNum,int pageSize){
@@ -94,4 +88,23 @@ public class ApprovalController {
     public AjaxResponse selectApprecordsByName(String username,String state){
         return AjaxResponse.success(apprecordsSonService.selectApprecordsByName(username,state));
     }
+
+    //修改审批记录状态
+    @PutMapping("/updateApprecords")
+    public AjaxResponse updateApprecords(@RequestBody ApprecordsVo apprecordsVo){
+        //获取map集合中的用户id(app_son_user_id)和apprecords对象
+        return AjaxResponse.success(approvalService.updateApprecords(apprecordsVo.getApp_son_user_id(),apprecordsVo));
+    }
+
+    @PostMapping("/updateAppSon")
+    public AjaxResponse updateAppSon(@RequestBody Map<String,Object> maps){
+        //获取maps中的数据
+        int id=Integer.parseInt(String.valueOf(maps.get("id")));
+        int son_id=Integer.parseInt(String.valueOf(maps.get("son_id")));
+        String state=String.valueOf(maps.get("state"));
+        String bz=String.valueOf(maps.get("bz"));
+        log.debug("审核记录表："+id+";"+"审核子表id："+son_id+"；"+"状态："+state+"备注："+bz);
+        return AjaxResponse.success(apprecordsSonService.updateAppSon(id,son_id,state,bz));
+    }
+
 }

@@ -35,9 +35,16 @@ public class ProductVo {
     private int dbNumber;
 
 
+    //李玉春
     //产品状态
     private String proType;
     //报价
     private int mo;
+    //期次
+    private int qc;
+    //期次金额
+    private int qcje;
+    //期次时间
+    private int qctime;
 }
 

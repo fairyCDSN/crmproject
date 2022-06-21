@@ -3,23 +3,16 @@ package com.trkj.crmproject.service.Impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.trkj.crmproject.dao.ContactDao;
 import com.trkj.crmproject.dao.CustomerDao;
 import com.trkj.crmproject.dao.StaffDao;
-import com.trkj.crmproject.entity.CusXq;
-import com.trkj.crmproject.entity.contact;
 import com.trkj.crmproject.entity.customer;
 import com.trkj.crmproject.exception.CustomError;
 import com.trkj.crmproject.exception.CustomErrorType;
 import com.trkj.crmproject.service.CustomerService;
 import com.trkj.crmproject.util.BeanTools;
-import com.trkj.crmproject.vo.AddVo;
-import com.trkj.crmproject.vo.CusXqVo;
-import com.trkj.crmproject.vo.contactVo;
-import com.trkj.crmproject.vo.customerVo;
+import com.trkj.crmproject.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -34,10 +27,12 @@ public class CustomerServiceImpl implements CustomerService {
     public PageInfo<customerVo> findCustomer(int pageNum, int pageSize,String customer_name, String customer_stage,
                                              String create_time1,String create_time2,int salesperson_id) {
         Page<customer> page= PageHelper.startPage(pageNum,pageSize);
+        int salesperson_i=staffDao.findStaffId(salesperson_id);
         List<customer> list = customerDao.findCustomer(customer_name,customer_stage,create_time1,create_time2,salesperson_id);
         Page<customerVo> customers=new Page<>();
         BeanTools.copyList(list,customers,customerVo.class);
         PageInfo<customerVo> pageInfo=new PageInfo<>(customers);
+        System.out.println(pageInfo+"ajsifdhiuasfguiasfg");
         return pageInfo;
     }
 
@@ -56,7 +51,7 @@ public class CustomerServiceImpl implements CustomerService {
     public PageInfo<customerVo> findCustomer2(int pageNum, int pageSize,String customer_name, String customer_stage,
                                              String create_time1,String create_time2,int salesperson_id) {
         Page<customer> page= PageHelper.startPage(pageNum,pageSize);
-        List<customer> list = customerDao.findCustomer2(customer_name,customer_stage,create_time1,create_time2,salesperson_id);
+        List<customer> list = customerDao.findCustomer2(customer_name,customer_stage,create_time1,create_time2,staffDao.findStaffId(salesperson_id));
         Page<customerVo> customers=new Page<>();
         BeanTools.copyList(list,customers,customerVo.class);
         PageInfo<customerVo> pageInfo=new PageInfo<>(customers);
@@ -66,7 +61,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public PageInfo<customerVo> findCustomers(int pageNum, int pageSize,int salesperson_id) {
         Page<customer> page= PageHelper.startPage(pageNum,pageSize);
-        List<customer> list=customerDao.findCustomers(salesperson_id);
+        List<customer> list=customerDao.findCustomers(staffDao.findStaffId(salesperson_id));
         Page<customerVo> customers=new Page<>();
         BeanTools.copyList(list,customers,customerVo.class);
         PageInfo<customerVo> pageInfo=new PageInfo<>(customers);
@@ -141,7 +136,7 @@ public class CustomerServiceImpl implements CustomerService {
     public int updateSeId(AddVo[] addVo,int user_id) {
         for(int i=0;i<addVo.length;i++){
             int customer_id=addVo[i].getCustomer_id();
-            System.out.println(customerDao.updateSeId(customer_id,staffDao.findStaffId(user_id)));
+            customerDao.updateSeId(customer_id,staffDao.findStaffId(user_id));
         }
         return 1;
     }
