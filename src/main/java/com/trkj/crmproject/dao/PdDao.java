@@ -25,4 +25,7 @@ public interface PdDao extends BaseMapper<Pd> {
 
     //盘点单  通过按钮 根据时间，仓库查询
     List<PdVo> selectPdckNameandTime(String ckName,String kspdTime,String jspdTime);
+
+    //查询盘点最大编号
+    int selectPdIdmax();
 }

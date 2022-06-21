@@ -12,6 +12,6 @@ public class Rk {
     private int ckId;
     private Date rkTime;
     private String State;
-    private String createUser;
+    private int staffId;
     private String bZ;
 }
