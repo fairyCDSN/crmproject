@@ -103,6 +103,7 @@ public class ApprecordsSonServiceImpl implements ApprecordsSonService {
                 }
             }
         }else{
+            log.debug("该审批为最后一条，直接修改总记录");
             //该审批为最后一条，直接修改总记录
             row=apprecordsSonDao.updateApprecords(son_id,state,bz);
             if(row<=0){

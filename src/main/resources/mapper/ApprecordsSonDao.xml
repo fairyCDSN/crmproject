@@ -32,7 +32,7 @@
 
   <select id="selectByAppId" resultMap="BaseResultMap">
     select * from apprecords_son
-    where app_state != "待审批"
+    where app_state = "待审批"
   </select>
 
   <select id="selectApprecordsByName" resultMap="BaseResultMap">

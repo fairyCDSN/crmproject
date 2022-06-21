@@ -223,6 +223,7 @@ public class UserServiceImpl implements UserService {
         log.debug("role:{}",pageInfo);
         return pageInfo;
     }
+
     //查询部门和职务信息
     public StaffVo selectDeptNameAndPostNameByRole(String name){
         StaffVo staffVo=staffDao.selectDeptNameAndPostNameByRole(name);

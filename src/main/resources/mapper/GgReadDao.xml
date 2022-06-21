@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.GgReadDao">
+  <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.GgRead">
+    <id column="gg_read_read_id" jdbcType="INTEGER" property="read_id" />
+    <result column="gg_read_staff_id" jdbcType="INTEGER" property="staff_id" />
+    <result column="gg_read_gonggao_id" jdbcType="INTEGER" property="gonggao_id" />
+    <result column="state" jdbcType="VARCHAR" property="state"/>
+  </resultMap>
+
+  <resultMap id="StaffVo" type="com.trkj.crmproject.vo.StaffVo">
+    <id column="staff_id" jdbcType="INTEGER" property="staff_id" />
+    <result column="user_id" jdbcType="INTEGER" property="user_id" />
+    <result column="user_name" jdbcType="VARCHAR" property="user_name"/>
+    <result column="post_id" jdbcType="INTEGER" property="post_id" />
+    <result column="induction_time" jdbcType="TIMESTAMP" property="induction_time" />
+    <result column="staff_sex" jdbcType="VARCHAR" property="staff_sex" />
+    <result column="staff_qq" jdbcType="VARCHAR" property="staff_qq" />
+    <result column="staff_wx" jdbcType="VARCHAR" property="staff_wx" />
+    <result column="staff_txdz" jdbcType="VARCHAR" property="staff_txdz" />
+    <result column="deptment_id" jdbcType="INTEGER" property="deptment_id" />
+    <result column="staff_name" jdbcType="VARCHAR" property="staff_name" />
+    <result column="post_name" jdbcType="VARCHAR" property="post_name" />
+    <result column="department_id" jdbcType="INTEGER" property="deptment_id" />
+    <result column="department_name" jdbcType="VARCHAR" property="departmentName" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="birthday" jdbcType="DATE" property="birthday"/>
+
+  </resultMap>
+
+
+  <sql id="Base_Column_List">
+    gg_read.read_id as gg_read_read_id, gg_read.staff_id as gg_read_staff_id, gg_read.gonggao_id as gg_read_gonggao_id
+  </sql>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from gg_read
+    where read_id = #{read_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="read_id" keyProperty="read_id" parameterType="com.trkj.crmproject.entity.GgRead" useGeneratedKeys="true">
+    insert into gg_read (staff_id, gonggao_id,state)
+    values (#{staff_id,jdbcType=INTEGER}, #{gonggao_id,jdbcType=INTEGER},#{state,jdbcType=VARCHAR})
+  </insert>
+
+  <select id="selectReadNames" resultType="java.lang.String">
+    select s.staff_name from gg_read gr
+    left join staff s on s.staff_id=gr.staff_id
+    where gr.gonggao_id=#{id}
+  </select>
+
+<!--  员工姓名、职务名称、部门-->
+  <select id="selectGgRead" resultMap="StaffVo">
+    select s.staff_name staff_name,p.post_name post_name,d.department_name departmentName
+    from gg_read gr
+    left join staff s on s.staff_id=gr.staff_id
+    left join post p on p.post_id=s.post_id
+    left join department d ON d.department_id=s.deptment_id
+    where gr.gonggao_id=#{id}
+  </select>
+
+  <select id="selectGgIds" resultType="java.lang.Integer">
+    select gonggao_id from gg_read gr
+    LEFT JOIN staff s ON s.staff_id=gr.staff_id
+    LEFT JOIN users u ON u.user_id=s.staff_id
+    where u.user_id=#{id}
+  </select>
+
+</mapper>

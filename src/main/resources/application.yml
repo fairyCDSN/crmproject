@@ -23,9 +23,12 @@ server:
   #连接池配置
   servlet:
     context-path: /crmproject
+
 spring:
   profiles:
     active: dev
+  jackson:
+    time-zone: GMT+8
 
 # JWT配置
 jwt:
