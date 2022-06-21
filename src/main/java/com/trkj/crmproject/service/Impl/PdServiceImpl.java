@@ -62,23 +62,23 @@ public class PdServiceImpl implements PdService {
     //盘点单  添加盘点表
     @Override
     public int insertPd(Pd pd){
-//        pd.setPdTime(new Date());
-//        return pdDao.insert(pd);
+        int pdId=pdDao.selectPdIdmax()+1;
 
+        pd.setPdId(pdId);
         pd.setPdTime(new Date());
         pdDao.insert(pd);
         int ckId=pd.getCkId();
         String createUser=pd.getCreateUser();
         System.out.println("仓库ID："+ckId+"管理员名称："+createUser);
         List<ProductVo> pdPros=pd.getProduct();
-        System.out.println("数组："+pdPros.size());
+        System.out.println("pdId："+pdId);
 
         for (ProductVo o:pdPros){
             System.out.println("商品："+o.getXsl());
             System.out.println("商品ID："+o.getProId());
 
             PdPro pdPro=new PdPro();
-            pdPro.setPdId(pd.getPdId());
+            pdPro.setPdId(pdId);
             pdPro.setCkId(ckId);
             pdPro.setProId(o.getProId());
             pdPro.setCnumber(o.getXsl());

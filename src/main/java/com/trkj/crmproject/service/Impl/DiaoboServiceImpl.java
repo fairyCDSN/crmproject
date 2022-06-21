@@ -17,6 +17,7 @@ import com.trkj.crmproject.vo.CkUserVo;
 import com.trkj.crmproject.vo.CkVo;
 import com.trkj.crmproject.vo.DiaoboVo;
 import com.trkj.crmproject.vo.ProductVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@Slf4j
 public class DiaoboServiceImpl implements DiaoboService {
 
     @Autowired
@@ -105,8 +107,6 @@ public class DiaoboServiceImpl implements DiaoboService {
     }
 
 
-
-
     //调拨表 查询不等于出库id的入库id
     @Override
     public List<CkVo> selectdbckdrId(int ckId) {
@@ -165,24 +165,22 @@ public class DiaoboServiceImpl implements DiaoboService {
         ApprecordsMp apprecords=new ApprecordsMp();
 
         apprecords.setAppRecordsId(apprecordsid);
-        apprecords.setAppId(3);
-        apprecords.setAppState("待审批");
-        apprecords.setSqid(diaoboid+1);
-        apprecords.setCreateTime(new Date());
+        apprecords.setSqid(diaoboid);
+        log.debug("这是审批:{}",apprecords);
 
-        apprecordsDao.insert(apprecords);
+        diaoboDao.insertdbapp(apprecords);
 
 
         List<CkUserVo> ckUserVos=diaobo.getUsersId();
+        log.debug("用户数据{}:",ckUserVos);
         for(CkUserVo o:ckUserVos){
             ApprecordsSonMp apprecordsSon=new ApprecordsSonMp();
 
             apprecordsSon.setAppRecordsId(apprecordsid);
-            apprecordsSon.setCreateTime(new Date());
-            apprecordsSon.setAppState("待审批");
+            log.debug("用户id{}:",o.getUsersId());
             apprecordsSon.setUserId(o.getUsersId());
 
-            apprecordsSonDao.insert(apprecordsSon);
+            diaoboDao.insertdbappson(apprecordsSon);
         }
 
         diaobo.setAppRecordsId(apprecordsid);

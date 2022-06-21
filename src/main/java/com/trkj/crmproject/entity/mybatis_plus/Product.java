@@ -1,7 +1,11 @@
 package com.trkj.crmproject.entity.mybatis_plus;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.trkj.crmproject.entity.Category;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class Product {
@@ -13,7 +17,8 @@ public class Product {
     private String proDw;
     private Double proMoney;
     private Double proCbj;
-    private int proKc;
     private String proSay;
-    private int ckId;
+
+    @TableField(exist = false)
+    private String[] catId;
 }

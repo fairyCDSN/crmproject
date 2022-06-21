@@ -120,5 +120,13 @@
             LEFT JOIN approval on approval.app_id=apprecords.app_id
             where apprecords.sqid=#{dbId} and approval.app_type='调拨'
     </select>
+    
+    <insert id="insertdbapp">
+        insert  into apprecords (app_records_id,sqid,app_id)  values (#{appRecordsId},#{sqid},3)
+    </insert>
+
+    <insert id="insertdbappson">
+        insert  into apprecords_son (app_records_id,user_id)  values (#{appRecordsId},#{userId})
+    </insert>
 
 </mapper>

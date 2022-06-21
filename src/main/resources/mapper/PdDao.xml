@@ -51,4 +51,9 @@
             </if>
         </where>
     </select>
+
+    <!--    查询盘点最大编号-->
+    <select id="selectPdIdmax" resultType="java.lang.Integer">
+        select max(pd_id) from pd
+    </select>
 </mapper>
