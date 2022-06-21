@@ -43,16 +43,18 @@ public class BaoJiaServiceImpl implements BaoJiaService {
 
     @Override
     public int insertProduct(ProductVo[] ss, int user_id, String jfstyle, String plan_jftime,int customer_id,String title,int contact_id) {
-        baoJiaDao.insertApprecords(1);
+        int count=baoJiaDao.insertBaoJia(staffDao.findStaffId(user_id),customer_id,contact_id);
+//        int xc=
+        baoJiaDao.insertApprecords(baoJiaDao.findid(),4);
         int state_id=baoJiaDao.findid1();
         String[] name=baoJiaDao.findName("报价审批");
         for(int i=0;i<name.length;i++){
             baoJiaDao.insertApprecordSon(state_id,name[i]);
         }
-        int count=baoJiaDao.insertBaoJia(staffDao.findStaffId(user_id),customer_id,state_id,contact_id);
-        int xc=baoJiaDao.findid();
         for(int i=0;i<ss.length;i++){
-            productDao.insertProduct(ss[i].getProId(),xc,ss[i].getSl(),ss[i].getMo());
+            System.out.println(baoJiaDao.findid()+"ajsdjsbdfjbfskdjfbsd");
+            productDao.insertProduct(ss[i].getProId(),baoJiaDao.findid(),ss[i].getSl(),ss[i].getMo());
+
         }
         if(count==0){
             throw new CustomError(CustomErrorType.DATABASE_OP_ERROR,"数据更新异常");
@@ -134,12 +136,13 @@ public class BaoJiaServiceImpl implements BaoJiaService {
             }
         }
         if(jfid.length==0){
-            baoJiaDao.insertApprecords(2);
+            baoJiaDao.insertjiaofu(bjid,user_name,total);
+            baoJiaDao.insertApprecords(baoJiaDao.findjfid(bjid),5);
             String[] name=baoJiaDao.findName("交付审批");
             for(int i=0;i<name.length;i++){
                 baoJiaDao.insertApprecordSon(baoJiaDao.findid1(),name[i]);
             }
-            baoJiaDao.insertjiaofu(bjid,baoJiaDao.findid1(),user_name,total);
+
             int jf_id=baoJiaDao.findjfid(bjid);
             int[] pro_id=baoJiaDao.findpro(bjid);
             for(int i=0;i<pro_id.length;i++){
@@ -151,15 +154,16 @@ public class BaoJiaServiceImpl implements BaoJiaService {
     @Override
     public int insertjiaofu(int bjid,String user_name) {
         if(baoJiaDao.checkjfde(bjid)==0){
-            baoJiaDao.insertApprecords(2);
+            baoJiaDao.insertjiaofu(bjid,user_name,baoJiaDao.findtatal(bjid));
+            baoJiaDao.insertApprecords(baoJiaDao.findjfid(bjid),5);
             String[] name=baoJiaDao.findName("交付审批");
             for(int i=0;i<name.length;i++){
                 baoJiaDao.insertApprecordSon(baoJiaDao.findid1(),name[i]);
             }
-            baoJiaDao.insertjiaofu(bjid,baoJiaDao.findid1(),user_name,baoJiaDao.findtatal(bjid));
+
         }else{
-            int state_id=baoJiaDao.findstateId(bjid);
-            baoJiaDao.insertjiaofu(bjid,state_id,user_name,baoJiaDao.findtatal(bjid));
+//            int state_id=baoJiaDao.findstateId(bjid);
+            baoJiaDao.insertjiaofu(bjid,user_name,baoJiaDao.findtatal(bjid));
         }
         int count=1;
         int jf_id=baoJiaDao.findjfid(bjid);
@@ -195,8 +199,8 @@ public class BaoJiaServiceImpl implements BaoJiaService {
                 total=total+(jfjl[i].getJfjlvo()[j].getNumber()*monery);
                 baoJiaDao.updatejfjl(jfjl[i].getJfjlvo()[j].getJfjlId(),jfjl[i].getJfjlvo()[j].getNumber());
             }
-            baoJiaDao.insertpcplan(baoJiaDao.findorderId(),i+1,jfjl[i].getPc_mn(),jfjl[i].getPlanJftime(),
-                    jfjl[i].getStateId(),user_name);
+            baoJiaDao.insertpcplan(baoJiaDao.findorderId(),i+1,jfjl[i].getPc_mn(),
+                    jfjl[i].getPlanJftime(),user_name);
             baoJiaDao.updatejiaofu(jfjl[i].getJfId(),total,jfjl[i].getPlanJftime(),baoJiaDao.findorderId());
             baoJiaDao.updatebaojia(jfjl[0].getBjid());
         }

@@ -15,9 +15,9 @@ public interface BaoJiaDao {
                                    @Param("state") String state, @Param("time1") String time1, @Param("time2")String time2,
                                    @Param("salesperson_id")int salesperson_id);
     public List<contact> findConName(int customer_id);
-    public int insertBaoJia(@Param("user_id")int user_id,@Param("customer_id")int customer_id,@Param("state_id") int state_id,
+    public int insertBaoJia(@Param("user_id")int user_id,@Param("customer_id")int customer_id,
                             @Param("contact_id") int contact_id);
-    public int insertApprecords(int app_id);
+    public int insertApprecords( @Param("sqid") int sqid,@Param("app_id") int app_id);
     public int insertApprecordSon(@Param("state_id")int state_id,@Param("name")String name);
     public int findid();
     public int findid1();
@@ -30,7 +30,7 @@ public interface BaoJiaDao {
     public int updatepro(@Param("proId") int proId,@Param("bjid") int bjid,@Param("sl") int sl,@Param("mo") double mo);
     public List<jfjl> findjiaofu(int bjid);
     public jfjlVo[] findjfjl(int jf_id);
-    public int insertjiaofu(@Param("bjid") int bjid,@Param("state_id") int state_id,
+    public int insertjiaofu(@Param("bjid") int bjid,
                             @Param("user_name") String user_name,@Param("total") int total);
     public int findjfid(int bjid);
     public int[] findjfid1(int bjid);
@@ -59,6 +59,7 @@ public interface BaoJiaDao {
     public int insertordertable(@Param("bjid") int bjid,@Param("order_bh")  String order_bh,@Param("fk")  String fk,
                                 @Param("order_title") String order_title,@Param("state_time")  Date state_time,
                                 @Param("khqyr") String khqyr,@Param("beizhu") String beizhu,@Param("cjr")  String cjr);
-    public int insertpcplan(@Param("order_id") int order_id,@Param("pc_da")  int pc_da,@Param("pc_mn")  double pc_mn,
-                            @Param("pc_pcda") Date pc_pcda, @Param("state_id") int state_id,@Param("pc_pel") String pc_pel);
+    public int insertpcplan(@Param("order_id") int order_id,@Param("pc_da")  int pc_da,
+                            @Param("pc_mn")  double pc_mn, @Param("pc_pcda") Date pc_pcda,
+                            @Param("pc_pel") String pc_pel);
 }

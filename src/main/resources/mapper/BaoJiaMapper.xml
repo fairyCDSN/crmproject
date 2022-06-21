@@ -20,7 +20,7 @@
         from baojia,users,staff,customer,approval,apprecords,contact where baojia.salesperson_id =#{salesperson_id} and
         customer.customer_type != '过期客户' and users.user_id=staff.user_id and baojia.salesperson_id = staff.staff_id and
         baojia.toexamine = approval.app_id and customer.customer_id =baojia.customer_id and approval.app_type='报价审批' and
-        apprecords.app_records_id = baojia.state_id and contact.contact_id =baojia.contact_id
+        contact.contact_id =baojia.contact_id
         <if test="customer_name != null and customer_name != ''">
             and customer.customer_name like '%${customer_name}%'
         </if>
@@ -35,20 +35,20 @@
         </if>
     </select>
     <insert id="insertBaoJia">
-        insert into baojia(contact_id,customer_id,salesperson_id,toexamine,state_id,state)
-        values (#{contact_id},#{customer_id},#{user_id},1,#{state_id},'待审批')
+        insert into baojia(contact_id,customer_id,salesperson_id,toexamine,state)
+        values (#{contact_id},#{customer_id},#{user_id},4,'待审批')
     </insert>
     <insert id="insertApprecords">
-        insert into apprecords(app_state,app_id)
-        values ('待审批',#{app_id})
+        insert into apprecords(sqid,app_state,app_id)
+        values (#{sqid},'待审批',#{app_id})
     </insert>
     <insert id="insertApprecordSon">
         insert into apprecords_son(app_records_id,app_person,app_state)
         values (#{state_id},#{name},'待审批')
     </insert>
     <insert id="insertjiaofu">
-        insert into jiaofu(bjid,total,state,cjr,state_id,toexamine)
-        values (#{bjid},#{total},'待执行',#{user_name},#{state_id},2)
+        insert into jiaofu(bjid,total,state,cjr,toexamine)
+        values (#{bjid},#{total},'待执行',#{user_name},5)
     </insert>
     <insert id="insertjfjl">
         insert into jfjl(jf_id,cjr,pro_id)
@@ -63,8 +63,8 @@
         values (#{bjid},#{order_bh},#{fk},#{order_title},#{state_time},#{khqyr},'待审批',#{beizhu},#{cjr})
     </insert>
     <insert id="insertpcplan">
-        insert into pcplan(order_id,pc_da,pc_mn,pc_pcda,toexamine,state_id,pc_pel,pc_pcstate)
-        values (#{order_id},#{pc_da},#{pc_mn},#{pc_pcda},3,#{state_id},#{pc_pel},'待执行')
+        insert into pcplan(order_id,pc_da,pc_mn,pc_pcda,toexamine,pc_pel,pc_pcstate)
+        values (#{order_id},#{pc_da},#{pc_mn},#{pc_pcda},6,#{pc_pel},'待执行')
     </insert>
     <select id="findid" resultType="java.lang.Integer">
         select max(bjid) from baojia
