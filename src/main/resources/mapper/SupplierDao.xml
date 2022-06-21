@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.SupplierDao">
+  <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Supplier">
+    <id column="supplier_supplier_id" jdbcType="INTEGER" property="supplierId" />
+    <result column="supplier_supplier_name" jdbcType="VARCHAR" property="supplierName" />
+    <result column="supplier_sex" jdbcType="VARCHAR" property="sex" />
+    <result column="supplier_phone" jdbcType="VARCHAR" property="phone" />
+    <result column="supplier_job" jdbcType="VARCHAR" property="job" />
+    <result column="supplier_email" jdbcType="VARCHAR" property="email" />
+    <result column="supplier_qq" jdbcType="VARCHAR" property="qq" />
+    <result column="supplier_weixin" jdbcType="VARCHAR" property="weixin" />
+    <result column="supplier_use_status" jdbcType="INTEGER" property="useStatus" />
+    <result column="supplier_supplier_type" jdbcType="VARCHAR" property="supplierType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    supplier.supplier_id as supplier_supplier_id, supplier.supplier_name as supplier_supplier_name, 
+    supplier.sex as supplier_sex, supplier.phone as supplier_phone, supplier.job as supplier_job, 
+    supplier.email as supplier_email, supplier.qq as supplier_qq, supplier.weixin as supplier_weixin, 
+    supplier.use_status as supplier_use_status, supplier.supplier_type as supplier_supplier_type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from supplier supplier
+    where supplier.supplier_id = #{supplier_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from supplier
+    where supplier_id = #{supplier_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="supplierId" keyProperty="supplierId" parameterType="com.trkj.crmproject.entity.Supplier" useGeneratedKeys="true">
+    insert into supplier (supplier_name, sex, phone, 
+      job, email, qq, weixin, 
+      use_status, supplier_type)
+    values (#{supplierName,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+      #{job,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{weixin,jdbcType=VARCHAR}, 
+      #{useStatus,jdbcType=INTEGER}, #{supplierType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="supplier_id" keyProperty="supplier_id" parameterType="com.trkj.crmproject.entity.Supplier" useGeneratedKeys="true">
+    insert into supplier
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="supplier_name != null">
+        supplier_name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="job != null">
+        job,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="qq != null">
+        qq,
+      </if>
+      <if test="weixin != null">
+        weixin,
+      </if>
+      <if test="use_status != null">
+        use_status,
+      </if>
+      <if test="supplier_type != null">
+        supplier_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="supplier_name != null">
+        #{supplier_name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null">
+        #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null">
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="weixin != null">
+        #{weixin,jdbcType=VARCHAR},
+      </if>
+      <if test="use_status != null">
+        #{use_status,jdbcType=INTEGER},
+      </if>
+      <if test="supplier_type != null">
+        #{supplier_type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trkj.crmproject.entity.Supplier">
+    update supplier
+    <set>
+      <if test="supplier_name != null">
+        supplier_name = #{supplier_name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null">
+        job = #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null">
+        qq = #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="weixin != null">
+        weixin = #{weixin,jdbcType=VARCHAR},
+      </if>
+      <if test="use_status != null">
+        use_status = #{use_status,jdbcType=INTEGER},
+      </if>
+      <if test="supplier_type != null">
+        supplier_type = #{supplier_type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where supplier_id = #{supplier_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.trkj.crmproject.entity.Supplier">
+    update supplier
+    set supplier_name = #{supplier_name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      job = #{job,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      qq = #{qq,jdbcType=VARCHAR},
+      weixin = #{weixin,jdbcType=VARCHAR},
+      use_status = #{use_status,jdbcType=INTEGER},
+      supplier_type = #{supplier_type,jdbcType=VARCHAR}
+    where supplier_id = #{supplier_id,jdbcType=INTEGER}
+  </update>
+
+  <select id="findsupplier" resultType="com.trkj.crmproject.entity.Supplier">
+    select * from supplier where use_status=1
+  </select>
+  <select id="findsuptype" resultType="java.lang.String">
+    select DISTINCT s.supplier_type from supplier s where s.use_status=1
+  </select>
+
+  <select id="selectsupplier" resultType="com.trkj.crmproject.entity.Supplier">
+    select * from supplier s
+    <where>
+        <if test="suppliername!=''">
+          s.supplier_name like '%${suppliername}%'
+        </if>
+      <if test="suppliertype!=''">
+        s.supplier_type = '${suppliertype}'
+      </if>
+        and use_status=1
+    </where>
+  </select>
+
+  <select id="selectsuptype" resultType="java.lang.String">
+select supplier.supplier_type from supplier where supplier_id=#{supplierId}
+  </select>
+    <select id="yzsuppliername" resultType="java.lang.String">
+      select supplier_name from supplier where supplier_name=#{supplierName}
+    </select>
+  <select id="yzsupplierphone" resultType="java.lang.String">
+    select phone from supplier where phone=#{supplierphone}
+  </select>
+
+</mapper>

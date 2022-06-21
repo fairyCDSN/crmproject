@@ -1,21 +1,32 @@
 package com.trkj.crmproject.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.trkj.crmproject.entity.mybatis_plus.ApprecordsMp;
 import com.trkj.crmproject.entity.Apprecords;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Mapper
-public interface ApprecordsDao {
+@Repository
+public interface ApprecordsDao extends BaseMapper<ApprecordsMp> {
     int deleteByPrimaryKey(Integer app_records_id);
 
-    int insert(Apprecords record);
+    int insert(ApprecordsMp record);
 
-    int insertSelective(Apprecords record);
+    int insertSelective(ApprecordsMp record);
 
-    Apprecords selectByPrimaryKey(Integer app_records_id);
+    ApprecordsMp selectByPrimaryKey(Integer app_records_id);
 
-    int updateByPrimaryKeySelective(Apprecords record);
+    int updateByPrimaryKeySelective(ApprecordsMp record);
 
-    int updateByPrimaryKey(Apprecords record);
+    int updateByPrimaryKey(ApprecordsMp record);
+
+    List<ApprecordsMp> selectApprecordsByUserIdAndState(@Param("id") int id, @Param("state") String state);
+    //修改审批记录表的状态
+    int updateStateAndBzById(@Param("id") int id, @Param("state") String state,@Param("bz") String bz );
 
 
-}
+  }

@@ -10,6 +10,7 @@
     <result column="payment_is_bi" jdbcType="VARCHAR" property="isBi" />
     <result column="payment_py_class" jdbcType="VARCHAR" property="pyClass" />
     <result column="payment_py_mntime" jdbcType="TIMESTAMP" property="pyMntime" />
+    <result column="payment_py_sfmn" jdbcType="INTEGER" property="pySfmn" />
   </resultMap>
   <sql id="Base_Column_List">
     payment.py_id as payment_py_id, payment.pa_id as payment_pa_id, payment.py_type as payment_py_type, 
@@ -26,13 +27,13 @@
     delete from payment
     where py_id = #{py_id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="py_id" keyProperty="py_id" parameterType="com.trkj.crmproject.entity.Payment" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="pyId" keyProperty="pyId" parameterType="com.trkj.crmproject.entity.Payment" useGeneratedKeys="true">
     insert into payment (pa_id, py_type, py_qc, 
       py_mn, is_bi, py_class, 
-      py_mntime)
+      py_mntime, py_sfmn)
     values (#{paId,jdbcType=INTEGER}, #{pyType,jdbcType=VARCHAR}, #{pyQc,jdbcType=INTEGER},
       #{pyMn,jdbcType=INTEGER}, #{isBi,jdbcType=VARCHAR}, #{pyClass,jdbcType=VARCHAR},
-      #{pyMntime,jdbcType=TIMESTAMP})
+      #{pyMntime,jdbcType=TIMESTAMP}, #{pySfmn,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="py_id" keyProperty="py_id" parameterType="com.trkj.crmproject.entity.Payment" useGeneratedKeys="true">
     insert into payment
@@ -125,4 +126,9 @@
   <select id="tjqc" parameterType="java.lang.Integer" resultType="java.lang.Integer">
     select count(*) as py_qc from payment where pa_id=#{paId}
   </select>
+    <select id="yzPyMntime" resultType="java.util.Date">
+select y.py_mntime from payment y LEFT JOIN parecord p
+on y.pa_id=p.pa_id
+where p.sqid=#{sqid} and p.pa_qc=#{paqc}
+    </select>
 </mapper>

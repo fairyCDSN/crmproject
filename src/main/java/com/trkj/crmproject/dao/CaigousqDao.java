@@ -5,10 +5,12 @@ import com.trkj.crmproject.entity.Caigousq;
 import com.trkj.crmproject.vo.CaigousqVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Mapper
+@Repository
 public interface CaigousqDao extends BaseMapper<Caigousq> {
     int deleteByPrimaryKey(Integer sqid);
 
@@ -27,5 +29,7 @@ public interface CaigousqDao extends BaseMapper<Caigousq> {
     List<Caigousq> findcgsq();
 
     List<Caigousq> selectcgsqdd(@Param("cgDh") String cgDh,@Param("total") int total);
+
+    List<Caigousq> selectAppCaigousq(@Param("id") int id);
 
 }

@@ -6,7 +6,9 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * parecord
@@ -66,8 +68,19 @@ public class Parecord implements Serializable {
      * 审批记录id
      */
     private Integer stateId;
+
+    private Integer isfk;
+
+    @TableField(exist = false)
+    private Payment fkjh;
     @TableField(exist = false)
     private int[] userId;
-
+    //这是选中的时间
+    @TableField(exist = false)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date[] fruit;
+    @TableField(exist = false)
+    private int[] price;
     private static final long serialVersionUID = 1L;
 }

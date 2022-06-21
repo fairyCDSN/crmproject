@@ -2,6 +2,7 @@ package com.trkj.crmproject.service;
 
 import com.github.pagehelper.PageInfo;
 import com.trkj.crmproject.entity.Role;
+import com.trkj.crmproject.entity.Sonmenu;
 import com.trkj.crmproject.entity.Users;
 import com.trkj.crmproject.entity.mybatis_plus.DeptMp;
 import com.trkj.crmproject.entity.mybatis_plus.PostMp;
@@ -49,8 +50,11 @@ public interface UserService {
     public int updateRole(RoleMp roleMp);
     //根据角色id查询所有用户
     public PageInfo<StaffVo> selectUserByRoleId(int pageNum,int pageSize,int id);
-    //添加角色[未涉及权限]
+    //添加角色
     public int insertRole(Role role);
+
+    public List<Integer> selectMenusByRole_name(int id);
+    public int updateRoleMenus(List<Integer> ids,int roleId);
 
 
 }

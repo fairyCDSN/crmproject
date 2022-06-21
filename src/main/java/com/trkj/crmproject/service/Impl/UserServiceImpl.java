@@ -4,9 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.trkj.crmproject.dao.*;
-import com.trkj.crmproject.entity.Role;
-import com.trkj.crmproject.entity.Staff;
-import com.trkj.crmproject.entity.Users;
+import com.trkj.crmproject.entity.*;
 import com.trkj.crmproject.entity.mybatis_plus.DeptMp;
 import com.trkj.crmproject.entity.mybatis_plus.PostMp;
 import com.trkj.crmproject.entity.mybatis_plus.RoleMp;
@@ -39,6 +37,8 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private RoleDao roleDao;
+    @Autowired
+    private RolePerDao rolePerDao;
 
     //
 
@@ -223,6 +223,7 @@ public class UserServiceImpl implements UserService {
         log.debug("role:{}",pageInfo);
         return pageInfo;
     }
+
     //查询部门和职务信息
     public StaffVo selectDeptNameAndPostNameByRole(String name){
         StaffVo staffVo=staffDao.selectDeptNameAndPostNameByRole(name);
@@ -232,13 +233,14 @@ public class UserServiceImpl implements UserService {
     //修改权限状态
     public int updateRole(RoleMp roleMp){
         int state=0;
-        log.debug("这是修改前的状态",roleMp.getIsUse());
+        log.debug("这是修改前的状态：{}",roleMp.getIsUse());
         if(roleMp.getIsUse()==1){
             state=0;
         }else {
             state=1;
         }
         int row=roleDao.updateState(roleMp.getRoleId(),state);
+
         return row;
     }
 
@@ -255,15 +257,68 @@ public class UserServiceImpl implements UserService {
         return pageInfo;
     }
 
-    //添加角色[未涉及权限]
+    //添加角色
     @Transactional
     public int insertRole(Role role){
         int row=0;
         log.debug("这是实现类接收到的role参数:{}",role);
+        Role r=new Role();
+        r.setRole_name(role.getRole_name());
+//        获取到角色和权限id
         row=roleDao.insert(role);
         if(row==0 && role.getRole_name()==null){
             throw new CustomError(CustomErrorType.USER_INPUT_ERROR);
         }
+        //获取到角色id
+        log.debug(role.getRole_id()+"这是角色id");
+        //添加菜单权限
+        for(int i=0;i<role.getRole_menus().size();i++){
+            //循环添加
+            RolePer rolePer=new RolePer();
+            rolePer.setRole_id(role.getRole_id());
+            rolePer.setSon_id(role.getRole_menus().get(i));
+            log.debug("这是角色和菜单的中间表："+rolePer);
+            //添加数据
+            row=rolePerDao.insert(rolePer);
+            if(row==0 && rolePer==null){
+                throw new CustomError(CustomErrorType.USER_INPUT_ERROR);
+            }
+        }
+        return row;
+    }
+
+    //按角色标识符查询菜单
+    public List<Integer> selectMenusByRole_name(int id){
+        List<Integer> sonmenuList=rolePerDao.selectMenusByRole_name(id);
+        log.debug("菜单id"+sonmenuList);
+        return sonmenuList;
+    }
+
+    public int updateRoleMenus(List<Integer> ids,int roleId){
+        int row=0;
+        log.debug("开始删除");
+        //先根据id删除菜单权限
+        row=rolePerDao.deleteMenus(roleId);
+        if(row==0 && roleId==0){
+            throw new CustomError(CustomErrorType.USER_INPUT_ERROR);
+        }
+        log.debug("删除成功");
+        log.debug("开始添加");
+        //再根据新的id添加新菜单权限
+        for(int i=0;i<ids.size();i++){
+            //循环添加
+            RolePer rolePer=new RolePer();
+            rolePer.setRole_id(roleId);
+            rolePer.setSon_id(ids.get(i));
+            log.debug("这是角色和菜单的中间表："+rolePer);
+            //添加数据
+            row=rolePerDao.insert(rolePer);
+            if(row==0 && rolePer==null){
+                throw new CustomError(CustomErrorType.USER_INPUT_ERROR);
+            }
+        }
+        log.debug("添加成功");
+
         return row;
     }
 }

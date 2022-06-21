@@ -18,6 +18,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
+//@RequestMapping("/Config")
 public class ConfigController {
     @Autowired
     private JwtAuthService jwtAuthService;
@@ -166,9 +167,26 @@ public class ConfigController {
     @PostMapping("/insertRole")
     public AjaxResponse insertRole(@RequestBody Role role){
         log.debug("这是controller中接收到的role参数:{}",role);
+//        Role r=new Role();
+//        log.debug(r.getRole_id()+"这是角色id");
         return AjaxResponse.success(userService.insertRole(role));
     }
 
+    //按角色标识符查询菜单
+    @GetMapping("/selectMenusByRole_name")
+    public AjaxResponse selectMenusByRole_name(int roleId){
+        return AjaxResponse.success(userService.selectMenusByRole_name(roleId));
+    }
+
+    //修改角色菜单权限
+    @PostMapping("/updateRoleMenus")
+    public AjaxResponse updateRoleMenus(@RequestBody Map<String,Object> datas){
+        log.debug("这是新的菜单id集合:{}",datas.get("ids"));
+        log.debug("这是role_id:{}",datas.get("roleId"));
+        List<Integer> ids= (List<Integer>) datas.get("ids");
+        int role_id= (int) datas.get("roleId");
+        return AjaxResponse.success(userService.updateRoleMenus(ids,role_id));
+    }
 
 
 }

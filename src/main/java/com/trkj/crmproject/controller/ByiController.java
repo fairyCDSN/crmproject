@@ -40,6 +40,7 @@ public class ByiController {
     //报溢列表  根据报溢编号查询
     @GetMapping("/selectByibyiId")
     public AjaxResponse selectByibyiId(int byiId){
+        log.debug("报溢id：{}",byiId);
         return AjaxResponse.success(byiService.selectByibyiId(byiId));
     }
 

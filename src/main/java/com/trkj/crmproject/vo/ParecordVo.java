@@ -32,6 +32,7 @@ public class ParecordVo {
     /**
      * 期次
      */
+
     private Integer paQc;
 
     /**
@@ -58,6 +59,8 @@ public class ParecordVo {
      * 审批记录id
      */
     private Integer stateId;
+
+    private Integer isfk;
     @TableField(exist = false)
     private String staffName;
     @TableField(exist = false)

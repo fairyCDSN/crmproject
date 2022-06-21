@@ -9,7 +9,7 @@ import lombok.Data;
 
 /**
  * apprecords
- * @author 
+ * @author
  */
 @Data
 public class Apprecords implements Serializable {
@@ -35,9 +35,16 @@ public class Apprecords implements Serializable {
     private Date app_time;
 
     /**
+     * 创建时间
+     */
+    private Date create_time;
+
+    /**
      * 备注
      */
     private String app_bz;
+
+    private int app_id;
 
     private static final long serialVersionUID = 1L;
 }

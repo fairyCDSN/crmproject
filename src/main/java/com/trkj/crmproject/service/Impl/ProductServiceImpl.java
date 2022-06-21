@@ -47,7 +47,6 @@ public class ProductServiceImpl implements ProductService {
         System.out.println(pageInfo);
         return pageInfo;
     }
-
     //商品清单  查询全部（根据ckId外键查询到ckName）
     @Override
     public List<ProductVo> selectProckName() {
@@ -81,6 +80,16 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductVo> selectProckNameAll(String ckName){
         return productDao.selectProckNameAll(ckName);
     }
+    @Override
+    public PageInfo<ProductVo> findprockName(String ckName,int pageNum, int pageSize){
+        Page<ProductVo> page= PageHelper.startPage(pageNum,pageSize);
+        List<ProductVo> list=productDao.selectProckNameAll(ckName);
+        Page<ProductVo> depts=new Page<>();
+        BeanTools.copyList(list,depts,ProductVo.class);
+        PageInfo<ProductVo> pageInfo=new PageInfo<>(depts);
+        System.out.println(pageInfo);
+        return pageInfo;
+    }
 
 
     // 商品清单  查询商品详情
@@ -88,7 +97,6 @@ public class ProductServiceImpl implements ProductService {
     public ProductVo selectProIdxq(int proId){
         return productDao.selectProIdxq(proId);
     }
-
 
 
     //商品清单 根据ckid查询商品
@@ -106,13 +114,23 @@ public class ProductServiceImpl implements ProductService {
     //商品清单  根据仓库ID，商品ID，报损报溢的查询数量修改库存
     @Override
     public int updateProCkNumber(ProCk proCk){
-       return productDao.updateProCkNumber(proCk);
+        return productDao.updateProCkNumber(proCk);
     }
 
     //盘点单  根据盘点ID查询商品
     @Override
     public List<ProductVo> selectPdIdproAll(int pdId){
         return productDao.selectPdIdproAll(pdId);
+    }
+    @Override
+    public PageInfo<ProductVo> findPdIdpro(int pdId, int pageNum, int pageSize) {
+        Page<ProductVo> page= PageHelper.startPage(pageNum,pageSize);
+        List<ProductVo> list=productDao.selectPdIdproAll(pdId);
+        Page<ProductVo> depts=new Page<>();
+        BeanTools.copyList(list,depts,ProductVo.class);
+        PageInfo<ProductVo> pageInfo=new PageInfo<>(depts);
+        System.out.println(pageInfo);
+        return pageInfo;
     }
 
 

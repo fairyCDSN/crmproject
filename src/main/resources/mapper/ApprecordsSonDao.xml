@@ -2,19 +2,59 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trkj.crmproject.dao.ApprecordsSonDao">
   <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.ApprecordsSon">
-    <id column="apprecords_son_apprecords_son_id" jdbcType="INTEGER" property="apprecords_son_id" />
-    <result column="apprecords_son_app_records_id" jdbcType="INTEGER" property="app_records_id" />
-    <result column="apprecords_son_user_id" jdbcType="INTEGER" property="user_id" />
-    <result column="apprecords_son_app_state" jdbcType="VARCHAR" property="app_state" />
-    <result column="apprecords_son_app_bz" jdbcType="VARCHAR" property="app_bz" />
+    <id column="apprecords_son_id" jdbcType="INTEGER" property="apprecords_son_id" />
+    <result column="app_records_id" jdbcType="INTEGER" property="app_records_id" />
+    <result column="user_id" jdbcType="INTEGER" property="user_id" />
+    <result column="app_state" jdbcType="VARCHAR" property="app_state" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
+    <result column="app_time" jdbcType="TIMESTAMP" property="app_time"/>
+    <result column="app_bz" jdbcType="VARCHAR" property="app_bz" />
+    <result column="staff_id" jdbcType="INTEGER" property="staff_id"/>
+    <result column="staff_name" jdbcType="VARCHAR" property="staff_name"/>
+    <result column="app_id" jdbcType="INTEGER" property="app_id" />
+    <result column="app_type" jdbcType="VARCHAR" property="app_type"/>
+    <result column="sqid" jdbcType="INTEGER" property="sqid"/>
+    <result column="cg_title" jdbcType="VARCHAR" property="cg_title"/>
   </resultMap>
   <sql id="Base_Column_List">
-    apprecords_son.apprecords_son_id as apprecords_son_apprecords_son_id, apprecords_son.app_records_id as apprecords_son_app_records_id, 
-    apprecords_son.user_id as apprecords_son_user_id, apprecords_son.app_state as apprecords_son_app_state, 
+    apprecords_son.apprecords_son_id as apprecords_son_apprecords_son_id, apprecords_son.app_records_id as apprecords_son_app_records_id,
+    apprecords_son.user_id as apprecords_son_user_id, apprecords_son.app_state as apprecords_son_app_state,
     apprecords_son.app_bz as apprecords_son_app_bz
   </sql>
+
+
+<!--  根据用户id修改审批子记录表的状态-->
+  <update id="updateApprecords">
+    update apprecords_son
+    set app_state=#{state} ,app_bz=#{bz}
+    where apprecords_son_id=#{id}
+  </update>
+
+  <select id="selectByAppId" resultMap="BaseResultMap">
+    select * from apprecords_son
+    where app_state = "待审批"
+  </select>
+
+  <select id="selectApprecordsByName" resultMap="BaseResultMap">
+    SELECT aps.apprecords_son_id apprecords_son_id,aps.app_records_id app_records_id,a.sqid sqid,
+    aps.user_id user_id,aps.app_state app_state,aps.app_time app_time,
+    aps.create_time create_time,aps.app_bz app_bz,s.staff_name staff_name,s.staff_id staff_id,
+    app.app_id app_id,app.app_type app_type,cg.cg_title cg_title
+    FROM apprecords_son aps
+    LEFT JOIN apprecords a ON aps.app_records_id=a.app_records_id
+    LEFT JOIN approval app ON app.app_id=a.app_id
+    LEFT JOIN users u on u.user_id=aps.user_id
+    LEFT JOIN staff s ON s.user_id=u.user_id
+    LEFT JOIN caigousq cg ON cg.toexamine=app.app_id
+    where aps.app_state=#{state} and aps.user_id=#{id}
+  </select>
+
+
+
+
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from apprecords_son apprecords_son
     where apprecords_son.apprecords_son_id = #{apprecords_son_id,jdbcType=INTEGER}
@@ -24,9 +64,9 @@
     where apprecords_son_id = #{apprecords_son_id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="apprecords_son_id" keyProperty="apprecords_son_id" parameterType="com.trkj.crmproject.entity.ApprecordsSon" useGeneratedKeys="true">
-    insert into apprecords_son (app_records_id, user_id, app_state, 
+    insert into apprecords_son (app_records_id, user_id, app_state,
       app_bz)
-    values (#{app_records_id,jdbcType=INTEGER}, #{user_id,jdbcType=INTEGER}, #{app_state,jdbcType=VARCHAR}, 
+    values (#{app_records_id,jdbcType=INTEGER}, #{user_id,jdbcType=INTEGER}, #{app_state,jdbcType=VARCHAR},
       #{app_bz,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="apprecords_son_id" keyProperty="apprecords_son_id" parameterType="com.trkj.crmproject.entity.ApprecordsSon" useGeneratedKeys="true">

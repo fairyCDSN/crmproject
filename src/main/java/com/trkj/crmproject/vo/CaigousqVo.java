@@ -4,8 +4,11 @@ import lombok.Data;
 
 @Data
 public class CaigousqVo {
+    private int gdId;
     private String gdName;
     private int gdPrice;
     private int gdNumber;
     private String supplierName;
+    //wq
+    private String staffName;
 }

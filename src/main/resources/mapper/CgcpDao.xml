@@ -6,6 +6,8 @@
     <result column="cgcp_gd_name" jdbcType="VARCHAR" property="gdName" />
     <result column="cgcp_gd_number" jdbcType="INTEGER" property="gdNumber" />
     <result column="cgcp_gd_price" jdbcType="INTEGER" property="gdPrice" />
+    <result column="cgcp_gd_type" jdbcType="VARCHAR" property="gdType" />
+    <result column="cgcp_supplier_id" jdbcType="INTEGER" property="supplierId" />
   </resultMap>
   <sql id="Base_Column_List">
     cgcp.gd_id as cgcp_gd_id, cgcp.gd_name as cgcp_gd_name, cgcp.gd_number as cgcp_gd_number, 
@@ -17,14 +19,15 @@
     from cgcp cgcp
     where cgcp.gd_id = #{gd_id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from cgcp
     where gd_id = #{gd_id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="gdId" keyProperty="gdId" parameterType="com.trkj.crmproject.entity.Cgcp" useGeneratedKeys="true">
-    insert into cgcp (gd_name, gd_number, gd_price
+    insert into cgcp (gd_name, gd_number, gd_price, gd_type, supplier_id
       )
-    values (#{gdName,jdbcType=VARCHAR}, #{gdNumber,jdbcType=INTEGER}, #{gdPrice,jdbcType=INTEGER}
+    values (#{gdName,jdbcType=VARCHAR}, #{gdNumber,jdbcType=INTEGER}, #{gdPrice,jdbcType=INTEGER}, #{gdType,jdbcType=VARCHAR}, #{supplierId,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" keyColumn="gd_id" keyProperty="gd_id" parameterType="com.trkj.crmproject.entity.Cgcp" useGeneratedKeys="true">
@@ -74,4 +77,11 @@
       gd_price = #{gd_price,jdbcType=INTEGER}
     where gd_id = #{gd_id,jdbcType=INTEGER}
   </update>
+
+  <select id="findscgcp" resultType="com.trkj.crmproject.entity.Cgcp">
+    select g.gd_id,g.gd_name,g.gd_number,g.gd_price,g.gd_type,s.supplier_name from cgcp g LEFT JOIN supplier s
+on g.supplier_id=s.supplier_id
+where g.supplier_id=#{supplierId}
+  </select>
+
 </mapper>

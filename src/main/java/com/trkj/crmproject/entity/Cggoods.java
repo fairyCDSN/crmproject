@@ -26,14 +26,19 @@ public class Cggoods implements Serializable {
     private Integer gdPrice;
 
     private Integer gdNumber;
+
     @TableField(exist = false)
     private String gdGuige;
-    @TableField(exist = false)
+
     private String gdType;
 
     private Integer gdTotal;
 
     private String bz;
+
+    private Integer gdCbprice;
+
+    private Integer gdCbtotal;
 
     private static final long serialVersionUID = 1L;
 }

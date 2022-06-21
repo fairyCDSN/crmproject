@@ -36,4 +36,6 @@ public interface RoleDao extends BaseMapper<RoleMp> {
 
     //查询角色为采购审批的角色名称
     List<RoleVo> selectrolename();
+
+    List<Role> selectAll();
 }

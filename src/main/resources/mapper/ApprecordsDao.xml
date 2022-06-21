@@ -2,19 +2,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trkj.crmproject.dao.ApprecordsDao">
   <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Apprecords">
-    <id column="apprecords_app_records_id" jdbcType="INTEGER" property="app_records_id" />
-    <result column="apprecords_sqid" jdbcType="INTEGER" property="sqid" />
-    <result column="apprecords_app_state" jdbcType="VARCHAR" property="app_state" />
-    <result column="apprecords_app_time" jdbcType="TIMESTAMP" property="app_time" />
-    <result column="apprecords_app_bz" jdbcType="VARCHAR" property="app_bz" />
+    <id column="app_records_id" jdbcType="INTEGER" property="app_records_id" />
+    <result column="sqid" jdbcType="INTEGER" property="sqid" />
+    <result column="app_state" jdbcType="VARCHAR" property="app_state" />
+    <result column="app_time" jdbcType="TIMESTAMP" property="app_time" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
+    <result column="app_bz" jdbcType="VARCHAR" property="app_bz" />
+    <result column="app_id" jdbcType="INTEGER" property="app_id"/>
   </resultMap>
+
+
   <sql id="Base_Column_List">
-    apprecords.app_records_id as apprecords_app_records_id, apprecords.sqid as apprecords_sqid, 
-    apprecords.app_state as apprecords_app_state, apprecords.app_time as apprecords_app_time, 
+    apprecords.app_records_id as apprecords_app_records_id, apprecords.sqid as apprecords_sqid,
+    apprecords.app_state as apprecords_app_state, apprecords.app_time as apprecords_app_time,
     apprecords.app_bz as apprecords_app_bz
   </sql>
+
+  <update id="updateStateAndBzById">
+    update apprecords
+    set app_state=#{state} ,app_bz=#{bz}
+    where app_records_id=#{id}
+  </update>
+
+  <select id="selectApprecordsByUserIdAndState" resultType="com.trkj.crmproject.entity.Apprecords">
+    select * from apprecords
+    where user_id=#{id} and app_state=#{state}
+  </select>
+
+
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from apprecords apprecords
     where apprecords.app_records_id = #{app_records_id,jdbcType=INTEGER}
@@ -24,10 +42,9 @@
     where app_records_id = #{app_records_id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="app_records_id" keyProperty="app_records_id" parameterType="com.trkj.crmproject.entity.Apprecords" useGeneratedKeys="true">
-    insert into apprecords (sqid, app_state, app_time, 
-      app_bz)
-    values (#{sqid,jdbcType=INTEGER}, #{app_state,jdbcType=VARCHAR}, #{app_time,jdbcType=TIMESTAMP}, 
-      #{app_bz,jdbcType=VARCHAR})
+    insert into apprecords (sqid, app_state, app_time,create_time,
+      app_bz,app_id)
+    values (#{sqid,jdbcType=INTEGER},#{app_state,jdbcType=VARCHAR},#{app_time,jdbcType=TIMESTAMP},#{create_time,jdbcType=TIMESTAMP},#{app_bz,jdbcType=VARCHAR},#{app_id,javaType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="app_records_id" keyProperty="app_records_id" parameterType="com.trkj.crmproject.entity.Apprecords" useGeneratedKeys="true">
     insert into apprecords

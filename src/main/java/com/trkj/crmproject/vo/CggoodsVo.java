@@ -31,4 +31,6 @@ public class CggoodsVo {
     private String bz;
 
     private String supplierName;
+
+    private String gdType;
 }

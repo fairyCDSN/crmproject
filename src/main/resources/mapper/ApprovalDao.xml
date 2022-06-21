@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.ApprovalDao">
+  <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Approval">
+    <id column="app_id" jdbcType="INTEGER" property="appId" />
+    <result column="app_type" jdbcType="VARCHAR" property="appType" />
+    <result column="app_state" jdbcType="INTEGER" property="appState"/>
+  </resultMap>
+  <resultMap id="app_role" type="com.trkj.crmproject.vo.ApprovalRoleVo">
+    <id column="app_id" jdbcType="INTEGER" property="app_id"/>
+    <result column="app_type" jdbcType="VARCHAR" property="app_type"/>
+    <result column="role_id" jdbcType="INTEGER" property="role_id"/>
+    <result column="staff_id" jdbcType="INTEGER" property="staff_id"/>
+    <result column="user_id" jdbcType="INTEGER" property="user_id"/>
+    <result column="org_id" jdbcType="INTEGER" property="org_id"/>
+    <result column="post_id" jdbcType="INTEGER" property="post_id"/>
+    <result column="deptment_id" jdbcType="INTEGER" property="dept_id"/>
+    <result column="role_desc" jdbcType="VARCHAR" property="role_desc"/>
+    <result column="user_name" jdbcType="VARCHAR" property="user_name"/>
+    <result column="staff_name" jdbcType="VARCHAR" property="staff_name"/>
+    <result column="post_name" jdbcType="VARCHAR" property="post_name"/>
+    <result column="department_name" jdbcType="VARCHAR" property="dept_name"/>
+    <result column="role_name" jdbcType="VARCHAR" property="role_name"/>
+  </resultMap>
+  <resultMap id="role" type="com.trkj.crmproject.entity.Role">
+    <id column="role_id" property="role_id"/>
+    <result column="role_name" property="role_name"/>
+    <result column="role_desc" property="role_desc"/>
+
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    app_id, app_type
+  </sql>
+
+<!--  王琴-->
+<!--  查询所有审批类型-->
+  <select id="selectAllApp" resultType="com.trkj.crmproject.entity.Approval">
+    select a.* from approval a
+    LEFT JOIN app_role ar ON ar.app_id=a.app_id
+    LEFT JOIN role r ON r.role_id=ar.role_id
+    LEFT JOIN user_role ur ON ur.role_id=r.role_id
+    LEFT JOIN users u on u.user_id=ur.users_id
+    LEFT JOIN staff s ON s.user_id=u.user_id
+    GROUP BY  a.app_id
+  </select>
+
+<!--  根据类型查询审批权限人-->
+  <select id="selectRoleByApp" resultMap="app_role">
+    select a.*,r.*,u.*,s.*,p.post_id,p.post_name,d.department_name from approval a
+    LEFT JOIN app_role ar ON ar.app_id=a.app_id
+    LEFT JOIN role r ON r.role_id=ar.role_id
+    LEFT JOIN user_role ur ON ur.role_id=r.role_id
+    LEFT JOIN users u on u.user_id=ur.users_id
+    LEFT JOIN staff s ON s.user_id=u.user_id
+    LEFT JOIN post p ON p.post_id=s.post_id
+    LEFT JOIN department d ON d.department_id=s.deptment_id
+    where a.app_id=#{id}
+    GROUP BY u.user_name
+  </select>
+
+<!--  查询审批类别【根据审批名称、状态】-->
+  <select id="selectByStateAndName" resultType="com.trkj.crmproject.entity.Approval">
+    select * from approval
+    <where>
+      <if test="param1 != 0 || param1 !='' ">
+        app_state=#{param1}
+      </if>
+      <if test="param2!='' || param2 == null ">
+        and app_type like concat('%'+'${param2}'+'%')
+      </if>
+    </where>
+  </select>
+
+  <select id="selectRoleByAppId" resultMap="role">
+    select r.role_id role_id,r.role_name role_name,r.role_desc role_desc from approval a
+    left join app_role ar on ar.app_id=a.app_id
+    left join role r on r.role_id=ar.role_id
+    where a.app_id=#{id}
+  </select>
+
+  <select id="selectName" resultType="java.lang.String">
+    select app_type from approval
+  </select>
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from approval
+    where app_id = #{appId,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from approval
+    where app_id = #{appId,jdbcType=INTEGER}
+  </delete>
+
+
+  <insert id="insertApproval" keyColumn="app_id" keyProperty="appId" parameterType="com.trkj.crmproject.entity.Approval" useGeneratedKeys="true">
+    insert into approval (app_type,app_state)
+    values (#{appType,jdbcType=VARCHAR},#{appState,javaType=INTEGER})
+  </insert>
+
+</mapper>
