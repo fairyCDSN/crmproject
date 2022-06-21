@@ -3,6 +3,7 @@ package com.trkj.crmproject.service.Impl;
 import com.trkj.crmproject.dao.ApprecordsSonDao;
 import com.trkj.crmproject.dao.UsersDao;
 import com.trkj.crmproject.entity.ApprecordsSon;
+import com.trkj.crmproject.entity.Caigousq;
 import com.trkj.crmproject.service.ApprecordsSonService;
 import com.trkj.crmproject.vo.ApprecordsVo;
 import lombok.extern.slf4j.Slf4j;
@@ -36,5 +37,10 @@ public class ApprecordsSonServiceImpl implements ApprecordsSonService {
         List<ApprecordsSon> apprecordsVos=apprecordsSonDao.selectApprecordsByName(id,state);
         log.debug("查询出来的审核记录子表：{}",apprecordsVos);
         return apprecordsVos;
+    }
+
+    @Override
+    public List<Caigousq> selectAppCgsq() {
+        return null;
     }
 }

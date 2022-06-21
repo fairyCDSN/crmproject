@@ -207,5 +207,8 @@ where p.sqid=#{sqid} and p.state_id is null and p.isfk=0
     select MAX(p.pa_qc) from parecord p where p.sqid=#{sqid} and p.state_id is null and p.isfk=0
   </select>
 
+  <select id="selectmaxqctwo" resultType="java.lang.Integer">
+    select MAX(p.pa_qc) from parecord p where p.sqid=#{sqid} and p.state_id is not null and p.isfk=0
+  </select>
 
 </mapper>

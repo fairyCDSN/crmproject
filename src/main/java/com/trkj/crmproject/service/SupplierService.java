@@ -13,4 +13,6 @@ public interface SupplierService {
     public int addSupplier(Supplier supplier);
     public int delectsupplier(int supplierId);
     public String selectsuptype(int supplierId);
+    public String yzsuppliername(String supplierName);
+    public String yzsupplierphone(String supplierphone);
 }

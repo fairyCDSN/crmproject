@@ -22,6 +22,7 @@ public class ApprecordsServiceImpl implements ApprecordsService {
 
     @Override
     public int addApprecords(Apprecords apprecords) {
+        System.out.println(apprecords+"========输出");
         return apprecordsDao.insert(apprecords);
     }
 
