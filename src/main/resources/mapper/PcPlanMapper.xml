@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.PcPlanDao">
+
+    <select id="findPcplan" resultType="com.trkj.crmproject.entity.PcPlan">
+        select max(order_id) orderId1,max(pc_da) qs,(select pc_pcState from pcplan where order_id=#{order_id} and
+        pc_da=(select MAX(pc_da) from pcplan where order_id=#{order_id})) state,
+        (select  SUM(pc_mn) from pcplan where order_id=#{order_id}) sumMonery,pc_pel from pcplan where order_id=#{order_id}
+        <if test="qs != null and qs != ''">
+            and (select max(pc_da) from pcplan where order_id=#{order_id}) = #{qs}
+        </if>
+        <if test="state != null and state != ''">
+            and (select pc_pcState from pcplan where order_id=#{order_id} and
+            pc_da=(select MAX(pc_da) from pcplan where order_id=#{order_id})) = #{state}
+        </if>
+        <if test="monery1 != null and monery1 != ''">
+            <if test="monery2 != null and monery2 != ''">
+                and  (select  SUM(pc_mn) from pcplan where order_id=#{order_id}) between #{monery1} and #{monery2}
+            </if>
+            <if test="monery2 == null or monery2 == ''">
+                and  (select  SUM(pc_mn) from pcplan where order_id=#{order_id}) &gt;= #{monery1}
+            </if>
+        </if>
+        <if test="monery2 != null and monery2 != ''">
+            <if test="monery1 == null or monery1 == ''">
+                and  (select  SUM(pc_mn) from pcplan where order_id=#{order_id}) &lt;= #{monery2}
+            </if>
+        </if>
+    </select>
+    <select id="findorderId" resultType="java.lang.Integer">
+        select distinct order_id from pcplan
+    </select>
+    <select id="findmint" resultType="java.lang.String">
+        select DATE_FORMAT(min(pc_pcda),"%Y-%m-%d") from pcplan where order_id=#{order_id}
+    </select>
+    <select id="findmaxt" resultType="java.lang.String">
+        select DATE_FORMAT(max(pc_pcda),"%Y-%m-%d") from pcplan where order_id=#{order_id}
+    </select>
+</mapper>

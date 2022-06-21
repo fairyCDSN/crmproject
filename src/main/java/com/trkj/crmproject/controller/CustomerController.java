@@ -24,18 +24,6 @@ public class CustomerController {
     @Autowired
     private ContactService contactService;
 
-    //查询属于编号为salesperson_id的员工的所有状态不为过期客户的客户信息
-    @GetMapping("/findCustomers")
-    public AjaxResponse findCustomers(int pageNum, int pageSize,int salesperson_id){
-        PageInfo<customerVo> info=customerService.findCustomers(pageNum,pageSize,salesperson_id);
-        return AjaxResponse.success(info);
-    }
-    //查询所有共享客户的状态不为过期客户的客户信息
-    @GetMapping("/findCustomers2")
-    public AjaxResponse findCustomers2(int pageNum, int pageSize){
-        PageInfo<customerVo> info=customerService.findCustomers2(pageNum,pageSize);
-        return AjaxResponse.success(info);
-    }
     //根据客户名称、客户阶段、日期范围搜索编号为salesperson_id的员工的所有状态不为过期客户的客户信息
     @GetMapping("/findCustomer")
     public AjaxResponse findCustomer(int pageNum, int pageSize,String customer_name, String customer_stage,String create_time1,
@@ -57,6 +45,18 @@ public class CustomerController {
                                       String create_time2,int salesperson_id){
         PageInfo<customerVo> info=customerService.findCustomer2(pageNum,pageSize,customer_name,customer_stage,
                 create_time1,create_time2,salesperson_id);
+        return AjaxResponse.success(info);
+    }
+    //查询属于编号为salesperson_id的员工的所有状态不为过期客户的客户信息
+    @GetMapping("/findCustomers")
+    public AjaxResponse findCustomers(int pageNum, int pageSize,int salesperson_id){
+        PageInfo<customerVo> info=customerService.findCustomers(pageNum,pageSize,salesperson_id);
+        return AjaxResponse.success(info);
+    }
+    //查询所有共享客户的状态不为过期客户的客户信息
+    @GetMapping("/findCustomers2")
+    public AjaxResponse findCustomers2(int pageNum, int pageSize){
+        PageInfo<customerVo> info=customerService.findCustomers2(pageNum,pageSize);
         return AjaxResponse.success(info);
     }
     @GetMapping("/findCusXq")

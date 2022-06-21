@@ -112,4 +112,9 @@ public class ProductConteoller {
         return AjaxResponse.success(info);
     }
 
+    @GetMapping("/findproduct1")
+    public AjaxResponse findproduct1(int pageNum, int pageSize,int bjid,String pro_name,String pro_type){
+        PageInfo<ProductVo> info=productService.findproduct1(pageNum,pageSize,bjid,pro_name,pro_type);
+        return AjaxResponse.success(info);
+    }
 }

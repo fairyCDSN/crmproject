@@ -14,7 +14,7 @@ public class CustomError extends RuntimeException {
      * @param errorType
      * @param message  用于替换CustomErrorType默认的异常描述信息
      */
-    public CustomError(Throwable cause, com.trkj.crmproject.exception.CustomErrorType errorType, String message ) {
+    public CustomError(Throwable cause, CustomErrorType errorType, String message ) {
         super(message, cause);
         this.code = errorType.getCode();
         this.message = message;
@@ -24,7 +24,7 @@ public class CustomError extends RuntimeException {
      * @param cause
      * @param errorType
      */
-    public CustomError(Throwable cause, com.trkj.crmproject.exception.CustomErrorType errorType) {
+    public CustomError(Throwable cause, CustomErrorType errorType) {
         super(errorType.getTypeDesc(), cause);
         this.code = errorType.getCode();
         this.message = errorType.getTypeDesc();
@@ -45,7 +45,7 @@ public class CustomError extends RuntimeException {
      * @param errorType
      * @param message 用于替换CustomErrorType默认的异常描述信息
      */
-    public CustomError(com.trkj.crmproject.exception.CustomErrorType errorType, String message ) {
+    public CustomError(CustomErrorType errorType, String message ) {
         this.code = errorType.getCode();
         this.message = message;
     }
@@ -53,7 +53,7 @@ public class CustomError extends RuntimeException {
      * 用于自定义业务异常
      * @param errorType
      */
-    public CustomError(com.trkj.crmproject.exception.CustomErrorType errorType ) {
+    public CustomError(CustomErrorType errorType ) {
         this.code = errorType.getCode();
         this.message = errorType.getTypeDesc();
     }

@@ -1,5 +1,6 @@
 package com.trkj.crmproject.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -25,5 +26,6 @@ public class CusXqVo {
     private String phone;
     private String fax;
     private String remarks;
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date createtime;
 }

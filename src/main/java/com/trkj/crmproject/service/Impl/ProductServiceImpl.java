@@ -37,6 +37,7 @@ public class ProductServiceImpl implements ProductService {
 //    }
 
     //分页
+    @Override
     public PageInfo<ProductVo> findpro(int pageNum, int pageSize){
         Page<ProductVo> page= PageHelper.startPage(pageNum,pageSize);
         List<ProductVo> list=productDao.selectProckName();
@@ -54,6 +55,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     //商品清单  查询全部类别
+    @Override
     public List<Category> selectCatAll(){
         return categoryDao.selectList(null);
     }
@@ -124,14 +126,25 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
+    //李玉春的代码
     @Override
     public PageInfo<ProductVo> findproduct(int pageNum, int pageSize,String pro_name,String pro_type){
         Page<ProductVo> page= PageHelper.startPage(pageNum,pageSize);
         List<ProductVo> list=productDao.findproduct(pro_name,pro_type);
-        Page<ProductVo> depts=new Page<>();
-        BeanTools.copyList(list,depts,ProductVo.class);
-        PageInfo<ProductVo> pageInfo=new PageInfo<>(depts);
+        Page<ProductVo> products=new Page<>();
+        BeanTools.copyList(list,products,ProductVo.class);
+        PageInfo<ProductVo> pageInfo=new PageInfo<>(products);
         return pageInfo;
     }
 
+    @Override
+    public PageInfo<ProductVo> findproduct1(int pageNum, int pageSize,int bjid,String pro_name,String pro_type){
+        Page<ProductVo> page= PageHelper.startPage(pageNum,pageSize);
+//        int[] pro_id=productDao.cheackProId(bjid);
+        List<ProductVo> list=productDao.findproduct1(bjid,pro_name,pro_type);
+        Page<ProductVo> products=new Page<>();
+        BeanTools.copyList(list,products,ProductVo.class);
+        PageInfo<ProductVo> pageInfo=new PageInfo<>(products);
+        return pageInfo;
+    }
 }
