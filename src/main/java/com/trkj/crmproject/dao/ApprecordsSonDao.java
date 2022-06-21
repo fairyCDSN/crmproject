@@ -1,6 +1,8 @@
 package com.trkj.crmproject.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.trkj.crmproject.entity.ApprecordsSon;
+import com.trkj.crmproject.entity.mybatis_plus.ApprecordsSonMp;
 import com.trkj.crmproject.vo.ApprecordsVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -10,7 +12,7 @@ import java.util.List;
 
 @Mapper
 @Repository
-public interface ApprecordsSonDao {
+public interface ApprecordsSonDao extends BaseMapper<ApprecordsSonMp> {
     int deleteByPrimaryKey(Integer apprecords_son_id);
 
     int insert(ApprecordsSon record);

@@ -3,29 +3,122 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trkj.crmproject.dao.DiaoboDao">
 
-<!--    调拨列表 查询全部（ckName[dcName,drName]）-->
+    <!--    调拨列表 查询全部（ckName[dcName,drName]）-->
     <select id="selectDbAll" resultType="com.trkj.crmproject.vo.DiaoboVo">
         SELECT co.ck_name dc_name ,ct.ck_name dr_name,
-            diaobo.db_id,diaobo.db_time,diaobo.create_user,diaobo.bz,diaobo.toexamine,diaobo.state_id
+            diaobo.db_id,diaobo.db_time,diaobo.create_user,diaobo.bz,diaobo.toexamine,diaobo.app_records_id
             FROM diaobo
             LEFT JOIN ck co ON co.ck_id=diaobo.ck_id
             LEFT JOIN ck ct ON ct.ck_id=diaobo.ckdr_id
     </select>
 
-<!--    调拨详情  根据调拨id查询商品信息-->
+    <!--    调拨详情  根据调拨id查询商品信息-->
     <select id="selectDbidproName" resultType="com.trkj.crmproject.vo.ProductVo">
         select product.pro_id,product.pro_name,product.pro_guige,product.pro_money,db_pro.db_number from product
             LEFT JOIN db_pro on db_pro.pro_id=product.pro_id
             LEFT JOIN diaobo on diaobo.db_id=db_pro.db_id
             WHERE diaobo.db_id=#{dbId}
     </select>
-<!--    调拨详情 根据调拨id查询调拨信息-->
+    <!--    调拨详情 根据调拨id查询调拨信息-->
     <select id="selectDbidxq" resultType="com.trkj.crmproject.vo.DiaoboVo">
         SELECT co.ck_name dc_name ,ct.ck_name dr_name ,diaobo.db_id,diaobo.db_time,
-            diaobo.create_user,diaobo.bz,diaobo.toexamine,diaobo.state_id from diaobo
+            diaobo.create_user,diaobo.bz,diaobo.toexamine,diaobo.app_records_id from diaobo
             LEFT JOIN ck co ON co.ck_id=diaobo.ck_id
             LEFT JOIN ck ct ON ct.ck_id=diaobo.ckdr_id
             WHERE diaobo.db_id=#{dbId}
+    </select>
+
+    <!--    调拨详情 根据id修改备注-->
+    <update id="updateDbidbz">
+        UPDATE diaobo SET bz=#{bz} WHERE db_id=#{dbId}
+    </update>
+
+    <!--    调拨列表 根据调出仓库查询全部-->
+    <select id="selectDbdcName" resultType="com.trkj.crmproject.vo.DiaoboVo">
+        SELECT co.ck_name dc_name ,ct.ck_name dr_name ,diaobo.db_id,diaobo.db_time,diaobo.create_user,
+            diaobo.bz,diaobo.toexamine,diaobo.app_records_id from diaobo
+            LEFT JOIN ck co ON co.ck_id=diaobo.ck_id
+            LEFT JOIN ck ct ON ct.ck_id=diaobo.ckdr_id
+            WHERE co.ck_name=#{dcName}
+    </select>
+    <!--    调拨列表 根据调入仓库查询全部-->
+    <select id="selectDbdrName" resultType="com.trkj.crmproject.vo.DiaoboVo">
+        SELECT co.ck_name dc_name ,ct.ck_name dr_name ,diaobo.db_id,diaobo.db_time,diaobo.create_user,
+            diaobo.bz,diaobo.toexamine,diaobo.app_records_id from diaobo
+            LEFT JOIN ck co ON co.ck_id=diaobo.ck_id
+            LEFT JOIN ck ct ON ct.ck_id=diaobo.ckdr_id
+            WHERE ct.ck_name=#{drName}
+    </select>
+
+    <!--    调拨列表 根据时间，调出调入仓库查询-->
+    <select id="selectDbTimeandckName" resultType="com.trkj.crmproject.vo.DiaoboVo">
+        SELECT co.ck_name dc_name ,ct.ck_name dr_name ,diaobo.db_id,diaobo.db_time,diaobo.create_user,
+        diaobo.bz,diaobo.toexamine,diaobo.app_records_id from diaobo
+        LEFT JOIN ck co ON co.ck_id=diaobo.ck_id
+        LEFT JOIN ck ct ON ct.ck_id=diaobo.ckdr_id
+        <where>
+            <if test="param1!='' || param1==null">
+                co.ck_name=#{dcName}
+            </if>
+            <if test="param2!='' || param2==null">
+                and ct.ck_name=#{drName}
+            </if>
+            <if test="param3!='' || param3==null ||param4!='' || param4==null">
+                and date(diaobo.db_time) between #{param3} and #{param4}
+            </if>
+        </where>
+    </select>
+
+
+
+    <!--    调拨表 根据仓库id，商品名称查询-->
+    <select id="selectPdckIdproName" resultType="com.trkj.crmproject.vo.ProductVo">
+        select product.pro_id,product.pro_name,product.pro_guige,product.pro_money,
+        pro_ck.pro_ck_number as pro_ck_numbersum from product
+        left join pro_ck on pro_ck.pro_id=product.pro_id
+        left join ck on ck.ck_id=pro_ck.ck_id
+        <where>
+            <if test="param1!='' || param1==null || param1==0" >
+
+                ck.ck_id=#{ckId}
+            </if>
+            <if test="param2!='' || param2==null">
+                and product.pro_name=#{proName}
+            </if>
+        </where>
+    </select>
+
+
+    <!--    调拨表 查询不等于出库id的入库id-->
+    <select id="selectdbckdrId" resultType="com.trkj.crmproject.vo.CkVo">
+        select ck_name,ck_id from ck where ck_id!=#{ckId}
+    </select>
+
+    <!--    审批，查询最大编号-->
+    <select id="selectdbAppId" resultType="java.lang.Integer">
+        select max(app_records_id) from apprecords
+    </select>
+
+    <!--    查询调拨最大编号-->
+    <select id="selectdbId" resultType="java.lang.Integer">
+        select max(db_id) from diaobo
+    </select>
+
+    <!--    添加审批子表，查询有审批权限的用户id-->
+    <select id="selectdbusersId" resultType="com.trkj.crmproject.vo.CkUserVo">
+        select user_role.users_id from user_role
+            left join role on role.role_id=user_role.role_id
+            left join app_role on app_role.role_id=role.role_id
+            left join approval on approval.app_id=app_role.app_id
+            where approval.app_type='调拨'
+    </select>
+
+
+    <!--    根据调拨id查询审批状态（通过）-->
+    <select id="selectdbappState" resultType="com.trkj.crmproject.entity.mybatis_plus.ApprecordsMp">
+        select apprecords.app_state from apprecords
+            LEFT JOIN approval on approval.app_id=apprecords.app_id
+            where apprecords.sqid=#{dbId} and approval.app_type='调拨'
     </select>
 
 </mapper>
