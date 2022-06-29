@@ -112,6 +112,12 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public int addfollow(String user_name,String contact_name,String customer_source,String customer_name) {
+            String follow_content="新客户"+customer_name+"与销售员"+user_name+"建立联系,默认联系人为"+contact_name;
+        return customerDao.addfollow(user_name,contact_name,"新客户建立",customer_source,follow_content);
+    }
+
+    @Override
     public customerVo updateCustomer(customerVo customerVo) {
         customer customer=new customer();
         BeanTools.copyProperties(customerVo,customer);
@@ -125,7 +131,13 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
 //    @Transactional(transactionManager = "tm")
     public int updataCustomerType1(int customer_id) {
-        return customerDao.updataCustomerType1(customer_id);
+        int count =0;
+        if(customerDao.checkdeCus1(customer_id).length==0){
+            if(customerDao.checkdeCus2(customer_id).length==0){
+                count=customerDao.updataCustomerType1(customer_id);
+            }
+        }
+        return count;
     }
     @Override
     public int updataCustomerType2(int customer_id) {
@@ -133,11 +145,27 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public int updateSeId(AddVo[] addVo,int user_id) {
-        for(int i=0;i<addVo.length;i++){
-            int customer_id=addVo[i].getCustomer_id();
-            customerDao.updateSeId(customer_id,staffDao.findStaffId(user_id));
+    public int updateSeId(AddVo[] addVo,int user_id,String user_name) {
+        for(int i=0;i<addVo.length;i++) {
+            int customer_id = addVo[i].getCustomer_id();
+            String follow_content="员工"+user_name+"将客户"+addVo[i].getCustomer_name()+"转移给其他员工";
+            if(user_id!=0){
+                customerDao.updateSeId(customer_id, staffDao.findStaffId(user_id));
+                customerDao.insertfollow(customer_id,user_name, addVo[i].getContact_name(),
+                        "客户转移","线上操作",follow_content);
+            }else if(user_id==0){
+                customerDao.updateSeId(customer_id,0);
+                customerDao.insertfollow(customer_id,user_name,addVo[i].getContact_name(),"客户转移至共享客户",
+                        "线上操作","员工"+user_name+"将客户"+addVo[i].getCustomer_name()+"转移至共享客户");
+            }
         }
+        return 1;
+    }
+    @Override
+    public int updateLinQu(int customer_id,int user_id,String user_name) {
+        customerDao.updateSeId(customer_id, staffDao.findStaffId(user_id));
+        String follow_content="员工"+user_name+"领取客户";
+        customerDao.insertfollow(customer_id,user_name,"", "客户领取","线上操作",follow_content);
         return 1;
     }
 }

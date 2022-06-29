@@ -14,13 +14,17 @@
     <update id="updatebaojia">
         update baojia set state='待执行' where bjid=#{bjid}
     </update>
+    <update id="updatebaojiaApp">
+        update baojia set state_id=(select max(app_records_id) from apprecords where app_id=4)
+        where bjid=#{bjid}
+    </update>
     <select id="findBaojia" resultType="com.trkj.crmproject.entity.BaoJia">
-        select baojia.customer_id,baojia.contact_id,baojia.bjid,baojia.state_time,approval.app_type,customer.customer_name,
+        select DISTINCT baojia.customer_id,baojia.contact_id,baojia.bjid,baojia.state_time,approval.app_type,customer.customer_name,
         contact.contact_name,users.user_name,baojia.state
         from baojia,users,staff,customer,approval,apprecords,contact where baojia.salesperson_id =#{salesperson_id} and
         customer.customer_type != '过期客户' and users.user_id=staff.user_id and baojia.salesperson_id = staff.staff_id and
         baojia.toexamine = approval.app_id and customer.customer_id =baojia.customer_id and approval.app_type='报价审批' and
-        apprecords.app_records_id = baojia.state_id and contact.contact_id =baojia.contact_id
+        contact.contact_id =baojia.contact_id
         <if test="customer_name != null and customer_name != ''">
             and customer.customer_name like '%${customer_name}%'
         </if>
@@ -35,20 +39,20 @@
         </if>
     </select>
     <insert id="insertBaoJia">
-        insert into baojia(contact_id,customer_id,salesperson_id,toexamine,state_id,state)
-        values (#{contact_id},#{customer_id},#{user_id},1,#{state_id},'待审批')
+        insert into baojia(contact_id,customer_id,salesperson_id,toexamine,state)
+        values (#{contact_id},#{customer_id},#{user_id},4,'待审批')
     </insert>
     <insert id="insertApprecords">
-        insert into apprecords(app_state,app_id)
-        values ('待审批',#{app_id})
+        insert into apprecords(sqid,app_state,app_id)
+        values (#{sqid},'待审批',#{app_id})
     </insert>
     <insert id="insertApprecordSon">
-        insert into apprecords_son(app_records_id,app_person,app_state)
-        values (#{state_id},#{name},'待审批')
+        insert into apprecords_son(app_records_id,user_id,app_state,create_time)
+        values (#{state_id},#{name},'待审批',now())
     </insert>
     <insert id="insertjiaofu">
-        insert into jiaofu(bjid,total,state,cjr,state_id,toexamine)
-        values (#{bjid},#{total},'待执行',#{user_name},#{state_id},2)
+        insert into jiaofu(bjid,total,state,cjr,toexamine)
+        values (#{bjid},#{total},'待执行',#{user_name},5)
     </insert>
     <insert id="insertjfjl">
         insert into jfjl(jf_id,cjr,pro_id)
@@ -63,8 +67,8 @@
         values (#{bjid},#{order_bh},#{fk},#{order_title},#{state_time},#{khqyr},'待审批',#{beizhu},#{cjr})
     </insert>
     <insert id="insertpcplan">
-        insert into pcplan(order_id,pc_da,pc_mn,pc_pcda,toexamine,state_id,pc_pel,pc_pcstate)
-        values (#{order_id},#{pc_da},#{pc_mn},#{pc_pcda},3,#{state_id},#{pc_pel},'待执行')
+        insert into pcplan(order_id,pc_da,pc_mn,pc_pcda,toexamine,pc_pel,pc_pcstate)
+        values (#{order_id},#{pc_da},#{pc_mn},#{pc_pcda},6,#{pc_pel},'待执行')
     </insert>
     <select id="findid" resultType="java.lang.Integer">
         select max(bjid) from baojia
@@ -72,8 +76,8 @@
     <select id="findid1" resultType="java.lang.Integer">
         select max(app_records_id) from apprecords
     </select>
-    <select id="findName" resultType="java.lang.String">
-        select users.user_name from user_role,users,role,app_role,approval
+    <select id="findName" resultType="java.lang.Integer">
+        select users.user_id from user_role,users,role,app_role,approval
         where approval.app_type=#{app_type} and approval.app_id=app_role.app_id and app_role.role_id=role.role_id and
         role.role_id=user_role.role_id and user_role.users_id = users.user_id
     </select>
@@ -85,11 +89,11 @@
         select contact_id,contact_name,work_phone,my_phone from contact where contact_id=#{contact_id}
     </select>
     <select id="findProXq" resultType="com.trkj.crmproject.entity.ProductXq">
-        select bj_pro.pro_id,product.pro_name,product.pro_type,bj_pro.good_monery,bj_pro.good_number from bj_pro,product
+        select bj_pro.pro_id,product.pro_name,bj_pro.good_monery,bj_pro.good_number from bj_pro,product
         where bj_pro.bjid=#{bjid} and bj_pro.pro_id=product.pro_id
     </select>
     <select id="findProXq1" resultType="com.trkj.crmproject.entity.ProductXq">
-        select pro_id,pro_name,pro_type,pro_guige,pro_xh,pro_dw,pro_money,pro_cbj,pro_say from product
+        select pro_id,pro_name,pro_guige,pro_xh,pro_dw,pro_money,pro_cbj,pro_say from product
         where pro_id=#{pro_id}
     </select>
     <select id="selectpro" resultType="java.lang.Integer">
@@ -139,6 +143,16 @@
     <select id="findconName" resultType="java.lang.String">
         select contact_name from contact where contact_id=(select contact_id from baojia where bjid=#{bjid})
     </select>
+    <select id="findOrderId" resultType="java.lang.Integer">
+        select max(order_id) from ordertable
+    </select>
+    <select id="checkjiaofu" resultType="java.lang.Integer">
+        select count(number) from jfjl where jf_id =#{jf_id}
+    </select>
+    <select id="findBjPro" resultType="com.trkj.crmproject.entity.BjPro">
+        select bj_pro.pro_id,bj_pro.good_number,bj_pro.good_monery,product.pro_name from bj_pro,product
+        where bj_pro.bjid=#{bjid} and bj_pro.pro_id=product.pro_id
+    </select>
     <delete id="deletepro">
         delete from bj_pro where pro_id=#{pro_id} and bjid=#{bjid}
     </delete>
@@ -155,6 +169,12 @@
         delete from jfjl where jf_id=#{jf_id}
     </delete>
     <delete id="deleteAlljiaofu">
-        delete from jiaofu where jf_id!=#{jf_id}
+        delete from jiaofu where jf_id!=#{jf_id} and bjid=#{bjid}
+    </delete>
+    <delete id="delectjfjl1">
+        delete from jfjl where jfjl_id=#{jfjl_id}
+    </delete>
+    <delete id="delectjiaofu1">
+        delete from jiaofu where jf_id =#{jf_id}
     </delete>
 </mapper>

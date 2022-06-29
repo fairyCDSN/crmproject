@@ -22,4 +22,7 @@ public class JiaoFu {
     private int orderId1;
     private int qs;
     private String time;
+
+    private String maxstate;
+    private String minstate;
 }

@@ -23,16 +23,27 @@ public class JiaoFuServiceImpl implements JiaoFuService {
     private JiaoFuDao jiaoFuDao;
 
     @Override
-    public PageInfo<JiaoFuVo> findJiaoFu(int pageNum, int pageSize) {
+    public PageInfo<JiaoFuVo> findJiaoFu(int pageNum, int pageSize,String qs,String state,String user_name) {
         Page<JiaoFu> page= PageHelper.startPage(pageNum,pageSize);
         int[] order_id=jiaoFuDao.findorderId();
         List<JiaoFu> list = new ArrayList<>();
         for(int i=0;i<order_id.length;i++){
-            JiaoFu jiaoFu =jiaoFuDao.findJiaoFu(order_id[i]);
+            JiaoFu jiaoFu =jiaoFuDao.findJiaoFu(order_id[i],qs,state);
             String time=jiaoFuDao.findmint(order_id[i])+"~"+jiaoFuDao.findmaxt(order_id[i]);
             jiaoFu.setTime(time);
+            if(jiaoFu.getMaxstate().equals("交付完成")){
+                jiaoFu.setState("交付完成");
+            }else if(jiaoFu.getMaxstate().equals("待执行") || jiaoFu.getMaxstate().equals("正在出库")){
+                if(jiaoFu.getMinstate().equals("正在出库") || jiaoFu.getMinstate().equals("交付完成")){
+                    jiaoFu.setState("正在交付");
+                }else if(jiaoFu.getMinstate().equals("待执行")){
+                    jiaoFu.setState("待执行");
+                }
+            }else if(jiaoFu.getMinstate().equals("待执行")){
+                jiaoFu.setState("待执行");
+            }
             if(jiaoFu.getOrderId1()!=0) {
-                if(jiaoFu.getCjr().equals("wq")) {
+                if(jiaoFu.getCjr().equals(user_name)) {
                     list.add(jiaoFu);
                 }
             }

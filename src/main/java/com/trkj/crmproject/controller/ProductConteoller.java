@@ -119,6 +119,12 @@ public class ProductConteoller {
         return AjaxResponse.success(info);
     }
 
+    //李玉春的代码
+    @GetMapping("/findproduct")
+    public AjaxResponse findproduct(int pageNum, int pageSize,String pro_name,String pro_type){
+        PageInfo<ProductVo> info=productService.findproduct(pageNum,pageSize,pro_name,pro_type);
+        return AjaxResponse.success(info);
+    }
     @GetMapping("/findproduct1")
     public AjaxResponse findproduct1(int pageNum, int pageSize,int bjid,String pro_name,String pro_type){
         PageInfo<ProductVo> info=productService.findproduct1(pageNum,pageSize,bjid,pro_name,pro_type);
