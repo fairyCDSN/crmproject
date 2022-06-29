@@ -25,7 +25,29 @@
     <result column="department_name" jdbcType="VARCHAR" property="departmentName" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="birthday" jdbcType="DATE" property="birthday"/>
+  </resultMap>
+  <resultMap id="StaffVoDetails" type="com.trkj.crmproject.vo.StaffVo">
+    <id column="staff_id" jdbcType="INTEGER" property="staff_id" />
+    <result column="user_id" jdbcType="INTEGER" property="user_id" />
+    <result column="user_name" jdbcType="VARCHAR" property="user_name"/>
+    <result column="post_id" jdbcType="INTEGER" property="post_id" />
+    <result column="induction_time" jdbcType="TIMESTAMP" property="induction_time" />
+    <result column="staff_sex" jdbcType="VARCHAR" property="staff_sex" />
+    <result column="staff_qq" jdbcType="VARCHAR" property="staff_qq" />
+    <result column="staff_wx" jdbcType="VARCHAR" property="staff_wx" />
+    <result column="staff_txdz" jdbcType="VARCHAR" property="staff_txdz" />
+    <result column="deptment_id" jdbcType="INTEGER" property="deptment_id" />
+    <result column="staff_name" jdbcType="VARCHAR" property="staff_name" />
+    <result column="post_name" jdbcType="VARCHAR" property="post_name" />
+    <result column="dept_son_name" property="departmentName" jdbcType="VARCHAR"/>
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="birthday" jdbcType="DATE" property="birthday"/>
+  </resultMap>
 
+  <resultMap id="StaffVoDetail" type="com.trkj.crmproject.vo.StaffVo">
+    <result column="staff_name" jdbcType="VARCHAR" property="staff_name" />
+    <result column="post_name" jdbcType="VARCHAR" property="post_name" />
+    <result column="dept_son_name" property="departmentName" jdbcType="VARCHAR"/>
   </resultMap>
 
 
@@ -49,13 +71,36 @@
   </select>
 
 <!--  员工姓名、职务名称、部门-->
-  <select id="selectGgRead" resultMap="StaffVo">
-    select s.staff_name staff_name,p.post_name post_name,d.department_name departmentName
+  <select id="selectGgRead" resultMap="StaffVoDetail">
+    select s.staff_name staff_name,p.post_name post_name,ds.dept_son_name
     from gg_read gr
     left join staff s on s.staff_id=gr.staff_id
     left join post p on p.post_id=s.post_id
     left join department d ON d.department_id=s.deptment_id
+    left join deptson ds on ds.dept_id=d.department_id
     where gr.gonggao_id=#{id}
+    group by s.staff_id
+  </select>
+
+  <select id="selectReadByDeptAndName" resultMap="StaffVoDetail">
+    select s.staff_name staff_name,p.post_name post_name,ds.dept_son_name
+    from gg_read gr
+    left join staff s on s.staff_id=gr.staff_id
+    left join post p on p.post_id=s.post_id
+    left join department d ON d.department_id=s.deptment_id
+    left join deptson ds on ds.dept_id=d.department_id
+    <where>
+      <if test="id!=0||id!=null">
+        gr.gonggao_id=#{id}
+      </if>
+      <if test="name!='' || name!=null">
+        and s.staff_name like concat('%','${name}','%')
+      </if>
+      <if test="deptName!=0 || deptName!=''">
+        and ds.dept_son_id = #{deptName}
+      </if>
+    </where>
+    group by s.staff_id
   </select>
 
   <select id="selectGgIds" resultType="java.lang.Integer">

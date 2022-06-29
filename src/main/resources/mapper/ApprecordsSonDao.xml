@@ -47,9 +47,9 @@
     LEFT JOIN staff s ON s.user_id=u.user_id
     LEFT JOIN caigousq cg ON cg.toexamine=app.app_id
     where aps.app_state=#{state} and aps.user_id=#{id}
+    GROUP BY aps.apprecords_son_id
+
   </select>
-
-
 
 
 

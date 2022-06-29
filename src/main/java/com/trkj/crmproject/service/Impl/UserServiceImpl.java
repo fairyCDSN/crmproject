@@ -13,6 +13,7 @@ import com.trkj.crmproject.exception.CustomError;
 import com.trkj.crmproject.exception.CustomErrorType;
 import com.trkj.crmproject.service.UserService;
 import com.trkj.crmproject.util.BeanTools;
+import com.trkj.crmproject.vo.DeptUserVo;
 import com.trkj.crmproject.vo.DeptVo;
 import com.trkj.crmproject.vo.StaffVo;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,8 @@ public class UserServiceImpl implements UserService {
     private RoleDao roleDao;
     @Autowired
     private RolePerDao rolePerDao;
+    @Autowired
+    private DeptsonDao deptsonDao;
 
     //
 
@@ -99,7 +102,6 @@ public class UserServiceImpl implements UserService {
         return staffMps;
     }
 
-
     //添加员工
     @Transactional
     public int insertStaff(StaffVo staffVo){
@@ -124,7 +126,10 @@ public class UserServiceImpl implements UserService {
         users.setPhone(staffVo.getPhone());
         users.set_use(staffVo.getState()==1?true:false);
         users.setOrg_id(1);
-        users.setUser_pass("$2a$10$xPNoI0sBxOY6Y5Nj1bF6iO6OePqJ8tAJUsD5x5wh6G1BPphhSLcae");
+        users.setAccount_non_expired(true);
+        users.setAccount_non_locked(true);
+        users.setCredentials_non_expired(true);
+        users.setUser_pass(passwordEncoder.encode("123456"));
         //添加用户表
         row=usersDao.insert(users);
         //查询出新增用户表中的id，绑定员工表
@@ -320,5 +325,20 @@ public class UserServiceImpl implements UserService {
         log.debug("添加成功");
 
         return row;
+    }
+
+    public int validateUser(String name){
+        Users users=usersDao.selectByUserName(name);
+        int row=0;
+        if(users==null){
+            row=0;
+        }else{
+            row=1;
+        }
+        return row;
+    }
+
+    public DeptUserVo selectUser(String name){
+        return deptsonDao.selectUserDept(name);
     }
 }

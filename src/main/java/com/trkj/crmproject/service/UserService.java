@@ -8,6 +8,7 @@ import com.trkj.crmproject.entity.mybatis_plus.DeptMp;
 import com.trkj.crmproject.entity.mybatis_plus.PostMp;
 import com.trkj.crmproject.entity.mybatis_plus.RoleMp;
 import com.trkj.crmproject.entity.mybatis_plus.StaffMp;
+import com.trkj.crmproject.vo.DeptUserVo;
 import com.trkj.crmproject.vo.DeptVo;
 import com.trkj.crmproject.vo.StaffVo;
 
@@ -56,5 +57,8 @@ public interface UserService {
     public List<Integer> selectMenusByRole_name(int id);
     public int updateRoleMenus(List<Integer> ids,int roleId);
 
+    //验证用户名是否重复
+    public int validateUser(String name);
 
+    public DeptUserVo selectUser(String name);
 }

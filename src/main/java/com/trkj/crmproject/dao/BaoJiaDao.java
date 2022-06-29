@@ -5,11 +5,13 @@ import com.trkj.crmproject.vo.ProductVo;
 import com.trkj.crmproject.vo.jfjlVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
 
 @Mapper
+@Repository
 public interface BaoJiaDao {
     public List<BaoJia> findBaojia(@Param("user_name")String user_name, @Param("customer_name")String customer_name,
                                    @Param("state") String state, @Param("time1") String time1, @Param("time2")String time2,
@@ -18,10 +20,10 @@ public interface BaoJiaDao {
     public int insertBaoJia(@Param("user_id")int user_id,@Param("customer_id")int customer_id,
                             @Param("contact_id") int contact_id);
     public int insertApprecords( @Param("sqid") int sqid,@Param("app_id") int app_id);
-    public int insertApprecordSon(@Param("state_id")int state_id,@Param("name")String name);
+    public int insertApprecordSon(@Param("state_id")int state_id,@Param("user_id")int user_id);
     public int findid();
     public int findid1();
-    public String[] findName(String app_type);
+    public int[] findName(String app_type);
     public contact findConXq1(int contact_id);
     public List<ProductXq> findProXq(int bjid);
     public ProductXq findProXq1(int pro_id);
@@ -62,4 +64,8 @@ public interface BaoJiaDao {
     public int insertpcplan(@Param("order_id") int order_id,@Param("pc_da")  int pc_da,
                             @Param("pc_mn")  double pc_mn, @Param("pc_pcda") Date pc_pcda,
                             @Param("pc_pel") String pc_pel);
+
+
+    //wq
+    public List<BaoJia> selectBjById(@Param("id")int id);
 }

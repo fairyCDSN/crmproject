@@ -231,7 +231,6 @@ from caigousq c left join staff s on staff_id=c.salesperson_id
     select c.sqid,c.cg_title,c.cg_dh,c.total,c.fksm,c.jfsm,c.cg_time,c.cg_guige,c.cg_type,c.bz,st.staff_name
     from caigousq c
     left join staff st on st.staff_id=c.salesperson_id
-    inner join supplier s on c.supplier_id=s.supplier_id
     where c.sqid=#{id}
 
   </select>

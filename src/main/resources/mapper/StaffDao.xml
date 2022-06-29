@@ -80,10 +80,10 @@
             staff_name like concat('%','${param1}','%')
       </if>
       <if test="param2 !='' || param2 ==null">
-        and staff_id like concat('%'+'${param2}'+'%')
+        and staff_id like concat('%','${param2}','%')
       </if>
       <if test="param3!='' || param3 == null || param3 !=0">
-        and deptment_id like concat('%' +'${param3}'+'%')
+        and deptment_id like concat('%' ,'${param3}','%')
       </if>
     </where>
   </select>

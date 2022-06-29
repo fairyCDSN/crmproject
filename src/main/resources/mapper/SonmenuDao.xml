@@ -48,6 +48,7 @@
         #{roleName}
       </foreach>
     </trim>
+    order by m.sort
   </select>
 
   <select id="selectAll" resultType="com.trkj.crmproject.entity.Sonmenu">

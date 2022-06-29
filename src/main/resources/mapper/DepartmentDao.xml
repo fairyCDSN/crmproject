@@ -94,6 +94,14 @@
           </if>
         </where>
         group by d.department_id
+  </select>
 
+  <select id="selectDeptVoByname" resultMap="Dept">
+    select * from department d
+    <where>
+      <if test="name!=''||name!=null">
+        d.department_name like concat('%','${name}','%')
+      </if>
+    </where>
   </select>
 </mapper>

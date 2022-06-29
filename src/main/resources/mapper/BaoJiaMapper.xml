@@ -2,6 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trkj.crmproject.dao.BaoJiaDao">
+    <resultMap id="bj" type="com.trkj.crmproject.entity.BaoJia">
+        <id column="bjid" jdbcType="INTEGER" property="bjid"/>
+        <result column="customer_id" jdbcType="INTEGER" property="customerid"/>
+        <result column="salesperson_id" jdbcType="INTEGER" property="salesperson_id"/>
+<!--        <result column="" jdbcType="VARCHAR" property=""-->
+    </resultMap>
+
+
     <update id="updatepro">
         update bj_pro set good_number=#{sl},good_monery=#{mo} where bjid=#{bjid} and pro_id=#{proId}
     </update>
@@ -15,7 +23,7 @@
         update baojia set state='待执行' where bjid=#{bjid}
     </update>
     <select id="findBaojia" resultType="com.trkj.crmproject.entity.BaoJia">
-        select baojia.customer_id,baojia.contact_id,baojia.bjid,baojia.state_time,approval.app_type,customer.customer_name,
+        select DISTINCT baojia.customer_id,baojia.contact_id,baojia.bjid,baojia.state_time,approval.app_type,customer.customer_name,
         contact.contact_name,users.user_name,baojia.state
         from baojia,users,staff,customer,approval,apprecords,contact where baojia.salesperson_id =#{salesperson_id} and
         customer.customer_type != '过期客户' and users.user_id=staff.user_id and baojia.salesperson_id = staff.staff_id and
@@ -43,8 +51,8 @@
         values (#{sqid},'待审批',#{app_id})
     </insert>
     <insert id="insertApprecordSon">
-        insert into apprecords_son(app_records_id,app_person,app_state)
-        values (#{state_id},#{name},'待审批')
+        insert into apprecords_son(app_records_id,user_id,app_state)
+        values (#{state_id},#{user_id},'待审批')
     </insert>
     <insert id="insertjiaofu">
         insert into jiaofu(bjid,total,state,cjr,toexamine)
@@ -72,8 +80,8 @@
     <select id="findid1" resultType="java.lang.Integer">
         select max(app_records_id) from apprecords
     </select>
-    <select id="findName" resultType="java.lang.String">
-        select users.user_name from user_role,users,role,app_role,approval
+    <select id="findName" resultType="java.lang.Integer">
+        select users.user_id from user_role,users,role,app_role,approval
         where approval.app_type=#{app_type} and approval.app_id=app_role.app_id and app_role.role_id=role.role_id and
         role.role_id=user_role.role_id and user_role.users_id = users.user_id
     </select>
@@ -85,11 +93,11 @@
         select contact_id,contact_name,work_phone,my_phone from contact where contact_id=#{contact_id}
     </select>
     <select id="findProXq" resultType="com.trkj.crmproject.entity.ProductXq">
-        select bj_pro.pro_id,product.pro_name,product.pro_type,bj_pro.good_monery,bj_pro.good_number from bj_pro,product
+        select bj_pro.pro_id,product.pro_name,bj_pro.good_monery,bj_pro.good_number from bj_pro,product
         where bj_pro.bjid=#{bjid} and bj_pro.pro_id=product.pro_id
     </select>
     <select id="findProXq1" resultType="com.trkj.crmproject.entity.ProductXq">
-        select pro_id,pro_name,pro_type,pro_guige,pro_xh,pro_dw,pro_money,pro_cbj,pro_say from product
+        select pro_id,pro_name,pro_guige,pro_xh,pro_dw,pro_money,pro_cbj,pro_say from product
         where pro_id=#{pro_id}
     </select>
     <select id="selectpro" resultType="java.lang.Integer">
@@ -157,4 +165,11 @@
     <delete id="deleteAlljiaofu">
         delete from jiaofu where jf_id!=#{jf_id}
     </delete>
+
+
+<!--    wq-->
+    <select id="selectBjById" resultType="com.trkj.crmproject.entity.BaoJia">
+        select * from baojia
+        where bjid=#{id}
+    </select>
 </mapper>

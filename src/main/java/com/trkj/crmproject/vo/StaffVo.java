@@ -59,8 +59,8 @@ public class StaffVo {
         return induction_time;
     }
 
-    public void setInduction_time(Date induction_time) {
-        Timestamp createTime = new Timestamp(induction_time.getTime());
-        this.induction_time = createTime;
-    }
+//    public void setInduction_time(Date induction_time) {
+//        Timestamp createTime = new Timestamp(induction_time.getTime());
+//        this.induction_time = createTime;
+//    }
 }

@@ -78,6 +78,7 @@ public class PdServiceImpl implements PdService {
             System.out.println("商品ID："+o.getProId());
 
             PdPro pdPro=new PdPro();
+            System.out.println("pd编号："+pdId);
             pdPro.setPdId(pdId);
             pdPro.setCkId(ckId);
             pdPro.setProId(o.getProId());

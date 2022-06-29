@@ -19,5 +19,7 @@ public interface GgReadDao {
 
     List<StaffVo> selectGgRead(@Param("id") int id);
 
+    List<StaffVo> selectReadByDeptAndName(@Param("deptName")int deptName,@Param("name")String name,@Param("id") int id);
+
     List<Integer> selectGgIds(@Param("id")int user_id);
 }

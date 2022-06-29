@@ -47,12 +47,11 @@ public class BaoJiaServiceImpl implements BaoJiaService {
 //        int xc=
         baoJiaDao.insertApprecords(baoJiaDao.findid(),4);
         int state_id=baoJiaDao.findid1();
-        String[] name=baoJiaDao.findName("报价审批");
-        for(int i=0;i<name.length;i++){
-            baoJiaDao.insertApprecordSon(state_id,name[i]);
+        int[] userId=baoJiaDao.findName("报价审批");
+        for(int i=0;i<userId.length;i++){
+            baoJiaDao.insertApprecordSon(state_id,userId[i]);
         }
         for(int i=0;i<ss.length;i++){
-            System.out.println(baoJiaDao.findid()+"ajsdjsbdfjbfskdjfbsd");
             productDao.insertProduct(ss[i].getProId(),baoJiaDao.findid(),ss[i].getSl(),ss[i].getMo());
 
         }
@@ -138,7 +137,7 @@ public class BaoJiaServiceImpl implements BaoJiaService {
         if(jfid.length==0){
             baoJiaDao.insertjiaofu(bjid,user_name,total);
             baoJiaDao.insertApprecords(baoJiaDao.findjfid(bjid),5);
-            String[] name=baoJiaDao.findName("交付审批");
+            int[] name=baoJiaDao.findName("交付审批");
             for(int i=0;i<name.length;i++){
                 baoJiaDao.insertApprecordSon(baoJiaDao.findid1(),name[i]);
             }
@@ -156,7 +155,7 @@ public class BaoJiaServiceImpl implements BaoJiaService {
         if(baoJiaDao.checkjfde(bjid)==0){
             baoJiaDao.insertjiaofu(bjid,user_name,baoJiaDao.findtatal(bjid));
             baoJiaDao.insertApprecords(baoJiaDao.findjfid(bjid),5);
-            String[] name=baoJiaDao.findName("交付审批");
+            int[] name=baoJiaDao.findName("交付审批");
             for(int i=0;i<name.length;i++){
                 baoJiaDao.insertApprecordSon(baoJiaDao.findid1(),name[i]);
             }

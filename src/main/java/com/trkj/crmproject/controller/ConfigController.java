@@ -1,10 +1,9 @@
 package com.trkj.crmproject.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.trkj.crmproject.entity.Role;
-import com.trkj.crmproject.entity.Sonmenu;
-import com.trkj.crmproject.entity.Users;
+import com.trkj.crmproject.entity.*;
 import com.trkj.crmproject.entity.mybatis_plus.RoleMp;
+import com.trkj.crmproject.service.DeptService;
 import com.trkj.crmproject.service.Impl.JwtAuthService;
 import com.trkj.crmproject.service.PermissionService;
 import com.trkj.crmproject.service.UserService;
@@ -26,6 +25,8 @@ public class ConfigController {
     private PermissionService permissionService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private DeptService deptService;
 
     //登录方法
     @PostMapping("/login")
@@ -117,14 +118,8 @@ public class ConfigController {
     public AjaxResponse insertUser(@RequestBody StaffVo staffVo){
         log.debug("==========================");
         log.debug(staffVo+"验证一下有没有传参啊");
-        if(staffVo.getMenusId()==null){
-            log.debug("菜单权限为空！");
-        }else{
-            log.debug("添加验证："+userService.insertStaff(staffVo));
-            return AjaxResponse.success();
-        }
-
-        return null;
+//        log.debug("添加验证："+userService.insertStaff(staffVo));
+        return AjaxResponse.success(userService.insertStaff(staffVo));
     }
 
     //查询旧密码是否正确
@@ -188,5 +183,58 @@ public class ConfigController {
         return AjaxResponse.success(userService.updateRoleMenus(ids,role_id));
     }
 
+    //查询子部门信息
+    @GetMapping("/selectDeptSon")
+    public AjaxResponse selectDeptSon(int id){
+        return AjaxResponse.success(deptService.selectDeptSon(id));
+    }
+
+    @GetMapping("/selectByName")
+    public AjaxResponse selectByName(int pageNum, int pageSize, String name){
+        return AjaxResponse.success(deptService.selectDeptVoByname(pageNum,pageSize,name));
+    }
+
+    @PostMapping("/addDept")
+    public AjaxResponse addDept(@RequestBody Map<String,Object> maps){
+        //判断是否存在 父id
+        Department department=new Department();
+        Deptson deptson=new Deptson();
+        if(Integer.parseInt(String.valueOf(maps.get("father_id")))==0){
+            //没有父类id【添加父类部门表】
+            department=new Department();
+            department.setDepartment_name(String.valueOf(maps.get("dept_name")));
+            department.setDepartment_address(String.valueOf(maps.get("bz")));
+        }else{
+            //添加子表
+            deptson=new Deptson();
+            deptson.setDept_id(Integer.parseInt(String.valueOf(maps.get("father_id"))));
+            deptson.setDept_son_name(String.valueOf(maps.get("dept_name")));
+            deptson.setState(Integer.parseInt(String.valueOf(maps.get("state"))));
+            deptson.setBz(String.valueOf(maps.get("bz")));
+            deptson.setUser_id(1);
+        }
+        return AjaxResponse.success(deptService.addDept(department,deptson));
+    }
+
+    @GetMapping("/selectUser")
+    public AjaxResponse selectUser(int son_id){
+        return  AjaxResponse.success(deptService.selectUser(son_id));
+    }
+
+    @GetMapping("/selectDeptSonDetails")
+    public AjaxResponse selectDeptSonDetails(int son_id){
+        return AjaxResponse.success(deptService.selectDeptSonDetails(son_id));
+    }
+
+    //验证用户名是否重复
+    @GetMapping("/validateUser")
+    public AjaxResponse validateUser(String userName){
+        return AjaxResponse.success(userService.validateUser(userName));
+    }
+
+    @GetMapping("/selectUserStaff")
+    public AjaxResponse selectUser(String username){
+        return AjaxResponse.success(userService.selectUser(username));
+    }
 
 }

@@ -29,4 +29,6 @@ public interface RolePerDao extends BaseMapper<RolePer> {
     List<Integer> selectMenusByRole_name(@Param("id") int id);
 
     int deleteMenus(@Param("id") int id);
+
+    List<Integer> selectRoleIds(@Param("id") int id);
 }

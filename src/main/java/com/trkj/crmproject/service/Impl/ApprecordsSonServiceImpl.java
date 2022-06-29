@@ -1,12 +1,7 @@
 package com.trkj.crmproject.service.Impl;
 
-import com.trkj.crmproject.dao.ApprecordsDao;
-import com.trkj.crmproject.dao.ApprecordsSonDao;
-import com.trkj.crmproject.dao.CaigousqDao;
-import com.trkj.crmproject.dao.UsersDao;
-import com.trkj.crmproject.entity.ApprecordsSon;
-import com.trkj.crmproject.entity.Caigousq;
-import com.trkj.crmproject.entity.Caigou;
+import com.trkj.crmproject.dao.*;
+import com.trkj.crmproject.entity.*;
 import com.trkj.crmproject.entity.Caigousq;
 import com.trkj.crmproject.exception.CustomError;
 import com.trkj.crmproject.exception.CustomErrorType;
@@ -31,6 +26,8 @@ public class ApprecordsSonServiceImpl implements ApprecordsSonService {
     private UsersDao usersDao;
     @Autowired
     private CaigousqDao caigousqDao;
+    @Autowired
+    private BaoJiaDao baoJiaDao;
 
     @Override
     public int addspzb(int app_records_id, int userId) {
@@ -58,6 +55,10 @@ public class ApprecordsSonServiceImpl implements ApprecordsSonService {
     public List<CaigousqVo> selectAppCgGoods(int id){
         List<CaigousqVo> caigousqVos=caigousqDao.selectcgmx(id);
         return caigousqVos;
+    }
+
+    public List<BaoJia> selectBjById(int id){
+        return baoJiaDao.selectBjById(id);
     }
 
     public int updateAppSon(int id,int son_id,String state,String bz){

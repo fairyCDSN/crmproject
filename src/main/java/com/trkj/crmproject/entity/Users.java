@@ -70,6 +70,8 @@ public class Users implements UserDetails {
      */
     private boolean credentials_non_expired;
 
+    private String dept_son_name;
+
     private static final long serialVersionUID = 1L;
 
     Collection<? extends GrantedAuthority> authorities;  //用户的权限集合

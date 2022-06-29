@@ -144,7 +144,7 @@ public class DiaoboServiceImpl implements DiaoboService {
         diaobo.setDbTime(new Date());
         diaobo.setCkId(diaobo.getCkId());
         diaobo.setToexamine(3);
-        diaobo.setAppRecordsId(1);
+        diaobo.setAppRecordsId(2);
         diaobo.setDbId(diaoboid);
 
         diaoboDao.insert(diaobo);

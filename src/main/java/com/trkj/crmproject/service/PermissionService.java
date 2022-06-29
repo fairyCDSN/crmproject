@@ -16,4 +16,7 @@ public interface PermissionService {
     //查询所有的菜单信息【分页】
     public List<SonmenuMp> selectAllMenus();
 
+    //添加菜单
+    public int addMenus(Sonmenu sonmenu);
+
 }
