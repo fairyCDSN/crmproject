@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.trkj.crmproject.dao.PcplanDao">
-  <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Pcplan">
+<mapper namespace="com.trkj.crmproject.dao.PcplanDaozsy">
+  <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Pcplanzsy">
     <id column="pcplan_pc_id" jdbcType="INTEGER" property="pcId" />
     <result column="pcplan_order_id" jdbcType="INTEGER" property="orderId" />
     <result column="pcplan_pc_da" jdbcType="INTEGER" property="pcDa" />
@@ -28,7 +28,7 @@
     delete from pcplan
     where pc_id = #{pc_id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="pc_id" keyProperty="pc_id" parameterType="com.trkj.crmproject.entity.Pcplan" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="pc_id" keyProperty="pc_id" parameterType="com.trkj.crmproject.entity.Pcplanzsy" useGeneratedKeys="true">
     insert into pcplan (order_id, pc_da, pc_mn, 
       pc_pcda, toexamine, state_id, 
       pc_pel, pc_pcstate)
@@ -36,7 +36,7 @@
       #{pc_pcda,jdbcType=TIMESTAMP}, #{toexamine,jdbcType=INTEGER}, #{state_id,jdbcType=INTEGER}, 
       #{pc_pel,jdbcType=VARCHAR}, #{pc_pcstate,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="pc_id" keyProperty="pc_id" parameterType="com.trkj.crmproject.entity.Pcplan" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="pc_id" keyProperty="pc_id" parameterType="com.trkj.crmproject.entity.Pcplanzsy" useGeneratedKeys="true">
     insert into pcplan
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="order_id != null">
@@ -91,7 +91,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.trkj.crmproject.entity.Pcplan">
+  <update id="updateByPrimaryKeySelective" parameterType="com.trkj.crmproject.entity.Pcplanzsy">
     update pcplan
     <set>
       <if test="order_id != null">
@@ -121,7 +121,7 @@
     </set>
     where pc_id = #{pc_id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.trkj.crmproject.entity.Pcplan">
+  <update id="updateByPrimaryKey" parameterType="com.trkj.crmproject.entity.Pcplanzsy">
     update pcplan
     set order_id = #{order_id,jdbcType=INTEGER},
       pc_da = #{pc_da,jdbcType=INTEGER},
@@ -167,13 +167,13 @@ left join ordertable o on p.order_id=o.order_id
 </where>
 
   </select>
-  <select id="selecthkmx" resultType="com.trkj.crmproject.entity.Pcplan">
+  <select id="selecthkmx" resultType="com.trkj.crmproject.entity.Pcplanzsy">
     select p.pc_id,p.pc_da,p.pc_mn,p.pc_pcda,p.pc_pcstate,o.order_bh,c.co_pcda,c.co_sjmn from pcplan p
 left join ordertable o on p.order_id=o.order_id
 left join corecord c on p.pc_id=c.pc_id
 where p.order_id=#{orderId}
   </select>
-  <select id="selectminhk" resultType="com.trkj.crmproject.vo.PcplanVo">
+  <select id="selectminhk" resultType="com.trkj.crmproject.vo.PcplanVozsy">
     select p.pc_id,MIN(p.pc_da) minpcda,p.order_id ,p.pc_mn,p.pc_pcda,o.order_bh from pcplan p
 left join ordertable o on p.order_id=o.order_id where p.order_id=#{orderId} and p.pc_pcstate='待执行'
   </select>
@@ -191,7 +191,7 @@ left join ordertable o on p.order_id=o.order_id where p.order_id=#{orderId} and 
     update pcplan set pc_mn=#{mn},pc_pcstate='回款完成' where pc_id=#{pcId}
   </update>
 
-  <insert id="inserttj" keyColumn="pcId" keyProperty="pcId" parameterType="com.trkj.crmproject.entity.Pcplan" useGeneratedKeys="true">
+  <insert id="inserttj" keyColumn="pcId" keyProperty="pcId" parameterType="com.trkj.crmproject.entity.Pcplanzsy" useGeneratedKeys="true">
     insert into pcplan (order_id, pc_da, pc_mn,
       pc_pcda, toexamine, state_id,
       pc_pel, pc_pcstate)

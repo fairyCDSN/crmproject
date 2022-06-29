@@ -1,13 +1,12 @@
 package com.trkj.crmproject.controller;
 
 import com.trkj.crmproject.dao.CorecordDao;
-import com.trkj.crmproject.dao.PcplanDao;
+import com.trkj.crmproject.dao.PcplanDaozsy;
 import com.trkj.crmproject.entity.Corecord;
-import com.trkj.crmproject.entity.Pcplan;
+import com.trkj.crmproject.entity.Pcplanzsy;
 import com.trkj.crmproject.service.CorecordService;
-import com.trkj.crmproject.service.PcplanService;
+import com.trkj.crmproject.service.PcplanzsyService;
 import com.trkj.crmproject.vo.AjaxResponse;
-import com.trkj.crmproject.vo.PcplanVo;
 import com.trkj.crmproject.vo.hkjhVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,13 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class hkjhController {
 
     @Autowired
-    private PcplanService pcplanService;
+    private PcplanzsyService pcplanService;
 
     @Autowired
     private CorecordService corecordService;
 
     @Autowired
-    private PcplanDao pcplanDao;
+    private PcplanDaozsy pcplanDao;
 
     @Autowired
     private CorecordDao corecordDao;
@@ -73,7 +72,7 @@ public class hkjhController {
         System.out.println("输出addhkjh:"+addhkjh);
         int i=pcplanDao.selectqc(addhkjh.getHkjh().getOrderId());
         System.out.println("输出i:"+i);
-        Pcplan pcplan=new Pcplan();
+        Pcplanzsy pcplan=new Pcplanzsy();
         pcplan.setOrderBh(addhkjh.getHkjh().getBh());
         pcplan.setOrderId(addhkjh.getHkjh().getOrderId());
         pcplan.setPcMn(addhkjh.getHkjh().getPcMnnn());

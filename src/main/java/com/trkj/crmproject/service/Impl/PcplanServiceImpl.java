@@ -3,105 +3,44 @@ package com.trkj.crmproject.service.Impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.trkj.crmproject.dao.PcplanDao;
-import com.trkj.crmproject.entity.Pcplan;
-import com.trkj.crmproject.service.PcplanService;
+import com.trkj.crmproject.dao.OrdertableDao;
+import com.trkj.crmproject.dao.PcPlanDao;
+import com.trkj.crmproject.entity.OrderTable;
+import com.trkj.crmproject.entity.PcPlan;
+import com.trkj.crmproject.service.PcPlanService;
 import com.trkj.crmproject.util.BeanTools;
-import com.trkj.crmproject.vo.CollectionVo;
-import com.trkj.crmproject.vo.PcplanVo;
+import com.trkj.crmproject.vo.OrderTableVo;
+import com.trkj.crmproject.vo.PcPlanVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
-public class PcplanServiceImpl implements PcplanService {
-
+public class PcPlanServiceImpl implements PcPlanService {
     @Autowired
-    private PcplanDao pcplanDao;
+    private PcPlanDao pcPlanDao;
 
     @Override
-    public PageInfo<CollectionVo> selectcollection(int pageNum, int pageSize) {
-        Page<CollectionVo> page= PageHelper.startPage(pageNum,pageSize);
-        List<CollectionVo> s=pcplanDao.selectcollection();
-        for (CollectionVo p: s){
-            System.out.println("遍历:"+p);
-            System.out.println("遍历2:"+p.getMinpcstate()+p.getMaxpcstate());
-            if (p.getMinpcstate().equals("回款完成") && p.getMaxpcstate().equals("待执行")){
-                System.out.println("进入判断1");
-                p.setState("正在回款");
-            }else if (p.getMinpcstate().equals("待执行") && p.getMaxpcstate().equals("待执行")){
-                System.out.println("进入判断2");
-                p.setState("待执行");
-            }else if (p.getMinpcstate().equals("回款完成") && p.getMaxpcstate().equals("回款完成")){
-                System.out.println("进入判断3");
-                p.setState("回款完成");
+    public PageInfo<PcPlanVo> findPcplan(int pageNum, int pageSize,String qs, String state, String monery1, String monery2,String user_name) {
+        Page<PcPlan> page= PageHelper.startPage(pageNum,pageSize);
+        int[] order_id=pcPlanDao.findorderId();
+        List<PcPlan> list = new ArrayList<>();
+        for(int i=0;i<order_id.length;i++){
+            PcPlan pcPlan =pcPlanDao.findPcplan(order_id[i],qs,state,monery1,monery2,user_name);
+            String time=pcPlanDao.findmint(order_id[i])+"~"+pcPlanDao.findmaxt(order_id[i]);
+            pcPlan.setTime(time);
+            if(pcPlan.getOrderId1()!=0){
+                if(pcPlan.getPcpel().equals(user_name)) {
+                    list.add(pcPlan);
+                }
             }
-            System.out.println("修改后:"+p);
         }
-        Page<CollectionVo> depts=new Page<>();
-        BeanTools.copyList(s,depts,CollectionVo.class);
-        PageInfo<CollectionVo> pageInfo=new PageInfo<>(depts);
+        Page<PcPlanVo> pcPlans=new Page<>();
+        BeanTools.copyList(list,pcPlans,PcPlanVo.class);
+        PageInfo<PcPlanVo> pageInfo=new PageInfo<>(pcPlans);
         return pageInfo;
     }
-
-    @Override
-    public PageInfo<CollectionVo> selectcollectiontj(int pageNum, int pageSize, String type, int totalone, int totaltwo) {
-        int[] a=pcplanDao.findOID(type);
-        List<CollectionVo> list=new ArrayList();
-        for (int i=0;i<a.length;i++){
-            Page<CollectionVo> page= PageHelper.startPage(pageNum,pageSize);
-            CollectionVo collectionVo=pcplanDao.selectcollectiontj(a[i],type,totalone,totaltwo);
-            System.out.println("CollectionVo:"+collectionVo);
-            list.add(collectionVo);
-        }
-
-
-        for (CollectionVo p: list){
-            System.out.println("遍历:"+p);
-            if (p==null){
-                break;
-            }
-            System.out.println("遍历2:"+p.getMinpcstate()+p.getMaxpcstate());
-            if (p.getMinpcstate().equals("回款完成") && p.getMaxpcstate().equals("待执行")){
-                System.out.println("进入判断1");
-                p.setState("正在回款");
-            }else if (p.getMinpcstate().equals("待执行") && p.getMaxpcstate().equals("待执行")){
-                System.out.println("进入判断2");
-                p.setState("待执行");
-            }else if (p.getMinpcstate().equals("回款完成") && p.getMaxpcstate().equals("回款完成")){
-                System.out.println("进入判断3");
-                p.setState("回款完成");
-            }
-            System.out.println("修改后:"+p);
-        }
-
-        Page<CollectionVo> depts=new Page<>();
-        BeanTools.copyList(list,depts,CollectionVo.class);
-        PageInfo<CollectionVo> pageInfo=new PageInfo<>(depts);
-        System.out.println("输出pageInfo:"+pageInfo);
-        return pageInfo;
-    }
-
-    @Override
-    public List<Pcplan> selecthkmx(int orderId) {
-        return pcplanDao.selecthkmx(orderId);
-    }
-
-    @Override
-    public PcplanVo selectminhk(int orderId) {
-        return pcplanDao.selectminhk(orderId);
-    }
-
-    @Override
-    public int updatehkjhzt(int pcId) {
-        return pcplanDao.updatehkjhzt(pcId);
-    }
-
-    @Override
-    public int updatemn(int pcId, int mn) {
-        return pcplanDao.updatemn(pcId,mn);
-    }
-
 
 }

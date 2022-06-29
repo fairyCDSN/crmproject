@@ -1,41 +1,20 @@
 package com.trkj.crmproject.dao;
 
-import com.trkj.crmproject.entity.Pcplan;
-import com.trkj.crmproject.vo.CollectionVo;
-import com.trkj.crmproject.vo.PcplanVo;
+import com.github.pagehelper.PageInfo;
+import com.trkj.crmproject.entity.PcPlan;
+import com.trkj.crmproject.vo.PcPlanVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 @Mapper
-public interface PcplanDao {
-    int deleteByPrimaryKey(Integer pc_id);
+public interface PcPlanDao {
+    public PcPlan findPcplan(@Param("order_id")int order_id,@Param("qs") String qs,
+                             @Param("state")String state,@Param("monery1") String monery1,
+                             @Param("monery2") String monery2,@Param("user_name") String user_name);
 
-    int insert(Pcplan record);
-
-    int insertSelective(Pcplan record);
-
-    Pcplan selectByPrimaryKey(Integer pc_id);
-
-    int updateByPrimaryKeySelective(Pcplan record);
-
-    int updateByPrimaryKey(Pcplan record);
-
-    List<CollectionVo> selectcollection();
-
-    CollectionVo selectcollectiontj(@Param("orderid")int orderid ,@Param("type")String type,@Param("totalone")int totalone,@Param("totaltwo")int totaltwo);
-
-    List<Pcplan> selecthkmx(int orderId);
-
-    PcplanVo selectminhk(int orderId);
-
-    int[] findOID(String type);
-
-    int updatehkjhzt(int pcId);
-
-    int updatemn(@Param("pcId")int pcId,@Param("mn")int mn);
-
-    int inserttj(Pcplan record);
-
-    int selectqc(int orderId);
+    public int[] findorderId();
+    public String findmint(int order_id);
+    public String findmaxt(int order_id);
 }

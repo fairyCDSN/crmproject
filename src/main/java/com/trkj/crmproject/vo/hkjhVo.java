@@ -9,5 +9,5 @@ public class hkjhVo {
     private int pcId;
     private Date coPcda;
     private int coSjmn;
-    private PcplanVo hkjh;
+    private PcplanVozsy hkjh;
 }

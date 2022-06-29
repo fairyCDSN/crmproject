@@ -1,32 +1,26 @@
 package com.trkj.crmproject.vo;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
 @Data
-public class PcplanVo {
-    private int pcId;
-    private int orderId;
-    private int orderBh;
-    private int minpcda;
-    private int pcmn;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date pcpcda;
-    @TableField(exist = false)
-    private int pcMnnn;
-    @TableField(exist = false)
+public class PcPlanVo {
+    private int  pcId;
+    private int  orderId;
+    private int  pcDa;
+    private double  pcMn;
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date pcPcda;
-    @TableField(exist = false)
-    private String pcPcstate;
-    @TableField(exist = false)
-    private int pcIddd;
-    @TableField(exist = false)
-    private String bh;
-    @TableField(exist = false)
-    private Date paMntime;
+    private int  toexamine;
+    private int  stateId;
+    private String  pcpel;
+    private String  pcPcstate;
+
+    private int orderId1;
+    private int qs;
+    private String  state;
+    private double sumMonery;
+    private String  time;
 }
