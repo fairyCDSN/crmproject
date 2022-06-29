@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 @Data
-public class RkProMp {
+public class ChukuProMp {
     @TableId
-    private int rkProId;
+    private int chukuProId;
     private int proId;
-    private int rkId;
+    private int chukuId;
     private int number;
 }

@@ -3,7 +3,6 @@ package com.trkj.crmproject.service.Impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.trkj.crmproject.dao.ApprecordsDao;
 import com.trkj.crmproject.dao.ApprecordsSonDao;
 import com.trkj.crmproject.dao.DbProDao;
 import com.trkj.crmproject.dao.DiaoboDao;
@@ -32,8 +31,6 @@ public class DiaoboServiceImpl implements DiaoboService {
     private DiaoboDao diaoboDao;
     @Autowired
     private DbProDao dbProDao;
-    @Autowired
-    private ApprecordsDao apprecordsDao;
     @Autowired
     private ApprecordsSonDao apprecordsSonDao;
 
@@ -113,36 +110,19 @@ public class DiaoboServiceImpl implements DiaoboService {
         return diaoboDao.selectdbckdrId(ckId);
     }
 
-    //审批，查询最大编号
-    @Override
-    public int selectdbAppId(){
-        return diaoboDao.selectdbAppId();
-    }
-
-    //查询调拨最大编号
-    @Override
-    public int selectdbId() {
-        return diaoboDao.selectdbId();
-    }
-
-
-    //添加审批子表，查询有审批权限的用户id
-    @Override
-    public List<CkUserVo> selectdbusersId() {
-        return diaoboDao.selectdbusersId();
-    }
 
     //添加调拨单
     @Override
     public int insertDiaobo(Diaobo diaobo){
-        System.out.println("出库："+diaobo.getCkId());
-        System.out.println("审批表id："+diaobo.getAppRecordsId());
-        int apprecordsid=diaobo.getAppRecordsId()+1;
-        System.out.println("审批表id+1"+apprecordsid);
-        int diaoboid=diaobo.getDbId()+1;
+        int apprecordsid=diaoboDao.selectdbAppId()+1;
+        int diaoboid=diaoboDao.selectdbId()+1;
+
+        int ckid=diaobo.getCkId();
+        int ckdrid=diaobo.getCkdrId();
 
         diaobo.setDbTime(new Date());
-        diaobo.setCkId(diaobo.getCkId());
+        diaobo.setCkId(ckid);
+        diaobo.setCkdrId(ckdrid);
         diaobo.setToexamine(3);
         diaobo.setAppRecordsId(2);
         diaobo.setDbId(diaoboid);
@@ -151,14 +131,17 @@ public class DiaoboServiceImpl implements DiaoboService {
 
         List<ProductVo> products=diaobo.getProductss();
         for(ProductVo o:products){
-            DbPro dbPro=new DbPro();
 
-            dbPro.setCkId(diaobo.getCkId());
-            dbPro.setDbId(diaoboid);
-            dbPro.setDbNumber(o.getSl());
-            dbPro.setProId(o.getProId());
+            if(o.getSl()!=0) {
+                DbPro dbPro = new DbPro();
 
-            dbProDao.insert(dbPro);
+                dbPro.setCkId(ckid);
+                dbPro.setDbId(diaoboid);
+                dbPro.setDbNumber(o.getSl());
+                dbPro.setProId(o.getProId());
+
+                dbProDao.insert(dbPro);
+            }
 
         }
 
@@ -170,22 +153,21 @@ public class DiaoboServiceImpl implements DiaoboService {
 
         diaoboDao.insertdbapp(apprecords);
 
+        int userid=diaoboDao.selectdbusersId(ckid);
+        int druserid=diaoboDao.selectdbusersId(ckdrid);
 
-        List<CkUserVo> ckUserVos=diaobo.getUsersId();
-        log.debug("用户数据{}:",ckUserVos);
-        for(CkUserVo o:ckUserVos){
-            ApprecordsSonMp apprecordsSon=new ApprecordsSonMp();
+        ApprecordsSonMp apprecordsSon=new ApprecordsSonMp();
+        apprecordsSon.setAppRecordsId(apprecordsid);
+        apprecordsSon.setUserId(userid);
+        diaoboDao.insertdbappson(apprecordsSon);
 
-            apprecordsSon.setAppRecordsId(apprecordsid);
-            log.debug("用户id{}:",o.getUsersId());
-            apprecordsSon.setUserId(o.getUsersId());
-
-            diaoboDao.insertdbappson(apprecordsSon);
-        }
+        ApprecordsSonMp apprecordsSon2=new ApprecordsSonMp();
+        apprecordsSon2.setAppRecordsId(apprecordsid);
+        apprecordsSon2.setUserId(druserid);
+        diaoboDao.insertdbappson(apprecordsSon2);
 
         diaobo.setAppRecordsId(apprecordsid);
         diaoboDao.updateById(diaobo);
-
 
         return 1;
     }

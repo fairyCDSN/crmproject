@@ -40,6 +40,16 @@ public class RkController {
     public AjaxResponse selectRkckName(String ckName){
         return AjaxResponse.success(rkService.selectRkckName(ckName));
     }
+    //入库表 根据入库状态查询
+    @GetMapping("/selectRkstate")
+    public AjaxResponse selectRkstate(String state){
+        return AjaxResponse.success(rkService.selectRkstate(state));
+    }
+    //入库表 根据仓库名称 商品状态查询全部
+    @GetMapping("/selectRkckstate")
+    public AjaxResponse selectRkckstate(String ckName,String state){
+        return AjaxResponse.success(rkService.selectRkckstate(ckName,state));
+    }
 
     //入库表 根据入库id查询入库信息
     //入库表 根据入库id查询商品及入库数量
@@ -100,6 +110,21 @@ public class RkController {
     public AjaxResponse insertRk(@RequestBody RkMp rkMp){
         log.debug("入库数据{}：",rkMp);
         return AjaxResponse.success(rkService.insertRk(rkMp));
+    }
+
+
+
+    //添加入库（修改库存表，修改入库表状态）
+    @PostMapping("/updateRkstate")
+    public AjaxResponse updateRkstate(@RequestBody RkVo rkVo){
+        log.debug("库存表数据{}:",rkVo);
+        log.debug("库存表数据id{}:",rkVo.getCkName());
+        return AjaxResponse.success(rkService.updateRkstate(rkVo));
+    }
+    //入库表，查询调拨类别的是否已经出库
+    @GetMapping("/selectRktype")
+    public AjaxResponse selectRktype(int rkId){
+        return AjaxResponse.success(rkService.selectRktype(rkId));
     }
 
 }

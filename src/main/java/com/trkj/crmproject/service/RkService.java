@@ -19,6 +19,10 @@ public interface RkService {
 
     //入库表 根据仓库名称查询全部
     List<RkVo> selectRkckName(String ckName);
+    //入库表 根据入库状态查询
+    List<RkVo> selectRkstate(String state);
+    //入库表 根据仓库名称 商品状态查询全部
+    List<RkVo> selectRkckstate(String ckName,String state);
 
     //入库表 根据入库id查询入库信息
     RkVo selectRkxq(int rkId);
@@ -43,5 +47,11 @@ public interface RkService {
     ProductVo selectRkproname(String proName);
     // 添加入库表
     int insertRk(RkMp rkMp);
+
+
+    //添加入库（修改库存表，修改入库表状态）
+    int updateRkstate(RkVo rkVo);
+    //入库表，查询调拨类别的是否已经出库
+    String selectRktype(int rkId);
 
 }

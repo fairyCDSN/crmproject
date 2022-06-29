@@ -54,6 +54,9 @@ public interface ProductService {
     List<ProductVo> selectPdIdproAll(int pdId);
     PageInfo<ProductVo> findPdIdpro(int pdId,int pageNum, int pageSize);
 
+    //商品清单 修改商品介绍
+    int updateProsay(ProductVo productVo);
+
 
     //zsy
     public List<Product> selectcpname();

@@ -4,20 +4,29 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.trkj.crmproject.dao.BsDao;
+import com.trkj.crmproject.dao.ProductDao;
+import com.trkj.crmproject.dao.RkDao;
 import com.trkj.crmproject.entity.Bs;
+import com.trkj.crmproject.entity.ProCk;
 import com.trkj.crmproject.service.BsService;
 import com.trkj.crmproject.util.BeanTools;
 import com.trkj.crmproject.vo.BsVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 
+@Slf4j
 @Service
 public class BsServiceImpl implements BsService {
     @Autowired
     private BsDao bsDao;
+    @Autowired
+    private RkDao rkDao;
+    @Autowired
+    private ProductDao productDao;
 
     // 报损列表 查询全部（仓库名称，商品名称）
     @Override
@@ -69,6 +78,20 @@ public class BsServiceImpl implements BsService {
     @Override
     public int insertBs(Bs bs){
         bs.setBsTime(new Date());
-        return bsDao.insert(bs);
+        bsDao.insert(bs);
+
+        int ckid=bs.getCkId();
+        int proid=bs.getProId();
+        int prockNumber=rkDao.selectRknumber(proid,ckid);
+        log.debug("仓库id{}：",ckid);
+        log.debug("商品id{}：",proid);
+        ProCk proCk=new ProCk();
+
+        proCk.setProId(proid);
+        proCk.setCkId(ckid);
+        proCk.setProCkNumber(prockNumber-bs.getNumber());
+        log.debug("库存数量{}：",prockNumber-bs.getNumber());
+        productDao.updateProCkNumber(proCk);
+        return 1;
     }
 }

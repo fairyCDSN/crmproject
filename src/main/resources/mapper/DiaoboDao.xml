@@ -105,12 +105,11 @@
     </select>
 
     <!--    添加审批子表，查询有审批权限的用户id-->
-    <select id="selectdbusersId" resultType="com.trkj.crmproject.vo.CkUserVo">
-        select user_role.users_id from user_role
-            left join role on role.role_id=user_role.role_id
-            left join app_role on app_role.role_id=role.role_id
-            left join approval on approval.app_id=app_role.app_id
-            where approval.app_type='调拨'
+    <select id="selectdbusersId" resultType="java.lang.Integer">
+        select users.user_id from users
+            left join staff on staff.user_id=users.user_id
+            left join ck on ck.gly_id=staff.staff_id
+            where ck.ck_id=#{ckId}
     </select>
 
 
@@ -120,7 +119,7 @@
             LEFT JOIN approval on approval.app_id=apprecords.app_id
             where apprecords.sqid=#{dbId} and approval.app_type='调拨'
     </select>
-    
+
     <insert id="insertdbapp">
         insert  into apprecords (app_records_id,sqid,app_id)  values (#{appRecordsId},#{sqid},3)
     </insert>

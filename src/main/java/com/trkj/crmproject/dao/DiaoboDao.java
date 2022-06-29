@@ -52,7 +52,7 @@ public interface DiaoboDao extends BaseMapper<Diaobo>{
     int selectdbId();
 
     //添加审批子表，查询有审批权限的用户id
-    List<CkUserVo> selectdbusersId();
+    int selectdbusersId(int ckId);
 
     //根据调拨id查询审批状态（通过）
     ApprecordsMp selectdbappState(int dbId);

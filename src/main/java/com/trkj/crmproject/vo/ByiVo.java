@@ -16,4 +16,7 @@ public class ByiVo {
     private String proName;
     //仓库表
     private String ckName;
+    //商品表
+    private int proCbj;
+    private int proMoney;
 }
