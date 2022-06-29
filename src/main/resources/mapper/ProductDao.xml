@@ -5,7 +5,7 @@
 
     <!--    商品清单  查询全部（根据pro_id外键查询到pro_ck表的pro_ck_number的和）-->
     <select id="selectProckName" resultType="com.trkj.crmproject.vo.ProductVo">
-        select product.pro_id,product.pro_name,product.pro_guige,product.pro_money,
+        select product.pro_id,product.pro_name,product.pro_guige,product.pro_money,product.pro_say,
             sum(pro_ck.pro_ck_number) as pro_ck_numbersum from product
             left join pro_ck on pro_ck.pro_id=product.pro_id
             group by product.pro_id
@@ -13,29 +13,29 @@
 
     <!--    商品清单  查询全部（根据proName模糊查询）-->
     <select id="selectProNamelike" resultType="com.trkj.crmproject.vo.ProductVo">
-        select p.pro_id,p.pro_name,p.pro_guige,p.pro_money,
-            sum(pro_ck.pro_ck_number) as pro_ck_numbersum from product p
-            left join pro_ck on pro_ck.pro_id=p.pro_id
-            left join ck on ck.ck_id=pro_ck.ck_id
-            left join pro_cat on pro_cat.pro_id=p.pro_id
-            left join category on category.cat_id=pro_cat.cat_id
-            <where>
-                <if test="param1!='' || param1==null">
-                    p.pro_name like '%${param1}%'
-                </if>
-                <if test="param2!='' || param2==null">
-                    and category.cat_name like '%${param2}%'
-                </if>
-                <if test="param3!='' || param3==null">
-                    and ck.ck_name like '%${param3}%'
-                </if>
-            </where>
-            group by p.pro_id
+        select p.pro_id,p.pro_name,p.pro_guige,p.pro_money,p.pro_say,
+        sum(pro_ck.pro_ck_number) as pro_ck_numbersum from product p
+        left join pro_ck on pro_ck.pro_id=p.pro_id
+        left join ck on ck.ck_id=pro_ck.ck_id
+        left join pro_cat on pro_cat.pro_id=p.pro_id
+        left join category on category.cat_id=pro_cat.cat_id
+        <where>
+            <if test="param1!='' || param1==null">
+                p.pro_name like '%${param1}%'
+            </if>
+            <if test="param2!='' || param2==null">
+                and category.cat_name like '%${param2}%'
+            </if>
+            <if test="param3!='' || param3==null">
+                and ck.ck_name like '%${param3}%'
+            </if>
+        </where>
+        group by p.pro_id
     </select>
 
     <!--    商品清单  查询全部（选择下拉框，根据catName查询）-->
     <select id="selectProcatNnameAll" resultType="com.trkj.crmproject.vo.ProductVo">
-       select product.pro_id,product.pro_name,product.pro_guige,product.pro_money,
+       select product.pro_id,product.pro_name,product.pro_guige,product.pro_money,product.pro_say,
             sum(pro_ck.pro_ck_number) as pro_ck_numbersum from product
             left join pro_ck on pro_ck.pro_id=product.pro_id
             left join ck on ck.ck_id=pro_ck.ck_id
@@ -47,7 +47,7 @@
 
     <!--    商品清单  根据ckName查询全部（下拉框）-->
     <select id="selectProckNameAll" resultType="com.trkj.crmproject.vo.ProductVo">
-        select product.pro_id,product.pro_name,product.pro_guige,product.pro_money,
+        select product.pro_id,product.pro_name,product.pro_guige,product.pro_money,product.pro_say,
             pro_ck.pro_ck_number as pro_ck_numbersum from product
             left join pro_ck on pro_ck.pro_id=product.pro_id
             left join ck on ck.ck_id=pro_ck.ck_id
@@ -55,7 +55,7 @@
             group by product.pro_id
     </select>
 
-<!--    商品清单  查询商品详情-->
+    <!--    商品清单  查询商品详情-->
     <select id="selectProIdxq" resultType="com.trkj.crmproject.vo.ProductVo">
         select product.pro_id,product.pro_name,product.pro_guige,product.pro_money,product.pro_cbj,
             product.pro_dw,product.pro_xh,product.pro_say,
@@ -66,7 +66,7 @@
     </select>
 
 
-<!--    商品清单 根据ckid查询商品-->
+    <!--    商品清单 根据ckid查询商品-->
     <select id="selectProckId" resultType="com.trkj.crmproject.vo.ProductVo">
         select product.pro_id,product.pro_name,pro_ck.pro_ck_number from product
             left join pro_ck on pro_ck.pro_id=product.pro_id
@@ -76,7 +76,7 @@
     <!--    商品清单 根据ckid,proId查询商品的库存-->
     <select id="selectProckIdAndproId" resultType="java.lang.Integer">
         select pro_ck.pro_ck_number from product
-            left join pro_ck on pro_ck.pro_id=product.pro_id
+        left join pro_ck on pro_ck.pro_id=product.pro_id
         <where>
             <if test="param1!='' || param1==null || param1 !=0">
                 pro_ck.ck_id=#{param1}
@@ -87,8 +87,13 @@
         </where>
     </select>
 
+    <!--    商品清单 修改商品介绍-->
+    <update id="updateProsay">
+        update product set pro_say=#{proSay} where pro_id=#{proId}
+    </update>
 
-<!--    商品清单  根据仓库ID，商品ID，报损报溢的查询数量修改库存-->
+
+    <!--    商品清单  根据仓库ID，商品ID，报损报溢的查询数量修改库存-->
     <update id="updateProCkNumber">
         update pro_ck set pro_ck_number=#{proCkNumber} where ck_id=#{ckId} and pro_id=#{proId}
     </update>
@@ -105,14 +110,36 @@
 			group by product.pro_id
     </select>
 
+
+    <!--    李玉春的sql语句-->
+    <!--    查询及搜索产品-->
     <select id="findproduct" resultType="com.trkj.crmproject.vo.ProductVo">
-        select pro_id,pro_name,pro_type,pro_guige,pro_xh,pro_dw,pro_money,pro_cbj
+        select pro_id,pro_name,pro_guige,pro_xh,pro_dw,pro_money,pro_cbj
         from product where 1=1
         <if test="pro_name != null and pro_name != ''">
             and pro_name like '%${pro_name}%'
         </if>
-        <if test="pro_type != null and pro_type != ''">
-            and pro_type like '%${pro_type}%'
+    </select>
+    <select id="findproduct1" resultType="com.trkj.crmproject.vo.ProductVo">
+        select pro_id,pro_name,pro_guige,pro_xh,pro_dw,
+        pro_money,pro_cbj
+        from product where product.pro_id not in (select pro_id from bj_pro where bjid=#{bjid})
+        <if test="pro_name != null and pro_name != ''">
+            and pro_name like '%${pro_name}%'
         </if>
     </select>
+    <select id="cheackProId" resultType="java.lang.Integer">
+        select pro_id
+        from bj_pro where bjid=#{bjid}
+    </select>
+
+    <!--    添加产品及报价中间表-->
+    <insert id="insertProduct">
+        insert into bj_pro(bjid,pro_id,good_number,good_monery)
+        values (#{bjid},#{proId},#{sl},#{mo})
+    </insert>
+    <insert id="insertProduct1">
+        insert into bj_pro(bjid,pro_id,good_number,good_monery)
+        values (#{bjid},#{proId},#{sl},#{mo})
+    </insert>
 </mapper>

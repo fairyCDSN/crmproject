@@ -39,10 +39,22 @@ public interface ProductDao extends BaseMapper<Product> {
     //商品清单  根据仓库ID，商品ID，报损报溢的查询数量修改库存
     int updateProCkNumber(ProCk proCk);
 
+    //商品清单 修改商品介绍
+    int updateProsay(ProductVo productVo);
+
     //盘点单  根据盘点ID查询商品
     List<ProductVo> selectPdIdproAll(int pdId);
 
 
+    //李玉春的代码
+    //查询所有产品以及条件查询
     public List<ProductVo> findproduct(@Param("pro_name") String pro_name,@Param("pro_type") String pro_type);
+    //添加报价表和产品表的中间表
+    public int insertProduct(@Param("proId") int proId,@Param("bjid") int bjid,@Param("sl") int sl,
+                             @Param("mo") int mo);
+    public int insertProduct1(@Param("proId") int proId,@Param("bjid") int bjid,@Param("sl") int sl,@Param("mo") int mo);
 
+    public List<ProductVo> findproduct1(@Param("bjid") int bjid,@Param("pro_name") String pro_name,
+                                        @Param("pro_type") String pro_type);
+    public int[] cheackProId(int bjid);
 }

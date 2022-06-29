@@ -27,12 +27,12 @@
   <update id="updateApprecords">
     update apprecords_son
     set app_state=#{state} ,app_bz=#{bz}
-    where user_id=#{id}
+    where apprecords_son_id=#{id}
   </update>
 
   <select id="selectByAppId" resultMap="BaseResultMap">
     select * from apprecords_son
-    where app_state != "审批通过"
+    where app_state = "待审批"
   </select>
 
   <select id="selectApprecordsByName" resultMap="BaseResultMap">

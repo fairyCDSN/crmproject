@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.OrdertableDao">
+    <insert id="insertChuKu">
+        insert into chuku(order_id,ck_id,state)
+        values (#{order_id},#{ck_id},'未出库')
+    </insert>
+    <insert id="insertChuKuPro">
+        insert into chuku_pro(pro_id,chuku_id,number)
+        values (#{pro_id},(select max(chuku_id) from chuku where order_id=#{order_id}),#{number})
+    </insert>
+    <insert id="insertWarn">
+        insert into warn(warn_type,state,warn_content)
+        values (#{warn_type},'待处理',#{warn_content})
+    </insert>
+    <update id="updateJiaoFu">
+        update jiaofu set true_time=now(),state='正在出库' where jf_id=#{jf_id}
+    </update>
+    <select id="findOrdertable" resultType="com.trkj.crmproject.entity.OrderTable">
+        select order_id,bjid,order_bh,fk,order_title,state_time,end_time,khqyr,state,beizhu,cjr,cj_time
+        from ordertable where cjr=#{user_name} and state!='重新提交'
+        <if test="order_bh != null and order_bh != ''">
+            and order_bh like '%${order_bh}%'
+        </if>
+        <if test="order_title != null and order_title != ''">
+            and order_title like '%${order_title}%'
+        </if>
+        <if test="khqyr != null and khqyr != ''">
+            and khqyr like '%${khqyr}%'
+        </if>
+        <if test="state != null and state != ''">
+            and state like '%${state}%'
+        </if>
+        <if test="time1 != null and time1 != '' and time2!=null and time2 != ''">
+            and date(baojia.state_time) between #{time1} and #{time2}
+        </if>
+    </select>
+    <select id="findOrderTableXq" resultType="com.trkj.crmproject.entity.OrderXq">
+        select ordertable.order_id,ordertable.order_bh,ordertable.fk,ordertable.order_title,ordertable.state_time,
+        ordertable.end_time,ordertable.beizhu,baojia.contact_id,contact.contact_name,contact.work_phone,contact.my_phone,
+        customer.customer_id,customer.customer_name,customer.customer_type,customer.customer_source,
+        customer.customer_stage,customer.remarks,max(pcplan.pc_da) pcqs,(select pc_pcState from pcplan where order_id=#{order_id}
+        and pc_da=(select MAX(pc_da) from pcplan where order_id=#{order_id})) pcstate,(select SUM(pc_mn) from pcplan where
+        order_id=#{order_id}) sumMonery,(select count(order_id)
+        from jiaofu where order_id=#{order_id}) jiaofuqs,(select state from jiaofu where order_id=#{order_id}
+        and jf_id=(select MAX(jf_id) from jiaofu where order_id=#{order_id})) jiaofustate
+        from ordertable,contact,customer,baojia,pcplan,jiaofu
+        where ordertable.order_id=#{order_id}
+    </select>
+    <select id="selectApp" resultType="com.trkj.crmproject.entity.OrdApp">
+        select apprecords_son.apprecords_son_id,apprecords_son.app_state,apprecords_son.app_bz,apprecords_son.app_time
+        from apprecords_son,apprecords where apprecords.app_records_id=apprecords_son.app_records_id
+        and apprecords.app_id=#{app_id} and apprecords.sqid=#{sqid}
+    </select>
+    <select id="findPcPlan" resultType="com.trkj.crmproject.entity.PcPlan">
+        select pc_id,pc_da,pc_mn,pc_pcda,pc_pcstate from pcplan where order_id=#{order_id}
+    </select>
+    <select id="findJiaoFu" resultType="com.trkj.crmproject.entity.jfjl">
+        select jf_id,plan_jftime,total,state,order_id from jiaofu where order_id=#{order_id}
+    </select>
+    <select id="findJfjl"  resultType="com.trkj.crmproject.vo.jfjlVo">
+        select jfjl.jfjl_id,jfjl.number,product.pro_name,bj_pro.good_monery,jfjl.pro_id
+        from jfjl,jiaofu,product,baojia,bj_pro,ordertable
+        where jfjl.jf_id=jiaofu.jf_id and jiaofu.jf_id=#{jf_id} and product.pro_id=jfjl.pro_id
+        and ordertable.order_id=jiaofu.order_id and baojia.bjid=ordertable.bjid
+        and bj_pro.bjid=baojia.bjid GROUP BY jfjl.jfjl_id
+    </select>
+    <select id="selectCk" resultType="com.trkj.crmproject.vo.CkVo">
+        select ck_id,ck_name from ck
+    </select>
+    <select id="cheackCkSum" resultType="java.lang.Integer">
+        select sum(pro_ck_number) from pro_ck where pro_id=#{proId}
+    </select>
+</mapper>

@@ -54,7 +54,15 @@ public interface ProductService {
     List<ProductVo> selectPdIdproAll(int pdId);
     PageInfo<ProductVo> findPdIdpro(int pdId,int pageNum, int pageSize);
 
+    //商品清单 修改商品介绍
+    int updateProsay(ProductVo productVo);
+
 
     //zsy
     public List<Product> selectcpname();
+
+
+    //李玉春的代码
+    public PageInfo<ProductVo> findproduct(int pageNum, int pageSize,String pro_name,String pro_type);
+    public PageInfo<ProductVo> findproduct1(int pageNum, int pageSize,int bjid,String pro_name,String pro_type);
 }

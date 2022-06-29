@@ -2,12 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trkj.crmproject.dao.BaoJiaDao">
+    <update id="updatepro">
+        update bj_pro set good_number=#{sl},good_monery=#{mo} where bjid=#{bjid} and pro_id=#{proId}
+    </update>
+    <update id="updatejfjl">
+        update jfjl set number=#{number} where jfjl_id=#{jfjlId}
+    </update>
+    <update id="updatejiaofu">
+        update jiaofu set total=#{total},plan_jftime=#{plan_jftime},order_id=#{order_id} where jf_id=#{jf_id}
+    </update>
+    <update id="updatebaojia">
+        update baojia set state='待执行' where bjid=#{bjid}
+    </update>
+    <update id="updatebaojiaApp">
+        update baojia set state_id=(select max(app_records_id) from apprecords where app_id=4)
+        where bjid=#{bjid}
+    </update>
     <select id="findBaojia" resultType="com.trkj.crmproject.entity.BaoJia">
-        select baojia.bjid,baojia.state_time,approval.app_type,customer.customer_name,users.user_name,apprecords.app_state
-        from baojia,users,staff,customer,approval,apprecords where baojia.salesperson_id =#{salesperson_id} and
+        select DISTINCT baojia.customer_id,baojia.contact_id,baojia.bjid,baojia.state_time,approval.app_type,customer.customer_name,
+        contact.contact_name,users.user_name,baojia.state
+        from baojia,users,staff,customer,approval,apprecords,contact where baojia.salesperson_id =#{salesperson_id} and
         customer.customer_type != '过期客户' and users.user_id=staff.user_id and baojia.salesperson_id = staff.staff_id and
         baojia.toexamine = approval.app_id and customer.customer_id =baojia.customer_id and approval.app_type='报价审批' and
-        apprecords.app_records_id = baojia.state_id
+        contact.contact_id =baojia.contact_id
         <if test="customer_name != null and customer_name != ''">
             and customer.customer_name like '%${customer_name}%'
         </if>
@@ -15,14 +32,149 @@
             and users.user_name like '%${user_name}%'
         </if>
         <if test="state != null and state != ''">
-            and apprecords.app_state like '%${state}%'
+            and baojia.state like '%${state}%'
         </if>
         <if test="time1 != null and time1 != '' and time2!=null and time2 != ''">
             and date(baojia.state_time) between #{time1} and #{time2}
         </if>
     </select>
-    <insert id="insertProduct">
-        insert into baojia(contact_id,customer_id)
-        values (#{contact_id},#{customer_id})
+    <insert id="insertBaoJia">
+        insert into baojia(contact_id,customer_id,salesperson_id,toexamine,state)
+        values (#{contact_id},#{customer_id},#{user_id},4,'待审批')
     </insert>
+    <insert id="insertApprecords">
+        insert into apprecords(sqid,app_state,app_id)
+        values (#{sqid},'待审批',#{app_id})
+    </insert>
+    <insert id="insertApprecordSon">
+        insert into apprecords_son(app_records_id,user_id,app_state,create_time)
+        values (#{state_id},#{name},'待审批',now())
+    </insert>
+    <insert id="insertjiaofu">
+        insert into jiaofu(bjid,total,state,cjr,toexamine)
+        values (#{bjid},#{total},'待执行',#{user_name},5)
+    </insert>
+    <insert id="insertjfjl">
+        insert into jfjl(jf_id,cjr,pro_id)
+        values (#{jf_id},#{user_name},#{pro_id})
+    </insert>
+    <insert id="insertjfjl1">
+        insert into jfjl(jf_id,cjr,number,pro_id)
+        values (#{jf_id},#{user_name},(select good_number from bj_pro where pro_id=#{pro_id} and bjid=#{bjid}),#{pro_id})
+    </insert>
+    <insert id="insertordertable">
+        insert into ordertable(bjid,order_bh,fk,order_title,state_time,khqyr,state,beizhu,cjr)
+        values (#{bjid},#{order_bh},#{fk},#{order_title},#{state_time},#{khqyr},'待审批',#{beizhu},#{cjr})
+    </insert>
+    <insert id="insertpcplan">
+        insert into pcplan(order_id,pc_da,pc_mn,pc_pcda,toexamine,pc_pel,pc_pcstate)
+        values (#{order_id},#{pc_da},#{pc_mn},#{pc_pcda},6,#{pc_pel},'待执行')
+    </insert>
+    <select id="findid" resultType="java.lang.Integer">
+        select max(bjid) from baojia
+    </select>
+    <select id="findid1" resultType="java.lang.Integer">
+        select max(app_records_id) from apprecords
+    </select>
+    <select id="findName" resultType="java.lang.Integer">
+        select users.user_id from user_role,users,role,app_role,approval
+        where approval.app_type=#{app_type} and approval.app_id=app_role.app_id and app_role.role_id=role.role_id and
+        role.role_id=user_role.role_id and user_role.users_id = users.user_id
+    </select>
+    <select id="findConName" resultType="com.trkj.crmproject.entity.contact">
+        select contact.contact_id,contact.contact_name from contact,cont_cust where cont_cust.customer_id=#{customer_id}
+        and cont_cust.contact_id=contact.contact_id
+    </select>
+    <select id="findConXq1" resultType="com.trkj.crmproject.entity.contact">
+        select contact_id,contact_name,work_phone,my_phone from contact where contact_id=#{contact_id}
+    </select>
+    <select id="findProXq" resultType="com.trkj.crmproject.entity.ProductXq">
+        select bj_pro.pro_id,product.pro_name,bj_pro.good_monery,bj_pro.good_number from bj_pro,product
+        where bj_pro.bjid=#{bjid} and bj_pro.pro_id=product.pro_id
+    </select>
+    <select id="findProXq1" resultType="com.trkj.crmproject.entity.ProductXq">
+        select pro_id,pro_name,pro_guige,pro_xh,pro_dw,pro_money,pro_cbj,pro_say from product
+        where pro_id=#{pro_id}
+    </select>
+    <select id="selectpro" resultType="java.lang.Integer">
+        select count(bjid) from bj_pro
+        where bjid=#{bjid}
+    </select>
+    <select id="findjiaofu" resultType="com.trkj.crmproject.entity.jfjl">
+        select jf_id,plan_jftime,state,state_id,total,bjid from jiaofu where bjid=#{bjid}
+    </select>
+    <select id="findjfjl" resultType="com.trkj.crmproject.vo.jfjlVo">
+        select jfjl.jfjl_id,jfjl.jf_id,jfjl.number,jfjl.pro_id,product.pro_name from jfjl,product
+        where jfjl.jf_id=#{jf_id} and jfjl.pro_id=product.pro_id
+    </select>
+    <select id="findjfid" resultType="java.lang.Integer">
+        select max(jf_id) from jiaofu where bjid=#{bjid}
+    </select>
+    <select id="findpro" resultType="java.lang.Integer">
+        select pro_id from bj_pro where bjid=#{bjid}
+    </select>
+    <select id="findstateId" resultType="java.lang.Integer">
+        select max(state_id) from jiaofu where bjid=#{bjid}
+    </select>
+    <select id="findjfbjid" resultType="java.lang.Integer">
+        select bjid from jiaofu where jf_id=#{jf_id}
+    </select>
+    <select id="checkjfde" resultType="java.lang.Integer">
+        select count(jf_id) from jiaofu where bjid=#{bjid}
+    </select>
+    <select id="findjfid1" resultType="java.lang.Integer">
+        select jf_id from jiaofu where bjid=#{bjid}
+    </select>
+    <select id="findCjr" resultType="java.lang.String">
+        select max(cjr) from jiaofu where bjid=#{bjid}
+    </select>
+    <select id="findtatal" resultType="java.lang.Integer">
+        select SUM(good_number*good_monery) total from bj_pro where bjid=#{bjid}
+    </select>
+    <select id="findjfid2" resultType="java.lang.Integer">
+        select min(jf_id) from jiaofu where bjid=#{bjid}
+    </select>
+    <select id="findGoodMonery" resultType="java.lang.Integer">
+        select good_monery from bj_pro where bjid=#{bjid} and pro_id=#{pro_id}
+    </select>
+    <select id="findorderId" resultType="java.lang.Integer">
+        select max(order_id) from ordertable
+    </select>
+    <select id="findconName" resultType="java.lang.String">
+        select contact_name from contact where contact_id=(select contact_id from baojia where bjid=#{bjid})
+    </select>
+    <select id="findOrderId" resultType="java.lang.Integer">
+        select max(order_id) from ordertable
+    </select>
+    <select id="checkjiaofu" resultType="java.lang.Integer">
+        select count(number) from jfjl where jf_id =#{jf_id}
+    </select>
+    <select id="findBjPro" resultType="com.trkj.crmproject.entity.BjPro">
+        select bj_pro.pro_id,bj_pro.good_number,bj_pro.good_monery,product.pro_name from bj_pro,product
+        where bj_pro.bjid=#{bjid} and bj_pro.pro_id=product.pro_id
+    </select>
+    <delete id="deletepro">
+        delete from bj_pro where pro_id=#{pro_id} and bjid=#{bjid}
+    </delete>
+    <delete id="delectAppSon">
+        delete from apprecords_son where app_records_id=#{state_id}
+    </delete>
+    <delete id="delectApp">
+        delete from apprecords where app_records_id=#{state_id}
+    </delete>
+    <delete id="delectjiaofu">
+        delete from jiaofu where jf_id=#{jf_id}
+    </delete>
+    <delete id="delectjfjl">
+        delete from jfjl where jf_id=#{jf_id}
+    </delete>
+    <delete id="deleteAlljiaofu">
+        delete from jiaofu where jf_id!=#{jf_id} and bjid=#{bjid}
+    </delete>
+    <delete id="delectjfjl1">
+        delete from jfjl where jfjl_id=#{jfjl_id}
+    </delete>
+    <delete id="delectjiaofu1">
+        delete from jiaofu where jf_id =#{jf_id}
+    </delete>
 </mapper>

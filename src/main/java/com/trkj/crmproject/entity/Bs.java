@@ -1,5 +1,6 @@
 package com.trkj.crmproject.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
@@ -14,4 +15,7 @@ public class Bs {
     private int number;
     private String createUser;
     private String bz;
+
+    @TableField(exist = false)
+    private int ckId;
 }

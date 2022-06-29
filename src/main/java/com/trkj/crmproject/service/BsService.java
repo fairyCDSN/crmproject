@@ -27,6 +27,6 @@ public interface BsService {
     List<BsVo> selectBsckName(String ckName);
 
 
-    //    报损列表 添加报损列表
+    //报损列表 添加报损列表
     int insertBs(Bs bs);
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.JiaoFuDao">
+    <select id="findJiaoFu" resultType="com.trkj.crmproject.entity.JiaoFu">
+        select max(jiaofu.order_id) orderId1,count(jiaofu.order_id) qs,(select state from jiaofu
+        where order_id=#{order_id} and jf_id=(select MAX(jf_id) from jiaofu where
+        order_id=#{order_id})) maxstate,(select state from jiaofu
+        where order_id=#{order_id} and jf_id=(select min(jf_id) from jiaofu where
+        order_id=#{order_id})) minstate,jiaofu.cjr
+        from jiaofu,ordertable where jiaofu.order_id=#{order_id} and ordertable.order_id=jiaofu.order_id
+        and ordertable.state='审批通过'
+        <if test="qs != null and qs != ''">
+            and (select count(order_id) from jiaofu where order_id=#{order_id}) = #{qs}
+        </if>
+        <if test="state != null and state != ''">
+            <if test="state == '待执行'">
+                and (select state from jiaofu where order_id=#{order_id} and
+                jf_id=(select min(jf_id) from jiaofu where order_id=#{order_id})) = #{state}
+            </if>
+            <if test="state == '交付完成'">
+                and (select state from jiaofu where order_id=#{order_id} and
+                jf_id=(select max(jf_id) from jiaofu where order_id=#{order_id})) = #{state}
+            </if>
+            <if test="state == '正在交付'">
+                and (select state from jiaofu where order_id=#{order_id} and
+                jf_id=(select max(jf_id) from jiaofu where order_id=#{order_id})) in ('待执行','正在出库')
+                and (select state from jiaofu where order_id=#{order_id} and
+                jf_id=(select min(jf_id) from jiaofu where order_id=#{order_id})) = '交付完成'
+            </if>
+        </if>
+    </select>
+    <select id="findorderId" resultType="java.lang.Integer">
+        select distinct order_id from jiaofu
+    </select>
+    <select id="findmint" resultType="java.lang.String">
+        select DATE_FORMAT(min(plan_jftime),"%Y-%m-%d") from jiaofu where order_id=#{order_id}
+    </select>
+    <select id="findmaxt" resultType="java.lang.String">
+        select DATE_FORMAT(max(plan_jftime),"%Y-%m-%d") from jiaofu where order_id=#{order_id}
+    </select>
+</mapper>

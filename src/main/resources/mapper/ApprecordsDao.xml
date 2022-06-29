@@ -19,7 +19,7 @@
   </sql>
 
   <update id="updateStateAndBzById">
-    update apprecords_son
+    update apprecords
     set app_state=#{state} ,app_bz=#{bz}
     where app_records_id=#{id}
   </update>

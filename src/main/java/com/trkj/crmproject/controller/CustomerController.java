@@ -24,18 +24,6 @@ public class CustomerController {
     @Autowired
     private ContactService contactService;
 
-    //查询属于编号为salesperson_id的员工的所有状态不为过期客户的客户信息
-    @GetMapping("/findCustomers")
-    public AjaxResponse findCustomers(int pageNum, int pageSize,int salesperson_id){
-        PageInfo<customerVo> info=customerService.findCustomers(pageNum,pageSize,salesperson_id);
-        return AjaxResponse.success(info);
-    }
-    //查询所有共享客户的状态不为过期客户的客户信息
-    @GetMapping("/findCustomers2")
-    public AjaxResponse findCustomers2(int pageNum, int pageSize){
-        PageInfo<customerVo> info=customerService.findCustomers2(pageNum,pageSize);
-        return AjaxResponse.success(info);
-    }
     //根据客户名称、客户阶段、日期范围搜索编号为salesperson_id的员工的所有状态不为过期客户的客户信息
     @GetMapping("/findCustomer")
     public AjaxResponse findCustomer(int pageNum, int pageSize,String customer_name, String customer_stage,String create_time1,
@@ -59,14 +47,25 @@ public class CustomerController {
                 create_time1,create_time2,salesperson_id);
         return AjaxResponse.success(info);
     }
+    //查询属于编号为salesperson_id的员工的所有状态不为过期客户的客户信息
+    @GetMapping("/findCustomers")
+    public AjaxResponse findCustomers(int pageNum, int pageSize,int salesperson_id){
+        PageInfo<customerVo> info=customerService.findCustomers(pageNum,pageSize,salesperson_id);
+        return AjaxResponse.success(info);
+    }
+    //查询所有共享客户的状态不为过期客户的客户信息
+    @GetMapping("/findCustomers2")
+    public AjaxResponse findCustomers2(int pageNum, int pageSize){
+        PageInfo<customerVo> info=customerService.findCustomers2(pageNum,pageSize);
+        return AjaxResponse.success(info);
+    }
     @GetMapping("/findCusXq")
     public AjaxResponse findCusXq(int customer_id){
         return AjaxResponse.success(customerService.findCusXq(customer_id));
     }
 
     @PostMapping("/addCustomer")
-    public AjaxResponse addCustomer(@RequestBody AddVo addVo){
-        System.out.println(addVo+"asdasdasfdjkvbasdjkbnglaskjdbfakl");
+    public AjaxResponse addCustomer(@RequestBody AddVo addVo,String user_name){
         addressService.insertAddress(addVo);
         int address_id=addressService.findAddById(addVo);
         addVo.setAddress_id(address_id);
@@ -77,6 +76,7 @@ public class CustomerController {
         int contact_id=contactService.findContactById(addVo);
         addVo.setContact_id(contact_id);
         customerService.addConCus(addVo);
+        customerService.addfollow(user_name,addVo.getContact_name(),addVo.getCustomer_source(),addVo.getCustomer_name());
         return AjaxResponse.success();
     }
     @PutMapping("/customer")
@@ -95,9 +95,13 @@ public class CustomerController {
     }
 
     @PutMapping("/updateSeId")
-    public AjaxResponse updateSeId(@RequestBody AddVo[] ss,int user_id){
-        System.out.println(user_id+"asfokjsadfiasjidfhnakjsdf");
-        customerService.updateSeId(ss,user_id);
+    public AjaxResponse updateSeId(@RequestBody AddVo[] ss,int user_id,String user_name){
+        customerService.updateSeId(ss,user_id,user_name);
+        return AjaxResponse.success();
+    }
+    @GetMapping("/updateLinQu")
+    public AjaxResponse updateLinQu(int customer_id,int user_id,String user_name){
+        customerService.updateLinQu(customer_id,user_id,user_name);
         return AjaxResponse.success();
     }
 }

@@ -17,12 +17,15 @@ public class ApprecordsDetailsController {
 
     //查询采购订单
     @GetMapping("/selectAppCgsq")
-    private AjaxResponse selectAppCgsq(){
-        return AjaxResponse.success(apprecordsSonService.selectAppCgsq());
+    private AjaxResponse selectAppCgsq(int sqid){
+        return AjaxResponse.success(apprecordsSonService.selectAppCgsq(sqid));
     }
 
     //查询采购商品
-
+    @GetMapping("/selectAppCgGoods")
+    private AjaxResponse selectAppCgGoods(int sqid){
+        return AjaxResponse.success(apprecordsSonService.selectAppCgGoods(sqid));
+    }
     //查询调拨
 
     //查询

@@ -3,6 +3,7 @@ package com.trkj.crmproject.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.trkj.crmproject.entity.mybatis_plus.ApprecordsMp;
 import com.trkj.crmproject.entity.Diaobo;
+import com.trkj.crmproject.entity.mybatis_plus.ApprecordsSonMp;
 import com.trkj.crmproject.vo.CkUserVo;
 import com.trkj.crmproject.vo.CkVo;
 import com.trkj.crmproject.vo.DiaoboVo;
@@ -51,8 +52,11 @@ public interface DiaoboDao extends BaseMapper<Diaobo>{
     int selectdbId();
 
     //添加审批子表，查询有审批权限的用户id
-    List<CkUserVo> selectdbusersId();
+    int selectdbusersId(int ckId);
 
     //根据调拨id查询审批状态（通过）
     ApprecordsMp selectdbappState(int dbId);
+
+    int insertdbapp(ApprecordsMp apprecordsMp);
+    int insertdbappson(ApprecordsSonMp apprecordsSonMp);
 }

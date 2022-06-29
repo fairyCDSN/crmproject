@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.RkDao">
+
+
+    <!--   入库表 查询入库表全部（连仓库，审批类别查）-->
+    <select id="selectRkall" resultType="com.trkj.crmproject.vo.RkVo">
+        select rk.rk_id,rk.rk_time,rk.bz,rk.state,
+            approval.app_type,ck.ck_name,staff.staff_name from rk
+            left join approval on approval.app_id=rk.app_id
+            left join ck on ck.ck_id=rk.ck_id
+            left join staff on staff.staff_id=rk.staff_id
+    </select>
+
+    <!--    入库表 根据仓库名称查询全部-->
+    <select id="selectRkckName" resultType="com.trkj.crmproject.vo.RkVo">
+        select rk.rk_id,rk.rk_time,rk.bz,rk.state,
+            approval.app_type,ck.ck_name,staff.staff_name from rk
+            left join approval on approval.app_id=rk.app_id
+            left join ck on ck.ck_id=rk.ck_id
+            left join staff on staff.staff_id=rk.staff_id
+            where ck.ck_name=#{ckName}
+    </select>
+
+    <!--    入库表 根据入库状态查询-->
+    <select id="selectRkstate" resultType="com.trkj.crmproject.vo.RkVo">
+        select rk.rk_id,rk.rk_time,rk.bz,rk.state,
+            approval.app_type,ck.ck_name,staff.staff_name from rk
+            left join approval on approval.app_id=rk.app_id
+            left join ck on ck.ck_id=rk.ck_id
+            left join staff on staff.staff_id=rk.staff_id
+            where rk.state=#{state}
+    </select>
+    <!--    入库表 根据仓库名称 商品状态查询全部-->
+    <select id="selectRkckstate" resultType="com.trkj.crmproject.vo.RkVo">
+        select rk.rk_id,rk.rk_time,rk.bz,rk.state,
+        approval.app_type,ck.ck_name,staff.staff_name from rk
+        left join approval on approval.app_id=rk.app_id
+        left join ck on ck.ck_id=rk.ck_id
+        left join staff on staff.staff_id=rk.staff_id
+        <where>
+            <if test="param1!='' || param1==null">
+                ck.ck_name=#{param1}
+            </if>
+            <if test="param2!='' || param2==null">
+                and rk.state=#{param2}
+            </if>
+        </where>
+    </select>
+
+    <!--    入库表 根据入库id查询入库信息-->
+    <select id="selectRkxq" resultType="com.trkj.crmproject.vo.RkVo">
+        select rk.rk_id,rk.rk_time,rk.bz,rk.state,
+            approval.app_type,ck.ck_name,staff.staff_name from rk
+            left join approval on approval.app_id=rk.app_id
+            left join ck on ck.ck_id=rk.ck_id
+            left join staff on staff.staff_id=rk.staff_id
+            where rk.rk_id=#{rkId}
+    </select>
+
+    <!--    入库表 根据入库id查询商品及入库数量-->
+    <select id="selectRkpro" resultType="com.trkj.crmproject.vo.ProductVo">
+        select product.pro_id,product.pro_name,rk_pro.number as dbNumber from rk_pro
+            left join product on product.pro_id=rk_pro.pro_id
+            left join rk on rk.rk_id=rk_pro.rk_id
+            where rk.rk_id=#{rkId}
+    </select>
+
+    <!--    入库表 修改备注-->
+    <update id="updateRkbz">
+        update rk set bz=#{bz} where rk_id=#{rkId}
+    </update>
+
+    <!--    入库表 添加商品（查询商品的最大id）-->
+    <select id="selectPromax" resultType="java.lang.Integer">
+        select max(pro_id) from product
+    </select>
+
+    <!--    入库表 查询商品的最大编号-->
+    <select id="selectRkpromax" resultType="java.lang.Integer">
+        select max(pro_id) from product
+    </select>
+    <!--    入库表 根据类别名称查询类别ID-->
+    <select id="selectRkcatid" resultType="java.lang.Integer">
+        select cat_id from category where cat_name=#{catName}
+    </select>
+    <!--    添加商品类别中间表-->
+    <insert id="insertproCat">
+         insert into pro_cat (pro_id,cat_id)  values (#{proId},#{catId})
+    </insert>
+
+    <!--    入库表 查询入库表的最大id -->
+    <select id="selectRkidmax" resultType="java.lang.Integer">
+        select max(rk_id) from rk
+    </select>
+    <!--    入库表，根据商品名称查商品-->
+    <select id="selectRkproname" resultType="com.trkj.crmproject.vo.ProductVo">
+        select product.pro_id,product.pro_name,product.pro_guige,product.pro_money,
+            sum(pro_ck.pro_ck_number) as pro_ck_numbersum from product
+            left join pro_ck on pro_ck.pro_id=product.pro_id
+            where product.pro_name=#{proName}
+    </select>
+    <!--    添加入库表-->
+    <insert id="insertRk">
+        insert into rk(rk_id,ck_id,bz) values (#{rkId},#{ckId},#{bz})
+    </insert>
+
+    <!--    添加入库商品中间表-->
+    <insert id="insertRkPro">
+        insert into rk_pro(rk_id,pro_id,number) values (#{rkId},#{proId},#{number})
+    </insert>
+
+
+    <!--    根据仓库名称查询仓库Id-->
+    <select id="selectRkckId" resultType="java.lang.Integer">
+        select ck_id from ck where ck_name=#{ckName}
+    </select>
+    <!--    根据仓库id，商品id查库存数量-->
+    <select id="selectRknumber" resultType="java.lang.Integer">
+        select pro_ck_number from pro_ck
+        left join product on product.pro_id=pro_ck.pro_id
+        <where>
+            <if test="param1!='' || param1==null || param1 !=0">
+                product.pro_id=#{param1}
+            </if>
+            <if test="param2!='' || param2==null || param2 !=0">
+                and pro_ck.ck_id=#{param2}
+            </if>
+        </where>
+    </select>
+    <!--    修改入库表的状态-->
+    <update id="updateRkstate">
+        update rk set state=#{state},rk_time=#{rkTime},staff_id=#{staffId} where rk_id=#{rkId}
+    </update>
+    <!--    入库表，查询调拨类别的是否已经出库-->
+    <select id="selectRktype" resultType="java.lang.String">
+        select chuku.state from chuku
+            left join diaobo on diaobo.db_id=chuku.order_id
+            left join approval on approval.app_id=chuku.app_id
+            where diaobo.db_id=(select diaobo.db_id from diaobo
+                left join rk on rk.cg_id=diaobo.db_id
+                where rk.rk_id=#{rkId}) and approval.app_type='调拨审批'
+    </select>
+    <!--    查询该商品在该仓库是否有库存-->
+    <select id="selectproIdckId" resultType="java.lang.Integer">
+        select count(pro_ck.pro_ck_number) from pro_ck
+        left join product on product.pro_id=pro_ck.pro_id
+        left join ck on ck.ck_id=pro_ck.ck_id
+        <where>
+            <if test="param1!='' || param1==null || param1 !=0">
+                product.pro_id=#{param1}
+            </if>
+            <if test="param2!='' || param2==null || param2 !=0">
+                and pro_ck.ck_id=#{param2}
+            </if>
+        </where>
+    </select>
+    <!--    添加商品库存（库存0）-->
+    <insert id="insertproCk">
+        insert into pro_ck(pro_id,ck_id,pro_ck_number) values (#{proId},#{ckId},0)
+    </insert>
+</mapper>
