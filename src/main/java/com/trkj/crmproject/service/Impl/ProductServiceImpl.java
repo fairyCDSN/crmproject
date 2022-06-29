@@ -134,6 +134,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
+    //商品清单 修改商品介绍
+    @Override
+    public int updateProsay(ProductVo productVo){
+        return productDao.updateProsay(productVo);
+    }
+
     //zys
     @Override
     public List<Product> selectcpname() {

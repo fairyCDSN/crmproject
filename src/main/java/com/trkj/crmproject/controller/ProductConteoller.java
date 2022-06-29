@@ -101,6 +101,13 @@ public class ProductConteoller {
         return AjaxResponse.success(productService.updateProCkNumber(proCk));
     }
 
+
+    //商品清单 修改商品介绍
+    @PutMapping("/updateProsay")
+    public AjaxResponse updateProsay(@RequestBody ProductVo productVo){
+        return AjaxResponse.success(productService.updateProsay(productVo));
+    }
+
     //盘点单  根据盘点ID查询商品
     @GetMapping("/selectPdIdproAll")
     public AjaxResponse selectPdIdproAll(int pdId){

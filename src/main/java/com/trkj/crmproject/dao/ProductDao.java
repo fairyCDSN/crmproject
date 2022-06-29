@@ -39,6 +39,9 @@ public interface ProductDao extends BaseMapper<Product> {
     //商品清单  根据仓库ID，商品ID，报损报溢的查询数量修改库存
     int updateProCkNumber(ProCk proCk);
 
+    //商品清单 修改商品介绍
+    int updateProsay(ProductVo productVo);
+
     //盘点单  根据盘点ID查询商品
     List<ProductVo> selectPdIdproAll(int pdId);
 

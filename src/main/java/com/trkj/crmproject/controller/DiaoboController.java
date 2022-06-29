@@ -86,32 +86,11 @@ public class DiaoboController {
 
 
 
-
     //调拨表 查询不等于出库id的入库id
     @GetMapping("/selectdbckdrId")
     public AjaxResponse selectdbckdrId(int ckId){
         return AjaxResponse.success(diaoboService.selectdbckdrId(ckId));
     }
-
-    //审批，查询最大编号
-    @GetMapping("/selectdbAppId")
-    public AjaxResponse selectdbAppId(){
-        return AjaxResponse.success(diaoboService.selectdbAppId());
-    }
-    //查询调拨最大编号
-    @GetMapping("/selectdbId")
-    public AjaxResponse selectdbId(){
-        return AjaxResponse.success(diaoboService.selectdbId());
-    }
-
-
-    //添加审批子表，查询有审批权限的用户id
-    @GetMapping("/selectdbusersId")
-    public AjaxResponse selectdbusersId(){
-        return AjaxResponse.success(diaoboService.selectdbusersId());
-    }
-
-
 
     //添加调拨单
     @PostMapping("/insertDiaobo")

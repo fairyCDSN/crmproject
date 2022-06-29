@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.ChukuDao">
+
+    <!--出库表，查询全部（连表查仓库名称，员工名称，审批类别名称）-->
+    <select id="selectChukuAll" resultType="com.trkj.crmproject.vo.ChukuVo">
+         select chuku.chuku_id,chuku.ck_time,chuku.bz,chuku.state,
+            approval.app_type,ck.ck_name,staff.staff_name from chuku
+            left join approval on approval.app_id=chuku.app_id
+            left join ck on ck.ck_id=chuku.ck_id
+            left join staff on staff.staff_id=chuku.staff_id
+    </select>
+    <!--    出库表 根据仓库id查询全部-->
+    <select id="selectChukuckId" resultType="com.trkj.crmproject.vo.ChukuVo">
+        select chuku.chuku_id,chuku.ck_time,chuku.bz,chuku.state,
+            approval.app_type,ck.ck_name,staff.staff_name from chuku
+            left join approval on approval.app_id=chuku.app_id
+            left join ck on ck.ck_id=chuku.ck_id
+            left join staff on staff.staff_id=chuku.staff_id
+            where ck.ck_name=#{ckName}
+    </select>
+    <!--    出库表 根据出库状态查询-->
+    <select id="selectChukustate" resultType="com.trkj.crmproject.vo.ChukuVo">
+       select chuku.chuku_id,chuku.ck_time,chuku.bz,chuku.state,
+            approval.app_type,ck.ck_name,staff.staff_name from chuku
+            left join approval on approval.app_id=chuku.app_id
+            left join ck on ck.ck_id=chuku.ck_id
+            left join staff on staff.staff_id=chuku.staff_id
+            where chuku.state=#{state}
+    </select>
+    <!--    出库表 根据仓库Id 商品状态查询全部-->
+    <select id="selectChukuckstate" resultType="com.trkj.crmproject.vo.ChukuVo">
+        select chuku.chuku_id,chuku.ck_time,chuku.bz,chuku.state,
+        approval.app_type,ck.ck_name,staff.staff_name from chuku
+        left join approval on approval.app_id=chuku.app_id
+        left join ck on ck.ck_id=chuku.ck_id
+        left join staff on staff.staff_id=chuku.staff_id
+        <where>
+            <if test="param1!='' || param1==null || param1!=0">
+                ck.ck_name=#{param1}
+            </if>
+            <if test="param2!='' || param2==null">
+                and chuku.state=#{param2}
+            </if>
+        </where>
+    </select>
+
+
+    <!--    出库表 根据出库id查询详情-->
+    <select id="selectChukuIdxq" resultType="com.trkj.crmproject.vo.ChukuVo">
+        select chuku.chuku_id,chuku.ck_time,chuku.bz,chuku.state,chuku.order_id,chuku.app_id,
+            approval.app_type,ck.ck_name,staff.staff_name from chuku
+            left join approval on approval.app_id=chuku.app_id
+            left join ck on ck.ck_id=chuku.ck_id
+            left join staff on staff.staff_id=chuku.staff_id
+            where chuku.chuku_id=#{chukuid}
+    </select>
+    <!--    出库表 根据出库id查询商品及出库数量-->
+    <select id="selectChukupro" resultType="com.trkj.crmproject.vo.ProductVo">
+        select product.pro_id,product.pro_name,chuku_pro.number as dbNumber from chuku_pro
+            left join product on product.pro_id=chuku_pro.pro_id
+            left join chuku on chuku.chuku_id=chuku_pro.chuku_id
+            where chuku.chuku_id=#{chukuId}
+    </select>
+
+
+    <!--    出库表 修改备注-->
+    <update id="updateChukubz">
+        update chuku set bz=#{bz} where chuku_id=#{chukuId}
+    </update>
+
+    <!--    修改出库表的状态-->
+    <update id="updateChukustate">
+    update chuku set state=#{state},ck_time=#{ckTime},staff_id=#{staffId} where chuku_id=#{chukuId}
+    </update>
+    <!--    根据仓库，查询商品库存-->
+    <select id="selectChukukc" resultType="com.trkj.crmproject.entity.ProCk">
+        select pro_ck.ck_id,pro_ck.pro_id,pro_ck.pro_ck_number from pro_ck
+            left join ck on ck.ck_id=pro_ck.ck_id
+            where ck.ck_name=#{ckName}
+    </select>
+
+    <!--    出库功能  修改jiaofu 表的state 状态（交付完成）-->
+    <update id="updateChukujf">
+        update jiaofu set state=#{state},true_time=now() where jf_id=#{jfId}
+    </update>
+
+    <!--    出库 根据仓库名称跟商品名称查询库存信息（添加通知）-->
+    <select id="selectChukunumber" resultType="com.trkj.crmproject.entity.ProCk">
+        select pro_ck.ck_id,pro_ck.pro_id,pro_ck.pro_ck_number from pro_ck
+        left join ck on ck.ck_id=pro_ck.ck_id
+        left join product on product.pro_id=pro_ck.pro_id
+        <where>
+            <if test="param1!='' || param1==null || param1 !=0">
+                product.pro_id=#{param1}
+            </if>
+            <if test="param2!='' || param2==null">
+                and ck.ck_name=#{param2}
+            </if>
+        </where>
+    </select>
+</mapper>
