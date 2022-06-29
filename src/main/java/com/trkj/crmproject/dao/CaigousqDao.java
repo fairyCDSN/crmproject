@@ -26,6 +26,6 @@ public interface CaigousqDao extends BaseMapper<Caigousq> {
 
     List<Caigousq> findcgsq();
 
-    List<Caigousq> selectcgsqdd(@Param("cgDh") String cgDh,@Param("total") int total);
+    List<Caigousq> selectcgsqdd(@Param("cgDh") String cgDh,@Param("total") int total,@Param("type") String type);
 
 }

@@ -9,6 +9,8 @@ import com.trkj.crmproject.vo.AjaxResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class SupplierController {
 
@@ -112,4 +114,16 @@ public class SupplierController {
         }
         return AjaxResponse.success(a);
         }
+
+
+    @GetMapping("/findstaffgys")
+    public AjaxResponse findstaffgys(String type){
+        System.out.println(type+"===");
+        if (type==null){
+            type="";
+        }
+        List<String> name=supplierService.findstaffgys(type);
+        System.out.println("name======"+name);
+        return AjaxResponse.success(name);
     }
+}

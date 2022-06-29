@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.CorecordDao">
+  <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Corecord">
+    <id column="corecord_co_id" jdbcType="INTEGER" property="coId" />
+    <result column="corecord_pc_id" jdbcType="INTEGER" property="pcId" />
+    <result column="corecord_co_pcda" jdbcType="TIMESTAMP" property="coPcda" />
+    <result column="corecord_co_pel" jdbcType="VARCHAR" property="coPel" />
+    <result column="corecord_fpstate" jdbcType="VARCHAR" property="fpstate" />
+    <result column="corecord_co_sjmn" jdbcType="INTEGER" property="coSjmn" />
+    <result column="corecord_order_id" jdbcType="INTEGER" property="orderId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    corecord.co_id as corecord_co_id, corecord.pc_id as corecord_pc_id, corecord.co_pcda as corecord_co_pcda, 
+    corecord.co_pel as corecord_co_pel, corecord.fpstate as corecord_fpstate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from corecord corecord
+    where corecord.co_id = #{co_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from corecord
+    where co_id = #{co_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="coId" keyProperty="coId" parameterType="com.trkj.crmproject.entity.Corecord" useGeneratedKeys="true">
+    insert into corecord (pc_id, co_pcda, co_pel, 
+      fpstate,co_sjmn,order_id)
+    values (#{pcId,jdbcType=INTEGER}, #{coPcda,jdbcType=TIMESTAMP}, #{coPel,jdbcType=VARCHAR},
+      #{fpstate,jdbcType=VARCHAR}, #{coSjmn,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="co_id" keyProperty="co_id" parameterType="com.trkj.crmproject.entity.Corecord" useGeneratedKeys="true">
+    insert into corecord
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pc_id != null">
+        pc_id,
+      </if>
+      <if test="co_pcda != null">
+        co_pcda,
+      </if>
+      <if test="co_pel != null">
+        co_pel,
+      </if>
+      <if test="fpstate != null">
+        fpstate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pc_id != null">
+        #{pc_id,jdbcType=INTEGER},
+      </if>
+      <if test="co_pcda != null">
+        #{co_pcda,jdbcType=TIMESTAMP},
+      </if>
+      <if test="co_pel != null">
+        #{co_pel,jdbcType=VARCHAR},
+      </if>
+      <if test="fpstate != null">
+        #{fpstate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trkj.crmproject.entity.Corecord">
+    update corecord
+    <set>
+      <if test="pc_id != null">
+        pc_id = #{pc_id,jdbcType=INTEGER},
+      </if>
+      <if test="co_pcda != null">
+        co_pcda = #{co_pcda,jdbcType=TIMESTAMP},
+      </if>
+      <if test="co_pel != null">
+        co_pel = #{co_pel,jdbcType=VARCHAR},
+      </if>
+      <if test="fpstate != null">
+        fpstate = #{fpstate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where co_id = #{co_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.trkj.crmproject.entity.Corecord">
+    update corecord
+    set pc_id = #{pc_id,jdbcType=INTEGER},
+      co_pcda = #{co_pcda,jdbcType=TIMESTAMP},
+      co_pel = #{co_pel,jdbcType=VARCHAR},
+      fpstate = #{fpstate,jdbcType=VARCHAR}
+    where co_id = #{co_id,jdbcType=INTEGER}
+  </update>
+</mapper>

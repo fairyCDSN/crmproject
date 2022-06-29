@@ -174,5 +174,11 @@ select supplier.supplier_type from supplier where supplier_id=#{supplierId}
   <select id="yzsupplierphone" resultType="java.lang.String">
     select phone from supplier where phone=#{supplierphone}
   </select>
+    <select id="findstaffgys" resultType="java.lang.String">
+      select s.supplier_name from supplier s
+      <if test="type!=''">
+        where supplier_type=#{type}
+      </if>
+    </select>
 
 </mapper>

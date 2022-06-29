@@ -49,10 +49,10 @@ public class ParecordServiceImpl implements ParecordService {
     }
 
     @Override
-    public PageInfo<ParecordVo> selectfkjh(int pageNum, int pageSize,String cgDh,Integer total) {
+    public PageInfo<ParecordVo> selectfkjh(int pageNum, int pageSize,String cgDh,Integer total,Integer type) {
         Page<ParecordVo> page= PageHelper.startPage(pageNum,pageSize);
         System.out.println("我是采购单号"+cgDh);
-        List<ParecordVo> list=dao.selectfkjh(cgDh,total);
+        List<ParecordVo> list=dao.selectfkjh(cgDh,total,type);
         Page<ParecordVo> depts=new Page<>();
         BeanTools.copyList(list,depts,ParecordVo.class);
         PageInfo<ParecordVo> pageInfo=new PageInfo<>(depts);

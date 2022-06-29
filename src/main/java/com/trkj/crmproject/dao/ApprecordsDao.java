@@ -14,17 +14,17 @@ import java.util.List;
 public interface ApprecordsDao extends BaseMapper<ApprecordsMp> {
     int deleteByPrimaryKey(Integer app_records_id);
 
-    int insert(ApprecordsMp record);
+    int insert(Apprecords record);
 
-    int insertSelective(ApprecordsMp record);
+    int insertSelective(Apprecords record);
 
-    ApprecordsMp selectByPrimaryKey(Integer app_records_id);
+    Apprecords selectByPrimaryKey(Integer app_records_id);
 
-    int updateByPrimaryKeySelective(ApprecordsMp record);
+    int updateByPrimaryKeySelective(Apprecords record);
 
-    int updateByPrimaryKey(ApprecordsMp record);
+    int updateByPrimaryKey(Apprecords record);
 
-    List<ApprecordsMp> selectApprecordsByUserIdAndState(@Param("id") int id, @Param("state") String state);
+    List<Apprecords> selectApprecordsByUserIdAndState(@Param("id") int id, @Param("state") String state);
     //修改审批记录表的状态
     int updateStateAndBzById(@Param("id") int id, @Param("state") String state,@Param("bz") String bz );
 

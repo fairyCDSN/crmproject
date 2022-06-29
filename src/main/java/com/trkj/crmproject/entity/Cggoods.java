@@ -40,5 +40,7 @@ public class Cggoods implements Serializable {
 
     private Integer gdCbtotal;
 
+    private Integer cgNumber;
+
     private static final long serialVersionUID = 1L;
 }

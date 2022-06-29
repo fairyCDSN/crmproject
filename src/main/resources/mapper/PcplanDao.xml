@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.PcplanDao">
+  <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Pcplan">
+    <id column="pcplan_pc_id" jdbcType="INTEGER" property="pcId" />
+    <result column="pcplan_order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="pcplan_pc_da" jdbcType="INTEGER" property="pcDa" />
+    <result column="pcplan_pc_mn" jdbcType="INTEGER" property="pcMn" />
+    <result column="pcplan_pc_pcda" jdbcType="TIMESTAMP" property="pcPcda" />
+    <result column="pcplan_toexamine" jdbcType="INTEGER" property="toexamine" />
+    <result column="pcplan_state_id" jdbcType="INTEGER" property="stateId" />
+    <result column="pcplan_pc_pel" jdbcType="VARCHAR" property="pcPel" />
+    <result column="pcplan_pc_pcstate" jdbcType="VARCHAR" property="pcPcstate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    pcplan.pc_id as pcplan_pc_id, pcplan.order_id as pcplan_order_id, pcplan.pc_da as pcplan_pc_da, 
+    pcplan.pc_mn as pcplan_pc_mn, pcplan.pc_pcda as pcplan_pc_pcda, pcplan.toexamine as pcplan_toexamine, 
+    pcplan.state_id as pcplan_state_id, pcplan.pc_pel as pcplan_pc_pel, pcplan.pc_pcstate as pcplan_pc_pcstate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pcplan pcplan
+    where pcplan.pc_id = #{pc_id,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pcplan
+    where pc_id = #{pc_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="pc_id" keyProperty="pc_id" parameterType="com.trkj.crmproject.entity.Pcplan" useGeneratedKeys="true">
+    insert into pcplan (order_id, pc_da, pc_mn, 
+      pc_pcda, toexamine, state_id, 
+      pc_pel, pc_pcstate)
+    values (#{order_id,jdbcType=INTEGER}, #{pc_da,jdbcType=INTEGER}, #{pc_mn,jdbcType=INTEGER}, 
+      #{pc_pcda,jdbcType=TIMESTAMP}, #{toexamine,jdbcType=INTEGER}, #{state_id,jdbcType=INTEGER}, 
+      #{pc_pel,jdbcType=VARCHAR}, #{pc_pcstate,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="pc_id" keyProperty="pc_id" parameterType="com.trkj.crmproject.entity.Pcplan" useGeneratedKeys="true">
+    insert into pcplan
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="order_id != null">
+        order_id,
+      </if>
+      <if test="pc_da != null">
+        pc_da,
+      </if>
+      <if test="pc_mn != null">
+        pc_mn,
+      </if>
+      <if test="pc_pcda != null">
+        pc_pcda,
+      </if>
+      <if test="toexamine != null">
+        toexamine,
+      </if>
+      <if test="state_id != null">
+        state_id,
+      </if>
+      <if test="pc_pel != null">
+        pc_pel,
+      </if>
+      <if test="pc_pcstate != null">
+        pc_pcstate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="order_id != null">
+        #{order_id,jdbcType=INTEGER},
+      </if>
+      <if test="pc_da != null">
+        #{pc_da,jdbcType=INTEGER},
+      </if>
+      <if test="pc_mn != null">
+        #{pc_mn,jdbcType=INTEGER},
+      </if>
+      <if test="pc_pcda != null">
+        #{pc_pcda,jdbcType=TIMESTAMP},
+      </if>
+      <if test="toexamine != null">
+        #{toexamine,jdbcType=INTEGER},
+      </if>
+      <if test="state_id != null">
+        #{state_id,jdbcType=INTEGER},
+      </if>
+      <if test="pc_pel != null">
+        #{pc_pel,jdbcType=VARCHAR},
+      </if>
+      <if test="pc_pcstate != null">
+        #{pc_pcstate,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trkj.crmproject.entity.Pcplan">
+    update pcplan
+    <set>
+      <if test="order_id != null">
+        order_id = #{order_id,jdbcType=INTEGER},
+      </if>
+      <if test="pc_da != null">
+        pc_da = #{pc_da,jdbcType=INTEGER},
+      </if>
+      <if test="pc_mn != null">
+        pc_mn = #{pc_mn,jdbcType=INTEGER},
+      </if>
+      <if test="pc_pcda != null">
+        pc_pcda = #{pc_pcda,jdbcType=TIMESTAMP},
+      </if>
+      <if test="toexamine != null">
+        toexamine = #{toexamine,jdbcType=INTEGER},
+      </if>
+      <if test="state_id != null">
+        state_id = #{state_id,jdbcType=INTEGER},
+      </if>
+      <if test="pc_pel != null">
+        pc_pel = #{pc_pel,jdbcType=VARCHAR},
+      </if>
+      <if test="pc_pcstate != null">
+        pc_pcstate = #{pc_pcstate,jdbcType=INTEGER},
+      </if>
+    </set>
+    where pc_id = #{pc_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.trkj.crmproject.entity.Pcplan">
+    update pcplan
+    set order_id = #{order_id,jdbcType=INTEGER},
+      pc_da = #{pc_da,jdbcType=INTEGER},
+      pc_mn = #{pc_mn,jdbcType=INTEGER},
+      pc_pcda = #{pc_pcda,jdbcType=TIMESTAMP},
+      toexamine = #{toexamine,jdbcType=INTEGER},
+      state_id = #{state_id,jdbcType=INTEGER},
+      pc_pel = #{pc_pel,jdbcType=VARCHAR},
+      pc_pcstate = #{pc_pcstate,jdbcType=INTEGER}
+    where pc_id = #{pc_id,jdbcType=INTEGER}
+  </update>
+
+
+  <select id="selectcollection" resultType="com.trkj.crmproject.vo.CollectionVo">
+    select p.pc_id,p.order_id,o.order_bh,o.state orderstate,MAX(p.pc_da) maxpcda,SUM(p.pc_mn) sumpcmn,min(p.pc_pcda) minpcpcda,max(p.pc_pcda) maxpcpcda,min(p.pc_pcstate) minpcstate,max(p.pc_pcstate) maxpcstate from pcplan p
+left join ordertable o on p.order_id=o.order_id
+where o.state!='审批未通过'
+group by p.order_id
+  </select>
+  <select id="selectcollectiontj" resultType="com.trkj.crmproject.vo.CollectionVo">
+select p.pc_id,p.order_id,o.order_bh,o.state orderstate,MAX(p.pc_da) maxpcda,SUM(p.pc_mn) sumpcmn,min(p.pc_pcda) minpcpcda,max(p.pc_pcda) maxpcpcda,min(p.pc_pcstate) minpcstate,
+max(p.pc_pcstate) maxpcstate from pcplan p
+left join ordertable o on p.order_id=o.order_id
+<where>
+  p.order_id=#{orderid} and
+
+    o.state=#{type}
+
+  and (select SUM(p.pc_mn) sumpcmn from pcplan p
+  left join ordertable o on p.order_id=o.order_id where p.order_id=#{orderid})
+  <if test="totalone!=0 and totaltwo!=0 ">
+    between #{totalone} and #{totaltwo}
+  </if>
+  <if test="totalone==0 and totaltwo!=0 ">
+    between #{totalone} and #{totaltwo}
+  </if>
+  <if test="totalone==0 and totaltwo==0 ">
+    between 0 and 999999
+  </if>
+  <if test="totalone!=0 and totaltwo==0 ">
+    between 0 and #{totalone}
+  </if>
+</where>
+
+  </select>
+  <select id="selecthkmx" resultType="com.trkj.crmproject.entity.Pcplan">
+    select p.pc_id,p.pc_da,p.pc_mn,p.pc_pcda,p.pc_pcstate,o.order_bh,c.co_pcda,c.co_sjmn from pcplan p
+left join ordertable o on p.order_id=o.order_id
+left join corecord c on p.pc_id=c.pc_id
+where p.order_id=#{orderId}
+  </select>
+  <select id="selectminhk" resultType="com.trkj.crmproject.vo.PcplanVo">
+    select p.pc_id,MIN(p.pc_da) minpcda,p.order_id ,p.pc_mn,p.pc_pcda,o.order_bh from pcplan p
+left join ordertable o on p.order_id=o.order_id where p.order_id=#{orderId} and p.pc_pcstate='待执行'
+  </select>
+  <select id="findOID" resultType="java.lang.Integer">
+    select DISTINCT order_id from ordertable
+
+
+  </select>
+
+
+  <update id="updatehkjhzt">
+    update pcplan set pc_pcstate='回款完成' where pc_id=#{pcId}
+  </update>
+  <update id="updatemn">
+    update pcplan set pc_mn=#{mn},pc_pcstate='回款完成' where pc_id=#{pcId}
+  </update>
+
+  <insert id="inserttj" keyColumn="pcId" keyProperty="pcId" parameterType="com.trkj.crmproject.entity.Pcplan" useGeneratedKeys="true">
+    insert into pcplan (order_id, pc_da, pc_mn,
+      pc_pcda, toexamine, state_id,
+      pc_pel, pc_pcstate)
+    values (#{orderId,jdbcType=INTEGER}, #{pcDa,jdbcType=INTEGER}, #{pcMn,jdbcType=INTEGER},
+      #{pcPcda,jdbcType=TIMESTAMP}, #{toexamine,jdbcType=INTEGER}, #{stateId,jdbcType=INTEGER},
+      #{pcPel,jdbcType=VARCHAR}, #{pcPcstate,jdbcType=VARCHAR})
+  </insert>
+
+  <select id="selectqc" resultType="java.lang.Integer">
+    select MAX(pc_da) from pcplan where order_id=#{orderId}
+  </select>
+</mapper>

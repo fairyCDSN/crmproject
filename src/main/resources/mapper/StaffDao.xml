@@ -168,4 +168,5 @@
   <select id="findStaffId" resultType="java.lang.Integer">
     select staff_id from staff where user_id = #{user_id}
   </select>
+
 </mapper>

@@ -50,4 +50,5 @@ public interface StaffDao extends BaseMapper<StaffMp> {
     staffnameVo selectsfattname(int roleId);
 
     cgyVo selectcgyname(int staffId);
+
 }

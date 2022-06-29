@@ -3,7 +3,9 @@ package com.trkj.crmproject.vo;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -65,4 +67,10 @@ public class ParecordVo {
     private String staffName;
     @TableField(exist = false)
     private String cgDh;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @TableField(exist = false)
+    private Date pyMntime;
+    @TableField(exist = false)
+    private int pySfmn;
 }

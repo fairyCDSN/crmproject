@@ -15,4 +15,5 @@ public interface SupplierService {
     public String selectsuptype(int supplierId);
     public String yzsuppliername(String supplierName);
     public String yzsupplierphone(String supplierphone);
+    public List<String> findstaffgys(String type);
 }
