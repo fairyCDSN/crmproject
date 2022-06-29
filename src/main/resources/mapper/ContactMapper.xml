@@ -59,8 +59,8 @@
         contact.contact_id = cont_cust.contact_id and cont_cust.customer_id = #{customer_id}
     </select>
     <insert id="addContact">
-        insert into contact(contact_name, work_phone,my_phone,Founder)
-        values (#{contact_name},#{work_phone},#{my_phone},#{salesperson_id})
+        insert into contact(contact_name, work_phone,my_phone,Founder,qq,email)
+        values (#{contact_name},#{work_phone},#{my_phone},#{salesperson_id},#{qq},#{email1})
     </insert>
     <delete id="deleteconCus">
         delete from cont_cust where contact_id=#{contactId}

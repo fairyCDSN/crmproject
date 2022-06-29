@@ -65,8 +65,7 @@ public class CustomerController {
     }
 
     @PostMapping("/addCustomer")
-    public AjaxResponse addCustomer(@RequestBody AddVo addVo){
-        System.out.println(addVo+"asdasdasfdjkvbasdjkbnglaskjdbfakl");
+    public AjaxResponse addCustomer(@RequestBody AddVo addVo,String user_name){
         addressService.insertAddress(addVo);
         int address_id=addressService.findAddById(addVo);
         addVo.setAddress_id(address_id);
@@ -77,6 +76,7 @@ public class CustomerController {
         int contact_id=contactService.findContactById(addVo);
         addVo.setContact_id(contact_id);
         customerService.addConCus(addVo);
+        customerService.addfollow(user_name,addVo.getContact_name(),addVo.getCustomer_source(),addVo.getCustomer_name());
         return AjaxResponse.success();
     }
     @PutMapping("/customer")
@@ -95,9 +95,13 @@ public class CustomerController {
     }
 
     @PutMapping("/updateSeId")
-    public AjaxResponse updateSeId(@RequestBody AddVo[] ss,int user_id){
-        System.out.println(user_id+"asfokjsadfiasjidfhnakjsdf");
-        customerService.updateSeId(ss,user_id);
+    public AjaxResponse updateSeId(@RequestBody AddVo[] ss,int user_id,String user_name){
+        customerService.updateSeId(ss,user_id,user_name);
+        return AjaxResponse.success();
+    }
+    @GetMapping("/updateLinQu")
+    public AjaxResponse updateLinQu(int customer_id,int user_id,String user_name){
+        customerService.updateLinQu(customer_id,user_id,user_name);
         return AjaxResponse.success();
     }
 }

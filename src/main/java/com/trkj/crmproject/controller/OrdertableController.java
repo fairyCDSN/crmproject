@@ -1,6 +1,7 @@
 package com.trkj.crmproject.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.trkj.crmproject.entity.jfjl;
 import com.trkj.crmproject.service.BaoJiaService;
 import com.trkj.crmproject.service.OrdertableService;
 import com.trkj.crmproject.vo.AjaxResponse;
@@ -8,9 +9,7 @@ import com.trkj.crmproject.vo.BaoJiaVo;
 import com.trkj.crmproject.vo.OrderTableVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(maxAge = 3600)
@@ -27,5 +26,26 @@ public class OrdertableController {
         return AjaxResponse.success(info);
     }
 
+    @GetMapping("/findOrderTableXq")
+    public AjaxResponse findOrderTableXq(int order_id){
+        return AjaxResponse.success(ordertableService.findOrderTableXq(order_id));
+    }
+
+    @GetMapping("/selectApp")
+    public AjaxResponse selectApp(int sqid,int app_id){
+        return AjaxResponse.success(ordertableService.selectApp(sqid,app_id));
+    }
+    @GetMapping("/selectStages")
+    public AjaxResponse selectStages(int order_id){
+        return AjaxResponse.success(ordertableService.selectStages(order_id));
+    }
+    @GetMapping("/selectCk")
+    public AjaxResponse selectCk(){
+        return AjaxResponse.success(ordertableService.selectCk());
+    }
+    @PostMapping("/updateJiaoFu")
+    public AjaxResponse updateJiaoFu(@RequestBody jfjl jfjl,int ck_id){
+        return AjaxResponse.success(ordertableService.updateJiaoFu(jfjl,ck_id));
+    }
 
 }

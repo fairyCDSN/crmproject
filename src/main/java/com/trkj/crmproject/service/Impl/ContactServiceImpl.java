@@ -75,7 +75,6 @@ public class ContactServiceImpl implements ContactService {
 //    @Transactional(transactionManager = "tm")
     public AddVo addContact(AddVo addVo) {
         int count=1;
-        System.out.println(addVo+"asdasdasdasdasdasd");
         if(contactDao.countContact(addVo.getCustomer_id())<=4) {
             count = contactDao.addContact(addVo);
         }else if(contactDao.countContact(addVo.getCustomer_id())==5){

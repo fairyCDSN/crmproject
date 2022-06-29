@@ -20,8 +20,8 @@ public class JiaoFuController {
     private JiaoFuService jiaoFuService;
 
     @GetMapping("/findJiaoFu")
-    public AjaxResponse findJiaoFu(int pageNum, int pageSize){
-        PageInfo<JiaoFuVo> info= jiaoFuService.findJiaoFu(pageNum,pageSize);
+    public AjaxResponse findJiaoFu(int pageNum, int pageSize,String qs,String state,String user_name){
+        PageInfo<JiaoFuVo> info= jiaoFuService.findJiaoFu(pageNum,pageSize,qs,state,user_name);
         return AjaxResponse.success(info);
     }
 }

@@ -114,9 +114,6 @@
         <if test="pro_name != null and pro_name != ''">
             and pro_name like '%${pro_name}%'
         </if>
-        <if test="pro_type != null and pro_type != ''">
-            and pro_type like '%${pro_type}%'
-        </if>
     </select>
     <select id="findproduct1" resultType="com.trkj.crmproject.vo.ProductVo">
         select pro_id,pro_name,pro_guige,pro_xh,pro_dw,
@@ -124,9 +121,6 @@
         from product where product.pro_id not in (select pro_id from bj_pro where bjid=#{bjid})
         <if test="pro_name != null and pro_name != ''">
             and pro_name like '%${pro_name}%'
-        </if>
-        <if test="pro_type != null and pro_type != ''">
-            and pro_type like '%${pro_type}%'
         </if>
     </select>
     <select id="cheackProId" resultType="java.lang.Integer">

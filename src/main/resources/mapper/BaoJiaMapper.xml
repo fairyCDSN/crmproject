@@ -22,6 +22,10 @@
     <update id="updatebaojia">
         update baojia set state='待执行' where bjid=#{bjid}
     </update>
+    <update id="updatebaojiaApp">
+        update baojia set state_id=(select max(app_records_id) from apprecords where app_id=4)
+        where bjid=#{bjid}
+    </update>
     <select id="findBaojia" resultType="com.trkj.crmproject.entity.BaoJia">
         select DISTINCT baojia.customer_id,baojia.contact_id,baojia.bjid,baojia.state_time,approval.app_type,customer.customer_name,
         contact.contact_name,users.user_name,baojia.state
@@ -51,8 +55,8 @@
         values (#{sqid},'待审批',#{app_id})
     </insert>
     <insert id="insertApprecordSon">
-        insert into apprecords_son(app_records_id,user_id,app_state)
-        values (#{state_id},#{user_id},'待审批')
+        insert into apprecords_son(app_records_id,user_id,app_state,create_time)
+        values (#{state_id},#{name},'待审批',now())
     </insert>
     <insert id="insertjiaofu">
         insert into jiaofu(bjid,total,state,cjr,toexamine)
@@ -147,6 +151,16 @@
     <select id="findconName" resultType="java.lang.String">
         select contact_name from contact where contact_id=(select contact_id from baojia where bjid=#{bjid})
     </select>
+    <select id="findOrderId" resultType="java.lang.Integer">
+        select max(order_id) from ordertable
+    </select>
+    <select id="checkjiaofu" resultType="java.lang.Integer">
+        select count(number) from jfjl where jf_id =#{jf_id}
+    </select>
+    <select id="findBjPro" resultType="com.trkj.crmproject.entity.BjPro">
+        select bj_pro.pro_id,bj_pro.good_number,bj_pro.good_monery,product.pro_name from bj_pro,product
+        where bj_pro.bjid=#{bjid} and bj_pro.pro_id=product.pro_id
+    </select>
     <delete id="deletepro">
         delete from bj_pro where pro_id=#{pro_id} and bjid=#{bjid}
     </delete>
@@ -163,7 +177,13 @@
         delete from jfjl where jf_id=#{jf_id}
     </delete>
     <delete id="deleteAlljiaofu">
-        delete from jiaofu where jf_id!=#{jf_id}
+        delete from jiaofu where jf_id!=#{jf_id} and bjid=#{bjid}
+    </delete>
+    <delete id="delectjfjl1">
+        delete from jfjl where jfjl_id=#{jfjl_id}
+    </delete>
+    <delete id="delectjiaofu1">
+        delete from jiaofu where jf_id =#{jf_id}
     </delete>
 
 

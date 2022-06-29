@@ -27,8 +27,17 @@ public interface CustomerDao {
     public int findCustomerById(AddVo addVo);
     public int addCustomer(AddVo addVo);
     public int addConCus(AddVo addVo);
+    int addfollow(@Param("user_name")String user_name,@Param("contact_name")String contact_name,
+                  @Param("follow_title")String follow_title,@Param("follow_manner")String follow_manner,
+                  @Param("follow_content")String follow_content);
+    int insertfollow(@Param("customer_id")int customer_id,@Param("user_name")String user_name,
+                     @Param("contact_name")String contact_name, @Param("follow_title")String follow_title,
+                     @Param("follow_manner")String follow_manner,@Param("follow_content")String follow_content);
     public int updateCustomer(customer customer);
     public int updataCustomerType1(int customer_id);
     public int updataCustomerType2(int customer_id);
     public int updateSeId(@Param("customer_id") int customer_id,@Param("staff_id") int staff_id);
+
+    public int[] checkdeCus1(int customer_id);
+    public int[] checkdeCus2(int customer_id);
 }

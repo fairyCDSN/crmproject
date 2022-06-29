@@ -23,4 +23,6 @@ public class AddVo {
     private int customer_id;
     private int contact_id;
     private int name;
+    private String qq;
+    private String email1;
 }
