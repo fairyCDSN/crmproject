@@ -15,7 +15,7 @@ public interface DiaoboService {
     //调拨列表 查询全部（ckName[dcName,drName]
     List<DiaoboVo> selectDbAll();
     //分页
-    public PageInfo<DiaoboVo> finddb(int pageNum, int pageSize);
+    PageInfo<DiaoboVo> finddb(int pageNum, int pageSize);
 
     //调拨详情  根据调拨id查询商品信息
     List<ProductVo> selectDbidproName(int dbId);
@@ -57,6 +57,8 @@ public interface DiaoboService {
 
     //根据调拨id查询审批状态（通过）
     ApprecordsMp selectdbappState(int dbId);
+
+//    int insertdb(ApprecordsMp apprecordsMp);
 
 
 }

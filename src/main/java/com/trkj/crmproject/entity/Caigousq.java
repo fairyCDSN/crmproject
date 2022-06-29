@@ -82,7 +82,7 @@ public class Caigousq implements Serializable {
     private String bz;
 
     private String cgGuige;
-
+    @TableField(exist = false)
     private String staff_name;
 
     private String cgType;

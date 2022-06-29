@@ -16,11 +16,11 @@ public interface ApprecordsDao extends BaseMapper<ApprecordsMp> {
 
     int insert(Apprecords record);
 
-    int insertSelective(ApprecordsMp record);
+    int insertSelective(Apprecords record);
 
-    ApprecordsMp selectByPrimaryKey(Integer app_records_id);
+    Apprecords selectByPrimaryKey(Integer app_records_id);
 
-    int updateByPrimaryKeySelective(ApprecordsMp record);
+    int updateByPrimaryKeySelective(Apprecords record);
 
     int updateByPrimaryKey(ApprecordsMp record);
 
