@@ -75,13 +75,28 @@
         select  customer_id from customer where customer_name=#{customer_name} and customer_stage=#{customer_stage}
          and customer_type=#{customer_type} and customer_source=#{customer_source} and remarks=#{remarks} and address_id=#{address_id} and salesperson_id=#{salesperson_id}
     </select>
+    <select id="checkdeCus1" resultType="java.lang.Integer">
+        select bjid from baojia where state !='执行完成' and customer_id=#{customer_id}
+    </select>
+    <select id="checkdeCus2" resultType="java.lang.Integer">
+        select ordertable.order_id from ordertable,baojia where ordertable.state !='合同结束' and baojia.customer_id=#{customer_id}
+        and baojia.bjid=ordertable.bjid
+    </select>
     <insert id="addCustomer" >
         insert into customer(salesperson_id,address_id, customer_name,customer_type,customer_source,customer_stage,remarks)
-        values (#{salesperson_id},#{address_id}, #{customer_name},#{customer_type},#{customer_source},#{customer_stage},#{remarks})
+        values (#{salesperson_id},#{address_id}, #{customer_name},#{customer_type},#{customer_source},'第一阶段',#{remarks})
     </insert>
     <insert id="addConCus">
         insert into cont_cust(contact_id,customer_id)
         values (#{contact_id},#{customer_id})
+    </insert>
+    <insert id="addfollow">
+        insert into follow(follow_title,customer_id,contact,follow_date,founder,follow_manner,follow_content)
+        values (#{follow_title},(select max(customer_id) from customer),#{contact_name},now(),#{user_name},#{follow_manner},#{follow_content})
+    </insert>
+    <insert id="insertfollow">
+        insert into follow(follow_title,customer_id,contact,follow_date,founder,follow_manner,follow_content)
+        values (#{follow_title},#{customer_id},#{contact_name},now(),#{user_name},#{follow_manner},#{follow_content})
     </insert>
     <update id="updateCustomer">
         update customer
@@ -113,11 +128,14 @@
         where customer_id = #{customer_id}
     </update>
     <update id="updateSeId">
-        update customer
-        <set>
+        update customer set
+        <if test="staff_id == 0">
+            salesperson_id = null
+        </if>
+        <if test="staff_id != 0">
             salesperson_id = #{staff_id}
-        </set>
-        where customer_id = #{customer_id}
+        </if>
+         where customer_id = #{customer_id}
     </update>
 
 </mapper>

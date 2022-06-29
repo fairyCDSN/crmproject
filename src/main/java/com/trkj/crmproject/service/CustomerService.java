@@ -22,8 +22,10 @@ public interface CustomerService {
     public int findCustomerById(AddVo addVo);
     public AddVo addCustomer(AddVo addVo);
     public AddVo addConCus(AddVo addVo);
+    int addfollow(String user_name,String contact_name,String customer_source,String customer_name);
     public customerVo updateCustomer(customerVo customerVo);
     public int updataCustomerType1(int customer_id);
     public int updataCustomerType2(int customer_id);
-    public int updateSeId(AddVo[] addVo,int user_id);
+    public int updateSeId(AddVo[] addVo,int user_id,String user_name);
+    public int updateLinQu(int customer_id,int user_id,String user_name);
 }
