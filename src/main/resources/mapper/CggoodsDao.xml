@@ -12,6 +12,7 @@
     <result column="cggoods_bz" jdbcType="VARCHAR" property="bz" />
     <result column="cggoods_gd_cbprice" jdbcType="INTEGER" property="gdCbprice" />
     <result column="cggoods_gd_cbtotal" jdbcType="INTEGER" property="gdCbtotal" />
+    <result column="cggoods_gd_cgnumber" jdbcType="INTEGER" property="cgNumber" />
   </resultMap>
   <sql id="Base_Column_List">
     cggoods.gd_id as cggoods_gd_id, cggoods.supplier_id as cggoods_supplier_id, cggoods.gd_name as cggoods_gd_name, 
@@ -135,20 +136,23 @@
   </update>
 
   <select id="findgoods" resultType="com.trkj.crmproject.vo.CggoodsVo">
-select c.gd_id,c.gd_name,c.gd_price,c.gd_number,c.gd_total,c.supplier_id,s.supplier_name
+select c.gd_id,c.gd_name,c.gd_price,c.gd_number,c.gd_total,c.supplier_id,c.cg_number,s.supplier_name
 from cggoods c LEFT JOIN supplier s on c.supplier_id=s.supplier_id
   </select>
 
   <select id="selectgoods" resultType="com.trkj.crmproject.vo.CggoodsVo">
-select c.gd_id,c.gd_name,c.gd_price,c.gd_number,c.gd_total,c.supplier_id,s.supplier_name
+select c.gd_id,c.gd_name,c.gd_price,c.gd_number,c.gd_total,c.supplier_id,c.cg_number,s.supplier_name
 from cggoods c LEFT JOIN supplier s on c.supplier_id=s.supplier_id
 <where>
-<if test="gdName!=null">
+<if test="gdName!=null || gdName==''">
 gd_name like '%${gdName}%'
 </if>
-<if test="type!=null">
+<if test="type!=null || type==''">
   and gd_type=#{type}
 </if>
+  <if test="name!=null || name==''">
+    and supplier_name=#{name}
+  </if>
 </where>
   </select>
 

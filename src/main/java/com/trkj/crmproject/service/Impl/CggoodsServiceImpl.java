@@ -33,9 +33,9 @@ public class CggoodsServiceImpl implements CggoodsService {
     }
 
     @Override
-    public PageInfo<CggoodsVo> selectgoods(int pageNum, int pageSize, String gdName ,String type) {
+    public PageInfo<CggoodsVo> selectgoods(int pageNum, int pageSize, String gdName ,String type,String name) {
         Page<CggoodsVo> page = PageHelper.startPage(pageNum, pageSize);
-        List<CggoodsVo> list = dao.selectgoods(gdName,type);
+        List<CggoodsVo> list = dao.selectgoods(gdName,type,name);
         Page<CggoodsVo> cggoods = new Page<>();
         System.out.println("这是impl层" + list);
         BeanTools.copyList(list, cggoods, CggoodsVo.class);
@@ -45,14 +45,14 @@ public class CggoodsServiceImpl implements CggoodsService {
 
     @Override
     @Transactional
-    public PageInfo<CggoodsVo> updategoods(Integer gdNumber, Integer gdId, int pageNum, int pageSize, String gdname,String type) {
+    public PageInfo<CggoodsVo> updategoods(Integer cgNumber, Integer gdId, int pageNum, int pageSize, String gdname,String type,String name) {
         UpdateWrapper<Cggoods> uw = new UpdateWrapper<>();
-        uw.set("gd_number", gdNumber + 1).eq("gd_Id", gdId);
+        uw.set("cg_number", cgNumber + 1).eq("gd_Id", gdId);
         int update = dao.update(null, uw);
         Page<CggoodsVo> page = PageHelper.startPage(pageNum, pageSize);
-        List<CggoodsVo> list = dao.selectgoods(gdname,type);
+        List<CggoodsVo> list = dao.selectgoods(gdname,type,name);
         Page<CggoodsVo> cggoods = new Page<>();
-        System.out.println("这是impl层" + list);
+        System.out.println("这是impl层" + list+"==="+gdname+type+name);
         BeanTools.copyList(list, cggoods, CggoodsVo.class);
         PageInfo<CggoodsVo> pageInfo = new PageInfo<>(cggoods);
         return pageInfo;
@@ -60,12 +60,12 @@ public class CggoodsServiceImpl implements CggoodsService {
 
     @Override
     @Transactional
-    public PageInfo<CggoodsVo> updategoodsjs(Integer gdNumber, Integer gdId, int pageNum, int pageSize, String gdname,String type) {
+    public PageInfo<CggoodsVo> updategoodsjs(Integer cgNumber, Integer gdId, int pageNum, int pageSize, String gdname,String type,String name) {
         UpdateWrapper<Cggoods> uw = new UpdateWrapper<>();
-        uw.set("gd_number", gdNumber - 1).eq("gd_Id", gdId);
+        uw.set("cg_number", cgNumber - 1).eq("gd_Id", gdId);
         int update = dao.update(null, uw);
         Page<CggoodsVo> page = PageHelper.startPage(pageNum, pageSize);
-        List<CggoodsVo> list = dao.selectgoods(gdname,type);
+        List<CggoodsVo> list = dao.selectgoods(gdname,type,name);
         Page<CggoodsVo> cggoods = new Page<>();
         System.out.println("这是impl层" + list);
         BeanTools.copyList(list, cggoods, CggoodsVo.class);

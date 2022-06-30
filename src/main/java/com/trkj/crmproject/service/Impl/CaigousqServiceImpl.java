@@ -91,7 +91,7 @@ public class CaigousqServiceImpl implements CaigousqService {
     }
 
     @Override
-    public PageInfo<Caigousq> selectcgsqdd(int pageNum, int pageSize, String cgDh, Integer total) {
+    public PageInfo<Caigousq> selectcgsqdd(int pageNum, int pageSize, String cgDh, Integer total, String type) {
 //        QueryWrapper<Caigousq> qw=new QueryWrapper<>();
 //        if (cgDh!=""){
 //            qw.like("cg_dh",cgDh);
@@ -103,7 +103,7 @@ public class CaigousqServiceImpl implements CaigousqService {
             total=0;
         }
         Page<Caigousq> page=PageHelper.startPage(pageNum,pageSize);
-        List<Caigousq> pur= dao.selectcgsqdd(cgDh,total);
+        List<Caigousq> pur= dao.selectcgsqdd(cgDh,total,type);
         Page<Caigousq> d=new Page<>();
         BeanTools.copyList(pur,d,Caigousq.class);
         PageInfo<Caigousq> pageInfo=new PageInfo<>(d);

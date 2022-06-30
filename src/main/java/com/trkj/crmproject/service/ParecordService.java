@@ -10,7 +10,7 @@ public interface ParecordService {
     public int addfkjh(Parecord parecord);
     public int upfk(Parecord parecord,int sqid);
     public PageInfo<ParecordVo> findfkjh(int pageNum,int pageSize);
-    public PageInfo<ParecordVo> selectfkjh(int pageNum,int pageSize,String cgDh,Integer total);
+    public PageInfo<ParecordVo> selectfkjh(int pageNum,int pageSize,String cgDh,Integer total,Integer type);
     public ParecordVo selectpayment(int paId);
     public List<ParecordVo> selectfkjhmx(int sqid);
     public ParecordVo selectonefkjh(int sqid);

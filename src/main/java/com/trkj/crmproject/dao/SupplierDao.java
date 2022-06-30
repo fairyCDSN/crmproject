@@ -32,5 +32,6 @@ public interface SupplierDao extends BaseMapper<Supplier> {
 
     String yzsupplierphone(String supplierphone);
 
-
+    //6.22钟思阳
+    List<String> findstaffgys(String type);
 }

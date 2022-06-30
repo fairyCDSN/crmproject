@@ -27,9 +27,9 @@ public class CgsqController {
     }
 
     @GetMapping("/selectcgsqdd")
-    public AjaxResponse selectcgsqdd(int pageNum,int pageSize,String cgDh,Integer total){
-        System.out.println("==============="+total+cgDh);
-        PageInfo<Caigousq> caigousqPageInfo=caigousqService.selectcgsqdd(pageNum,pageSize,cgDh,total);
+    public AjaxResponse selectcgsqdd(int pageNum,int pageSize,String cgDh,Integer total,String type){
+        System.out.println("==============="+total+cgDh+type);
+        PageInfo<Caigousq> caigousqPageInfo=caigousqService.selectcgsqdd(pageNum,pageSize,cgDh,total,type);
         return AjaxResponse.success(caigousqPageInfo);
     }
     //查询采购明细

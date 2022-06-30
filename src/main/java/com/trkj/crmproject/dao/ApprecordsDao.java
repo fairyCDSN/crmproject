@@ -23,7 +23,7 @@ public interface ApprecordsDao extends BaseMapper<ApprecordsMp> {
 
     int updateByPrimaryKeySelective(Apprecords record);
 
-    int updateByPrimaryKey(ApprecordsMp record);
+    int updateByPrimaryKey(Apprecords record);
 
     List<Apprecords> selectApprecordsByUserIdAndState(@Param("id") int id, @Param("state") String state);
     //修改审批记录表的状态

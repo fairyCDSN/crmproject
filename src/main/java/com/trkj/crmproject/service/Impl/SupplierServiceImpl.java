@@ -83,4 +83,9 @@ public class SupplierServiceImpl implements SupplierService {
     public String yzsupplierphone(String supplierphone) {
         return dao.yzsupplierphone(supplierphone);
     }
+
+    @Override
+    public List<String> findstaffgys(String type) {
+        return dao.findstaffgys(type);
+    }
 }

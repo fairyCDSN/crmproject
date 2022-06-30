@@ -223,7 +223,12 @@ from caigousq c left join staff s on staff_id=c.salesperson_id
     <if test="total!=0">
      and c.total BETWEEN 0 AND '${total}'
     </if>
+    <if test="type==''">
   and p.app_state='审批通过'
+    </if>
+  <if test="type!=''">
+    and p.app_state=#{type}
+  </if>
 </where>
   </select>
 

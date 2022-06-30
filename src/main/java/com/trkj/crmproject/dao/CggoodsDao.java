@@ -24,7 +24,7 @@ public interface CggoodsDao extends BaseMapper<Cggoods> {
 
     List<CggoodsVo> findgoods();
 
-    List<CggoodsVo> selectgoods(@Param("gdName")String gdName,@Param("type")String type);
+    List<CggoodsVo> selectgoods(@Param("gdName")String gdName,@Param("type")String type,@Param("name")String name);
 
     String yzgoodname(@Param("supplierId")int supplierId, @Param("goodname")String goodname);
 

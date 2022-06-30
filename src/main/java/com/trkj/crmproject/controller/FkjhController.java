@@ -37,13 +37,17 @@ public class FkjhController {
     }
 
     @GetMapping("/selectfkjh")
-    public AjaxResponse selectfkjh(int pageNum,int pageSize,String cgDh,Integer total){
-        System.out.println("我是total:"+total);
+    public AjaxResponse selectfkjh(int pageNum,int pageSize,String cgDh,Integer total,Integer type){
+        System.out.println("我是total:"+total+"=="+type);
         if(total==null){
             System.out.println("我进来了=====");
             total=0;
         }
-        return AjaxResponse.success(parecordService.selectfkjh(pageNum,pageSize,cgDh,total));
+        if(type==null){
+            System.out.println("我进来了=====");
+            type=0;
+        }
+        return AjaxResponse.success(parecordService.selectfkjh(pageNum,pageSize,cgDh,total,type));
     }
 
     @GetMapping("/tjqc")

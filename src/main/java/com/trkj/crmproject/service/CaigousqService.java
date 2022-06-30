@@ -15,7 +15,7 @@ public interface CaigousqService {
     public int addcaigousq(Caigousq caigousq);
     public List<Caigousq> selectsqid();
     public int updatestate(int sqid,String usestate);
-    public PageInfo<Caigousq> selectcgsqdd(int pageNum,int pageSize,String cgDh,Integer total);
+    public PageInfo<Caigousq> selectcgsqdd(int pageNum,int pageSize,String cgDh,Integer total,String type);
     public List<CaigousqVo> selectcgmx(int sqid);
     public Caigousq selectcgsqid(int sqid);
     public int addcgsq(Caigousq caigousq);
