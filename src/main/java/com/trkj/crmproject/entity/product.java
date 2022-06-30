@@ -1,19 +1,19 @@
 package com.trkj.crmproject.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 @Data
 public class product {
-    @TableId
+    @TableId(value = "proId",type = IdType.AUTO)
     private int proId;
     private String proName;
-    private String proType;
     private String proGuige;
     private String proXh;
     private String proDw;
-    private Double proMoney;
-    private Double proCbj;
+    private Integer proMoney;
+    private Integer proCbj;
 //    private int proKc;
     private String proSay;
 //    private int ckId;

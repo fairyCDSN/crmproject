@@ -142,4 +142,13 @@
         insert into bj_pro(bjid,pro_id,good_number,good_monery)
         values (#{bjid},#{proId},#{sl},#{mo})
     </insert>
+
+    <insert id="insert" keyColumn="proId" keyProperty="proId" parameterType="com.trkj.crmproject.entity.product" useGeneratedKeys="true">
+    insert into product (pro_name, pro_guige, pro_xh,
+      pro_dw, pro_money,
+      pro_cbj, pro_say)
+    values (#{proName}, #{proGuige}, #{proXh},
+      #{proDw}, #{proMoney},
+      #{proCbj}, #{proSay})
+  </insert>
 </mapper>

@@ -70,4 +70,7 @@ public interface RkDao extends BaseMapper<RkMp> {
     //添加商品库存（库存0）
     int insertproCk(ProCk proCk);
 
+    int insertzsy(RkMp rkMp);
+
+    int selectmaxid();
 }

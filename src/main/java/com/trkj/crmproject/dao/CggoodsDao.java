@@ -30,5 +30,8 @@ public interface CggoodsDao extends BaseMapper<Cggoods> {
 
     List<String> findgoodstype();
 
+    Integer selectnumber(int gdId);
+
+    Integer updatenumber(@Param("gdId")int gdId,@Param("jsnumber")int jsnumber);
 
 }

@@ -2,6 +2,7 @@ package com.trkj.crmproject.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.trkj.crmproject.entity.ProCk;
+import com.trkj.crmproject.entity.product;
 import com.trkj.crmproject.vo.ProductVo;
 import com.trkj.crmproject.entity.mybatis_plus.Product;
 import com.trkj.crmproject.vo.ProductVo;
@@ -57,4 +58,6 @@ public interface ProductDao extends BaseMapper<Product> {
     public List<ProductVo> findproduct1(@Param("bjid") int bjid,@Param("pro_name") String pro_name,
                                         @Param("pro_type") String pro_type);
     public int[] cheackProId(int bjid);
+
+    int insert(product entity);
 }

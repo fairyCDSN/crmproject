@@ -135,7 +135,8 @@
     where gd_id = #{gd_id,jdbcType=INTEGER}
   </update>
 
-  <select id="findgoods" resultType="com.trkj.crmproject.vo.CggoodsVo">
+
+    <select id="findgoods" resultType="com.trkj.crmproject.vo.CggoodsVo">
 select c.gd_id,c.gd_name,c.gd_price,c.gd_number,c.gd_total,c.supplier_id,c.cg_number,s.supplier_name
 from cggoods c LEFT JOIN supplier s on c.supplier_id=s.supplier_id
   </select>
@@ -163,5 +164,11 @@ gd_name like '%${gdName}%'
   <select id="findgoodstype" resultType="java.lang.String">
 select distinct gd_type from cggoods
   </select>
+  <select id="selectnumber" resultType="java.lang.Integer">
+    select gd_number from cggoods where gd_id=#{pcId}
+  </select>
 
+  <update id="updatenumber">
+    update cggoods set gd_number=#{jsnumber},cg_number=0 where gd_id=#{gdId}
+  </update>
 </mapper>

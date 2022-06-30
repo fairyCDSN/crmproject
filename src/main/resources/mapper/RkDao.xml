@@ -160,4 +160,23 @@
     <insert id="insertproCk">
         insert into pro_ck(pro_id,ck_id,pro_ck_number) values (#{proId},#{ckId},0)
     </insert>
+    <insert id="insert" keyColumn="rkId" keyProperty="rkId" parameterType="com.trkj.crmproject.entity.mybatis_plus.RkMp" useGeneratedKeys="true">
+    insert into rk (cg_id, pro_guige, pro_xh,
+      pro_dw, pro_money,
+      pro_cbj, pro_say)
+    values (#{cgId}, #{ckId},
+      #{state}, #{appRecordsId},
+      #{appId})
+  </insert>
+    <insert id="insertzsy">
+        insert into rk (cg_id, ck_id, state,
+      app_id,
+      app_records_id)
+    values (#{cgId}, #{ckId},
+      #{state}, #{appId},
+      #{appRecordsId})
+    </insert>
+    <select id="selectmaxid" resultType="java.lang.Integer">
+        select max(rk_id) from rk
+    </select>
 </mapper>

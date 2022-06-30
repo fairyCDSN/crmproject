@@ -1,6 +1,11 @@
 package com.trkj.crmproject.controller;
 
+import com.trkj.crmproject.dao.CggoodsDao;
+import com.trkj.crmproject.dao.ProductDao;
+import com.trkj.crmproject.dao.RkDao;
 import com.trkj.crmproject.entity.*;
+import com.trkj.crmproject.entity.mybatis_plus.RkMp;
+import com.trkj.crmproject.entity.mybatis_plus.RkProMp;
 import com.trkj.crmproject.service.*;
 import com.trkj.crmproject.vo.AjaxResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +43,16 @@ public class AddcgController {
 
     @Autowired
     private GoodsqService goodsqService;
+
+    @Autowired
+    private CggoodsDao cggoodsDao;
+
+    @Autowired
+    private ProductDao productDao;
+
+    @Autowired
+    private RkDao rkDao;
+
     //采购商品添加
     @PostMapping("addcgcp")
     public AjaxResponse addcgcp(@RequestBody Cgcp[] good){
@@ -52,6 +67,8 @@ public class AddcgController {
     //全局变量
     Apprecords apprecords=new Apprecords();
     Parecord parecordd=new Parecord();
+    int aid=0;
+    int bid=0;
     //采购申请添加
     @PostMapping("/addcgsq")
     public AjaxResponse addcgsq(@RequestBody Caigousq addcg) throws ParseException {
@@ -60,6 +77,14 @@ public class AddcgController {
         System.out.println("我是采购实体类里的采购商品"+addcg.getCgcp());
         List<Cgcp> cgcps=addcg.getCgcp();
         int row=caigousqService.addcgsq(addcg);
+
+        RkMp rkMp=new RkMp();
+        rkMp.setCgId(addcg.getSqid());
+        rkMp.setCkId(1);
+        rkMp.setState("未入库");
+
+
+
         apprecords.setSqid(addcg.getSqid());
         apprecords.setApp_state("待审批");
         String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -70,6 +95,11 @@ public class AddcgController {
         apprecords.setApp_id(1);
         int ji=apprecordsService.addApprecords(apprecords);
 
+        rkMp.setAppRecordsId(apprecords.getApp_records_id());
+        rkMp.setAppId(1);
+
+        int rkxz=rkDao.insertzsy(rkMp);
+        aid=rkDao.selectmaxid();
         addcg.setStateId(apprecords.getApp_records_id());
         int cgsqrow=caigousqService.updatecgsq(addcg.getStateId(),addcg.getSqid());
 
@@ -85,7 +115,30 @@ public class AddcgController {
 
           for (Cgcp c: cgcps){
               log.debug("这是采购商品：{}",c);
+
+              int gdId=cggoodsDao.selectnumber(c.getGdId());
+              System.out.println("输出gdId:"+gdId);
+              int jsnumber=gdId-c.getGdNumber();
+              int up=cggoodsDao.updatenumber(c.getGdId(),jsnumber);
               int row3=cgcpservice.addcgcp(c);
+              product product=new product();
+              product.setProName(c.getGdName());
+              product.setProGuige("小型");
+              product.setProXh(" ");
+              product.setProDw("个");
+              product.setProCbj(c.getGdPrice());
+              product.setProMoney(c.getGdPrice()+5);
+              int proxz=productDao.insert(product);
+              bid=product.getProId();
+
+              RkProMp rkProMp=new RkProMp();
+              rkProMp.setRkId(aid);
+              System.out.println("rkid:"+aid+bid);
+              rkProMp.setProId(bid);
+              rkProMp.setNumber(c.getGdNumber());
+
+              int rkproxz=rkDao.insertRkPro(rkProMp);
+
               Cgcp cgcp=new Cgcp();
               System.out.println("采购产品id:"+c.getGdId());
               Goodsq goodsq=new Goodsq();
@@ -93,6 +146,7 @@ public class AddcgController {
               goodsq.setSqid(addcg.getSqid());
               int ji2=goodsqService.addgoodsq(goodsq);
           }
+
 
 
 
