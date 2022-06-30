@@ -22,4 +22,8 @@ public class OrderTable {
     private String cjr;
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date cjTime;
+
+    private int countNumber;
+    private String staff_name;
+
 }

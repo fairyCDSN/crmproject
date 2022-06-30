@@ -12,6 +12,7 @@ import com.trkj.crmproject.util.BeanTools;
 import com.trkj.crmproject.vo.ParecordVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,11 +23,13 @@ public class ParecordServiceImpl implements ParecordService {
     private ParecordDao dao;
 
     @Override
+    @Transactional
     public int addfkjh(Parecord parecord) {
         return dao.insert(parecord);
     }
 
     @Override
+    @Transactional
     public int upfk(Parecord parecord,int sqid) {
         System.out.println("进入添加审批状态方法");
         UpdateWrapper<Parecord> uw=new UpdateWrapper<>();
@@ -78,6 +81,7 @@ public class ParecordServiceImpl implements ParecordService {
     }
 
     @Override
+    @Transactional
     public int upstate(int paId) {
         UpdateWrapper<Parecord> uw=new UpdateWrapper<>();
         uw.set("isfk",1).eq("pa_id",paId);
@@ -86,6 +90,7 @@ public class ParecordServiceImpl implements ParecordService {
     }
 
     @Override
+    @Transactional
     public int uppare(int paId, int paMn) {
         UpdateWrapper<Parecord> uw=new UpdateWrapper<>();
         uw.set("isfk",1).set("pa_mn",paMn).eq("pa_id",paId);
@@ -94,6 +99,7 @@ public class ParecordServiceImpl implements ParecordService {
     }
 
     @Override
+    @Transactional
     public int addpare(Parecord parecord) {
         int i=dao.selectmaxqctwo(parecord.getSqid());
         Parecord parecord1=new Parecord();
@@ -110,6 +116,7 @@ public class ParecordServiceImpl implements ParecordService {
     }
 
     @Override
+    @Transactional
     public int uppateqc(Parecord parecord) {
         int i=dao.selectmaxqc(parecord.getSqid());
         UpdateWrapper<Parecord> uw=new UpdateWrapper<>();

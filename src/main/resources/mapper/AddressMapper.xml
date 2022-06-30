@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trkj.crmproject.dao.AddressDao">
     <select id="findAddById" resultType="java.lang.Integer">
-        select  address_id from address where country=#{country} and province=#{province} and city=#{city} and email=#{email} and phone=#{phone} and fax=#{fax}
+        select  max(address_id) from address
     </select>
     <select id="findAddressById" resultType="java.lang.Integer">
         select  address_id from customer where customer_id=#{customer_id}

@@ -4,6 +4,8 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.trkj.crmproject.dao.CkDao;
+import com.trkj.crmproject.dao.DeptsonDao;
+import com.trkj.crmproject.entity.Deptson;
 import com.trkj.crmproject.entity.mybatis_plus.Ck;
 import com.trkj.crmproject.exception.CustomError;
 import com.trkj.crmproject.exception.CustomErrorType;
@@ -13,6 +15,7 @@ import com.trkj.crmproject.vo.CkStaffVo;
 import com.trkj.crmproject.vo.CkVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +24,8 @@ public class CkServicelmpl implements CkService {
 
     @Autowired
     private CkDao dao;
+    @Autowired
+    private DeptsonDao deptsonDao;
 
     //仓库管理  全部查询
     @Override
@@ -30,8 +35,19 @@ public class CkServicelmpl implements CkService {
 
     //仓库管理  添加
     @Override
+    @Transactional
     public Ck addCk(Ck ck) {
+        Deptson deptson=new Deptson();
+        deptson.setUser_id(ck.getGlyId());
+        deptson.setDept_name(ck.getCkName());
+        deptson.setDept_id(3);
+        deptson.setState(1);
         int row=dao.insert(ck);
+        if (row==0){
+            throw new CustomError(CustomErrorType.DATABASE_OP_ERROR,"数据插入失败");
+        }
+
+        row=deptsonDao.insert(deptson);
         if (row==0){
             throw new CustomError(CustomErrorType.DATABASE_OP_ERROR,"数据插入失败");
         }
@@ -40,6 +56,7 @@ public class CkServicelmpl implements CkService {
 
     //仓库管理  根据id删除
     @Override
+    @Transactional
     public int deleteCk(int ckId) {
         System.out.println("==================ckId:"+ckId);
         return dao.deleteById(ckId);
@@ -47,7 +64,9 @@ public class CkServicelmpl implements CkService {
 
     //仓库管理  修改
     @Override
+    @Transactional
     public int updateCk(Ck ck) {
+//        int row=deptsonDao.updateDeptSon();
         return dao.updateById(ck);
     }
 
@@ -93,10 +112,12 @@ public class CkServicelmpl implements CkService {
 
 
     //仓库列表  删除（根据ckId把ckState改为0）
+    @Transactional
     public int updateCkState(int ckId){
         return dao.updateCkState(ckId);
     }
     //仓库列表  启用（根据ckId把ckState改为1）
+    @Transactional
     public int updateCkState1(int ckId){
         return dao.updateCkState1(ckId);
     }

@@ -37,4 +37,5 @@ public interface DeptsonDao {
     List<Users> selectPeopleBoss();
     List<Deptson> selectDeptSonName();
     DeptUserVo selectUserDept(@Param("name")String name);
+//    int updateDeptSon(@Param("name")String name,@Param("id") int id);
 }

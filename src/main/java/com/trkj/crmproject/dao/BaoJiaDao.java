@@ -73,4 +73,6 @@ public interface BaoJiaDao {
 
     //wq
     public List<BaoJia> selectBjById(@Param("id")int id);
+
+    public int updateState(@Param("sqid") int id,@Param("state") String state);
 }

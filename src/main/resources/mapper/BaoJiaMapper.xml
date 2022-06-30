@@ -46,6 +46,10 @@
             and date(baojia.state_time) between #{time1} and #{time2}
         </if>
     </select>
+
+
+
+
     <insert id="insertBaoJia">
         insert into baojia(contact_id,customer_id,salesperson_id,toexamine,state)
         values (#{contact_id},#{customer_id},#{user_id},4,'待审批')
@@ -188,8 +192,20 @@
 
 
 <!--    wq-->
+<!--    ,users,staff,customer,approval,apprecords,contact-->
     <select id="selectBjById" resultType="com.trkj.crmproject.entity.BaoJia">
-        select * from baojia
-        where bjid=#{id}
+        select b.customer_id,b.contact_id,b.bjid,b.state_time,a.app_type,cus.customer_name,
+        c.contact_name,u.user_name,b.state
+        from baojia b
+        left join approval a on a.app_id=b.toexamine
+        left join contact c on c.contact_id=b.contact_id
+        left join staff s on s.staff_id=b.salesperson_id
+        left join users u on u.user_id=s.user_id
+		left join customer cus on cus.customer_id=b.customer_id
+        where b.bjid=#{id}
     </select>
+
+    <update id="updateState">
+        update baojia set state=#{state} where bjid=#{sqid}
+    </update>
 </mapper>

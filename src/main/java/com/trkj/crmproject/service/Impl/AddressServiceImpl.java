@@ -29,7 +29,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-//    @Transactional(transactionManager = "tm")
+    @Transactional
     public AddVo insertAddress(AddVo addVo) {
         int count=addressDao.insertAddress(addVo);
         if(count==0){

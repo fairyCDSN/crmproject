@@ -17,6 +17,7 @@ import com.trkj.crmproject.util.MenuUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -55,6 +56,7 @@ public class PermissionServiceImpl implements PermissionService {
         return sonmenuMps;
     }
 
+    @Transactional
     public int addMenus(Sonmenu sonmenu){
         //添加菜单
         int row= sonmenuDao.insert(sonmenu);

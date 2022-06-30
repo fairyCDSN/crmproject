@@ -14,6 +14,7 @@ import com.trkj.crmproject.util.BeanTools;
 import com.trkj.crmproject.vo.CaigousqVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -63,6 +64,7 @@ public class CaigousqServiceImpl implements CaigousqService {
     }
 
     @Override
+    @Transactional
     public int addcaigousq(Caigousq caigousq) {
         System.out.println("进入imp==============="+caigousq);
         int row=dao.insert(caigousq);
@@ -79,6 +81,7 @@ public class CaigousqServiceImpl implements CaigousqService {
     }
 
     @Override
+    @Transactional
     public int updatestate(int sqid, String usestate) {
 //        UpdateWrapper<Caigousq> uw=new UpdateWrapper<>();
 //        uw.set("usestate",usestate).eq("sqid",sqid);
@@ -125,6 +128,7 @@ public class CaigousqServiceImpl implements CaigousqService {
     }
 
     @Override
+    @Transactional
     public int updatecgsq(int stateId,int sqid) {
         System.out.println("进入添加审批状态方法");
         UpdateWrapper<Caigousq> uw=new UpdateWrapper<>();

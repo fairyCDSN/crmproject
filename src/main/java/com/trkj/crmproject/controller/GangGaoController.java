@@ -133,4 +133,9 @@ public class GangGaoController {
 
         return AjaxResponse.success(gangGaoService.selectReadByDeptAndName(pageNum,pageSize,deptName,userName,id));
     }
+
+    @GetMapping("/selectWarning")
+    public AjaxResponse selectWarning(){
+        return AjaxResponse.success(gangGaoService.selectWarning());
+    }
 }

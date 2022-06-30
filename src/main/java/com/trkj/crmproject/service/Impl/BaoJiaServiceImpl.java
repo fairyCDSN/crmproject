@@ -16,6 +16,7 @@ import com.trkj.crmproject.vo.ProductVo;
 import com.trkj.crmproject.vo.jfjlVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class BaoJiaServiceImpl implements BaoJiaService {
         System.out.println("报价数组"+list.get(0));
         double total=0;
         for(int i=0;i<list.size();i++){
-            System.out.println("报价产品中间表"+baoJiaDao.findBjPro(list.get(i).getBjid())[0]);
+            System.out.println("报价产品中间表");
             BjPro[] bj=baoJiaDao.findBjPro(list.get(i).getBjid());
             for (int j=0;j<bj.length;j++){
                 total=bj[j].getGoodMonery()*bj[j].getGoodNumber();
@@ -50,8 +51,10 @@ public class BaoJiaServiceImpl implements BaoJiaService {
     }
 
     @Override
+    @Transactional
     public int insertProduct(ProductVo[] ss, int user_id, String jfstyle, String plan_jftime,int customer_id,String title,int contact_id) {
         int count=baoJiaDao.insertBaoJia(staffDao.findStaffId(user_id),customer_id,contact_id);
+
         baoJiaDao.insertApprecords(baoJiaDao.findid(),4);
         baoJiaDao.updatebaojiaApp(baoJiaDao.findid());
         int state_id=baoJiaDao.findid1();
@@ -69,6 +72,7 @@ public class BaoJiaServiceImpl implements BaoJiaService {
     }
 
     @Override
+    @Transactional
     public int insertProduct1(ProductVo[] ss,int bjid) {
         int count=0;
         for(int i=0;i<ss.length;i++){
@@ -99,6 +103,7 @@ public class BaoJiaServiceImpl implements BaoJiaService {
         return baoJiaDao.findProXq1(pro_id);
     }
     @Override
+    @Transactional
     public int deletepro(int pro_id,int bjid) {
         int count=0;
         if(baoJiaDao.selectpro(bjid)>1){
@@ -109,6 +114,7 @@ public class BaoJiaServiceImpl implements BaoJiaService {
     }
 
     @Override
+    @Transactional
     public int updatepro(ProductXq[] ss,int bjid) {
         int count=baoJiaDao.updatepro(ss[0].getProId(),bjid,ss[0].getGoodNumber(),ss[0].getGoodMonery());
         if(count==0){
@@ -156,6 +162,7 @@ public class BaoJiaServiceImpl implements BaoJiaService {
         return jf;
     }
     @Override
+    @Transactional
     public int insertjiaofu(int bjid,String user_name) {
         baoJiaDao.insertjiaofu(bjid,user_name,baoJiaDao.findtatal(bjid));
         int count=1;
@@ -167,6 +174,7 @@ public class BaoJiaServiceImpl implements BaoJiaService {
         return count;
     }
     @Override
+    @Transactional
     public int delectjiaofu(int jf_id,int state_id) {
         int bjid=baoJiaDao.findjfbjid(jf_id);
         baoJiaDao.delectjfjl(jf_id);
@@ -182,13 +190,16 @@ public class BaoJiaServiceImpl implements BaoJiaService {
         return count;
     }
     @Override
+    @Transactional
     public int insertordertable(jfjl[] jfjl,String fk, String user_name,String beizhu,String order_bh,String order_title) {
         int count=baoJiaDao.insertordertable(jfjl[0].getBjid(),order_bh,fk,order_title,
                 jfjl[0].getPlanJftime(),baoJiaDao.findconName(jfjl[0].getBjid()),beizhu,user_name);
         double total=0;
         baoJiaDao.insertApprecords(baoJiaDao.findOrderId(),2);
         int[] name=baoJiaDao.findName("合同审批");
+        System.out.println("名称"+name[0]);
         for(int i=0;i<name.length;i++){
+            System.out.println("名称"+name[i]);
             baoJiaDao.insertApprecordSon(baoJiaDao.findid1(),name[i]);
         }
         int pc_da=1;
@@ -221,7 +232,7 @@ public class BaoJiaServiceImpl implements BaoJiaService {
         if(count==0){
             throw new CustomError(CustomErrorType.DATABASE_OP_ERROR,"数据更新异常");
         }
-        return count;
+        return 0;
     }
 
 }

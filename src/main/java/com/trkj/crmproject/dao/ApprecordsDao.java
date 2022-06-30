@@ -5,6 +5,7 @@ import com.trkj.crmproject.entity.mybatis_plus.ApprecordsMp;
 import com.trkj.crmproject.entity.Apprecords;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,6 +28,8 @@ public interface ApprecordsDao extends BaseMapper<ApprecordsMp> {
     List<Apprecords> selectApprecordsByUserIdAndState(@Param("id") int id, @Param("state") String state);
     //修改审批记录表的状态
     int updateStateAndBzById(@Param("id") int id, @Param("state") String state,@Param("bz") String bz );
+
+    int selectAppId(@Param("id")int id);
 
 
   }

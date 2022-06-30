@@ -69,12 +69,14 @@ public class ApprovalServiceImpl implements ApprovalService {
     }
 
     //修改审批状态[根据审批人id修改审批状态、输入失败理由]
+    @Transactional
     public int updateApprecords(int id,ApprecordsVo apprecordsVo){
         int row=0;
         String state=null;
         String bz=null;
         //判断这是不是最后一个审批的子记录
         List<ApprecordsSon> apprecordsSons=apprecordsSonDao.selectByAppId(apprecordsVo.getApp_records_id());
+        //查询审批状态
         if(apprecordsSons.size()!=0){
             if(apprecordsVo.getApp_son_state()=="审批未通过"){
                 //如果该审批人审批时不是最后一个【还存在未审批的子记录】，那么将未审批的子记录表状态改为”申请已被驳回“，备注改为当前失败的备注
@@ -172,11 +174,13 @@ public class ApprovalServiceImpl implements ApprovalService {
         return roleDao.selectAll();
     }
 
+    @Transactional
     public int delectAppRole(int id,int app_id){
         return appRoleDao.delectAppRole(id,app_id);
     }
 
     //修改审批模板的中间表
+    @Transactional
     public int updateAppRole(int id,List<Integer> roleIds){
         int row=0;
         //根据id删除中间表

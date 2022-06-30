@@ -16,6 +16,7 @@ import com.trkj.crmproject.vo.RkVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -93,6 +94,7 @@ public class RkServiceImpl implements RkService {
 
     //入库表 修改备注
     @Override
+    @Transactional
     public int updateRkbz(RkVo rkVo) {
         return rkDao.updateRkbz(rkVo);
     }
@@ -106,11 +108,13 @@ public class RkServiceImpl implements RkService {
 
     //添加商品类别
     @Override
+    @Transactional
     public int insertRkcat(Category category) {
         return categoryDao.insert(category);
     }
     //添加商品
     @Override
+    @Transactional
     public int insertRkpro(Product product) {
         int proId=rkDao.selectRkpromax()+1;
         product.setProId(proId);
@@ -139,6 +143,7 @@ public class RkServiceImpl implements RkService {
 
     // 添加入库表
     @Override
+    @Transactional
     public int insertRk(RkMp rkMp) {
         int rkId=rkDao.selectRkidmax()+1;
         log.debug("入库编号{}:",rkId);
@@ -166,6 +171,7 @@ public class RkServiceImpl implements RkService {
 
     //添加入库（修改库存表，修改入库表状态）
     @Override
+    @Transactional
     public int updateRkstate(RkVo rkVo){
         int ckId=rkDao.selectRkckId(rkVo.getCkName());
         log.debug("仓库id{}：",ckId);

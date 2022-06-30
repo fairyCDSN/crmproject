@@ -2,17 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trkj.crmproject.dao.OrdertableDao">
+    <resultMap id="order" type="com.trkj.crmproject.entity.OrderTable">
+        <result column="staff_name" jdbcType="VARCHAR" property="staff_name"/>
+        <result column="countNumber" jdbcType="INTEGER" property="countNumber"/>
+    </resultMap>
+
     <insert id="insertChuKu">
-        insert into chuku(order_id,ck_id,state)
-        values (#{order_id},#{ck_id},'未出库')
+        insert into chuku(order_id,ck_id,state,app_id)
+        values (#{order_id},#{ck_id},'未出库',2)
     </insert>
     <insert id="insertChuKuPro">
         insert into chuku_pro(pro_id,chuku_id,number)
         values (#{pro_id},(select max(chuku_id) from chuku where order_id=#{order_id}),#{number})
     </insert>
     <insert id="insertWarn">
-        insert into warn(warn_type,state,warn_content)
-        values (#{warn_type},'待处理',#{warn_content})
+        insert into warn(warn_type,state,warn_content,warningLv)
+        values (#{warn_type},'待处理',#{warn_content},#{warningLv})
     </insert>
     <update id="updateJiaoFu">
         update jiaofu set true_time=now(),state='正在出库' where jf_id=#{jf_id}
@@ -71,5 +76,16 @@
     </select>
     <select id="cheackCkSum" resultType="java.lang.Integer">
         select sum(pro_ck_number) from pro_ck where pro_id=#{proId}
+    </select>
+
+    <update id="updateState">
+        update ordertable set state=#{state} where order_id=#{sqid}
+    </update>
+
+    <select id="countOrder" resultMap="order">
+        select s.staff_name staff_name,count(o.order_id) countNumber from ordertable o
+        LEFT JOIN users u on u.user_name=o.cjr
+        LEFT JOIN staff s on s.user_id=u.user_id
+        GROUP BY o.cjr
     </select>
 </mapper>

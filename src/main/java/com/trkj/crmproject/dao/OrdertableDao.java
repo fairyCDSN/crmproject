@@ -5,11 +5,13 @@ import com.trkj.crmproject.vo.CkVo;
 import com.trkj.crmproject.vo.jfjlVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
 
 @Mapper
+@Repository
 public interface OrdertableDao {
     public List<OrderTable> findOrdertable(@Param("user_name") String user_name,@Param("order_bh")  String order_bh,
                                            @Param("order_title")  String order_title,@Param("khqyr") String khqyr,
@@ -33,5 +35,10 @@ public interface OrdertableDao {
 
     int cheackCkSum(int proId);
 
-    int insertWarn(@Param("warn_type") String warn_type,@Param("warn_content")String warn_content);
+    int insertWarn(@Param("warn_type") String warn_type,@Param("warn_content")String warn_content,@Param("warningLv")String lv);
+
+    //wq
+    int updateState(@Param("sqid")int id,@Param("state")String state);
+
+    List<OrderTable> countOrder();
 }

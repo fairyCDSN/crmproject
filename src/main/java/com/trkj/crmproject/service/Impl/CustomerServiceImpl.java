@@ -13,6 +13,7 @@ import com.trkj.crmproject.util.BeanTools;
 import com.trkj.crmproject.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -93,6 +94,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
 //    @Transactional(transactionManager = "tm")
+    @Transactional
     public AddVo addCustomer(AddVo addVo) {
         int count=customerDao.addCustomer(addVo);
         if(count==0){
@@ -103,6 +105,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
 //    @Transactional(transactionManager = "tm")
+    @Transactional
     public AddVo addConCus(AddVo addVo) {
         int count=customerDao.addConCus(addVo);
         if(count==0){
@@ -112,12 +115,14 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional
     public int addfollow(String user_name,String contact_name,String customer_source,String customer_name) {
             String follow_content="新客户"+customer_name+"与销售员"+user_name+"建立联系,默认联系人为"+contact_name;
         return customerDao.addfollow(user_name,contact_name,"新客户建立",customer_source,follow_content);
     }
 
     @Override
+    @Transactional
     public customerVo updateCustomer(customerVo customerVo) {
         customer customer=new customer();
         BeanTools.copyProperties(customerVo,customer);
@@ -130,6 +135,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
     @Override
 //    @Transactional(transactionManager = "tm")
+    @Transactional
     public int updataCustomerType1(int customer_id) {
         int count =0;
         if(customerDao.checkdeCus1(customer_id).length==0){
@@ -140,11 +146,13 @@ public class CustomerServiceImpl implements CustomerService {
         return count;
     }
     @Override
+    @Transactional
     public int updataCustomerType2(int customer_id) {
         return customerDao.updataCustomerType2(customer_id);
     }
 
     @Override
+    @Transactional
     public int updateSeId(AddVo[] addVo,int user_id,String user_name) {
         for(int i=0;i<addVo.length;i++) {
             int customer_id = addVo[i].getCustomer_id();
@@ -162,6 +170,7 @@ public class CustomerServiceImpl implements CustomerService {
         return 1;
     }
     @Override
+    @Transactional
     public int updateLinQu(int customer_id,int user_id,String user_name) {
         customerDao.updateSeId(customer_id, staffDao.findStaffId(user_id));
         String follow_content="员工"+user_name+"领取客户";

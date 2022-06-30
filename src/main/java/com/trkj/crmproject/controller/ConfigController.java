@@ -99,6 +99,12 @@ public class ConfigController {
         return AjaxResponse.success(userService.selectCountStaff());
     }
 
+    //查询每个销售月当前月份签了几份合同
+    @GetMapping("/selectCountOrderAll")
+    public AjaxResponse selectCountOrderAll(){
+        return AjaxResponse.success(userService.selectCountOrderAll());
+    }
+
     //根据登录的人查询角色id和角色名称
     @GetMapping("/selectRoleId")
     public AjaxResponse selectRole(String username){
@@ -118,8 +124,14 @@ public class ConfigController {
     public AjaxResponse insertUser(@RequestBody StaffVo staffVo){
         log.debug("==========================");
         log.debug(staffVo+"验证一下有没有传参啊");
+        log.debug(staffVo.getRole_id()+"+========================角色id");
 //        log.debug("添加验证："+userService.insertStaff(staffVo));
         return AjaxResponse.success(userService.insertStaff(staffVo));
+    }
+
+    @GetMapping("/selectAllRole")
+    public AjaxResponse selectAllRole(){
+        return AjaxResponse.success(userService.selectAllRole());
     }
 
     //查询旧密码是否正确

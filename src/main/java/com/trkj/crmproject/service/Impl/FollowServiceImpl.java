@@ -13,6 +13,7 @@ import com.trkj.crmproject.vo.FollowVo;
 import com.trkj.crmproject.vo.customerVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
+    @Transactional
     public int insertFollow(Follow follow, String user_name) {
         System.out.println("aaaaaaa"+follow);
         followDao.insertFollow(follow.getFollowTitle(),follow.getCustomerId(),follow.getContact(),

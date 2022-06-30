@@ -11,6 +11,7 @@ import com.trkj.crmproject.vo.PdVo;
 import com.trkj.crmproject.vo.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -61,6 +62,7 @@ public class PdServiceImpl implements PdService {
     }
     //盘点单  添加盘点表
     @Override
+    @Transactional
     public int insertPd(Pd pd){
         int pdId=pdDao.selectPdIdmax()+1;
 
@@ -135,6 +137,7 @@ public class PdServiceImpl implements PdService {
 
     //盘点单 修改,四表改
     @Override
+    @Transactional
     public int updatePd(Pd pd){
 
         return pdDao.updateById(pd);

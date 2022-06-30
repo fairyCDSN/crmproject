@@ -17,6 +17,7 @@ import com.trkj.crmproject.vo.contactVo;
 import com.trkj.crmproject.vo.customerVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -62,6 +63,7 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
+    @Transactional
     public contactVo updateContact(contactVo contactVo) {
         int count=contactDao.updateContact(contactVo);
         // int i=9/0;
@@ -72,6 +74,7 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
+    @Transactional
 //    @Transactional(transactionManager = "tm")
     public AddVo addContact(AddVo addVo) {
         int count=1;
@@ -87,6 +90,7 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
+    @Transactional
     public int deletecontact(int contactId){
         contactDao.deleteconCus(contactId);
         contactDao.deletecontact(contactId);

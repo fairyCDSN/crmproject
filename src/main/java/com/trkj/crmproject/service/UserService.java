@@ -1,6 +1,7 @@
 package com.trkj.crmproject.service;
 
 import com.github.pagehelper.PageInfo;
+import com.trkj.crmproject.entity.OrderTable;
 import com.trkj.crmproject.entity.Role;
 import com.trkj.crmproject.entity.Sonmenu;
 import com.trkj.crmproject.entity.Users;
@@ -25,6 +26,8 @@ public interface UserService {
     public List<StaffVo> selectDept(int deptid);
 
     public int insertStaff(StaffVo staffVo);
+
+    public List<Role> selectAllRole();
     //条件查询[员工]
     public PageInfo<StaffVo> selectStaffByNameOrNum(int pageNum, int pageSize,String name,int bianhao,int deptid);
     //条件查询【部门】
@@ -32,6 +35,8 @@ public interface UserService {
 
     //统计部门人数
     public List<StaffVo> selectCountStaff();
+    //统计审批通过的订单数量
+    public List<OrderTable> selectCountOrderAll();
     //获取部门名称【查询全部员工】
     public List<StaffVo> selectStaffDeptName();
 

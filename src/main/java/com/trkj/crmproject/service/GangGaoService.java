@@ -46,4 +46,6 @@ public interface GangGaoService {
 
     public PageInfo<StaffVo> selectReadByDeptAndName(int pageNum,int pageSize,int deptName,String userName,int id);
 
+    public List<Warn> selectWarning();
+
 }

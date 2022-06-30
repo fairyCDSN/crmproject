@@ -14,6 +14,7 @@ import com.trkj.crmproject.util.BeanTools;
 import com.trkj.crmproject.vo.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -113,6 +114,7 @@ public class ProductServiceImpl implements ProductService {
 
     //商品清单  根据仓库ID，商品ID，报损报溢的查询数量修改库存
     @Override
+    @Transactional
     public int updateProCkNumber(ProCk proCk){
         return productDao.updateProCkNumber(proCk);
     }
@@ -136,6 +138,7 @@ public class ProductServiceImpl implements ProductService {
 
     //商品清单 修改商品介绍
     @Override
+    @Transactional
     public int updateProsay(ProductVo productVo){
         return productDao.updateProsay(productVo);
     }

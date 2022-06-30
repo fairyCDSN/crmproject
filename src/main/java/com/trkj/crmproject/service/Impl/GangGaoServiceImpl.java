@@ -33,6 +33,8 @@ public class GangGaoServiceImpl implements GangGaoService {
     private TzDao tzDao;
     @Autowired
     private TzUserDao tzUserDao;
+    @Autowired
+    private WarnDao warnDao;
 
     public List<Gonggao> selectAllGg(){
         List<Gonggao> gonggaos=gonggaoDao.selectAllGg();
@@ -203,5 +205,9 @@ public class GangGaoServiceImpl implements GangGaoService {
         PageInfo<StaffVo> staffVoPageInfo=new PageInfo<>(staffVoPage);
         log.debug("已阅读的员工：{}",staffVoPageInfo);
         return staffVoPageInfo;
+    }
+
+    public List<Warn> selectWarning(){
+        return warnDao.selectByState();
     }
 }

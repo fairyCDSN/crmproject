@@ -11,6 +11,7 @@ import com.trkj.crmproject.vo.ByiVo;
 import com.trkj.crmproject.vo.ProductVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -55,6 +56,7 @@ public class ByiServiceImpl implements ByiService {
 
     //报溢列表 修改（修改备注）
     @Override
+    @Transactional
     public int updateByi(ByiVo byiVo){
         return byiDao.updateByi(byiVo);
     }
@@ -73,6 +75,7 @@ public class ByiServiceImpl implements ByiService {
     }
     //报溢列表 添加报溢表
     @Override
+    @Transactional
     public int insertByi(Byi byi){
         byi.setByiTime(new Date());
         return byiDao.insert(byi);
