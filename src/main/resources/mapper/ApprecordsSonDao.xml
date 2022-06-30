@@ -47,11 +47,24 @@
     LEFT JOIN staff s ON s.user_id=u.user_id
     LEFT JOIN caigousq cg ON cg.toexamine=app.app_id
     where aps.app_state=#{state} and aps.user_id=#{id}
+    GROUP BY aps.apprecords_son_id
   </select>
 
+  <select id="selectType" resultType="java.lang.String">
+    select app.app_type
+    FROM apprecords_son aps
+    LEFT JOIN apprecords a ON aps.app_records_id=a.app_records_id
+    LEFT JOIN approval app ON app.app_id=a.app_id
+    where aps.apprecords_son_id=#{id}
+  </select>
 
-
-
+  <select id="selectSqid" resultType="java.lang.Integer">
+    select a.sqid
+    FROM apprecords_son aps
+    LEFT JOIN apprecords a ON aps.app_records_id=a.app_records_id
+    LEFT JOIN approval app ON app.app_id=a.app_id
+    where aps.apprecords_son_id=#{id}
+  </select>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select

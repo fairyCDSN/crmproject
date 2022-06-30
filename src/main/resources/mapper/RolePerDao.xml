@@ -23,7 +23,10 @@
     where role_id = #{id}
   </delete>
 
-
+  <select id="selectRoleIds" resultType="java.lang.Integer">
+    select role_id from role_per
+    where son_id=#{id}
+  </select>
 
 
 

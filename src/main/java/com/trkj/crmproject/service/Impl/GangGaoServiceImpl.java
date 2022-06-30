@@ -3,13 +3,8 @@ package com.trkj.crmproject.service.Impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.trkj.crmproject.dao.GgReadDao;
-import com.trkj.crmproject.dao.GonggaoDao;
-import com.trkj.crmproject.dao.UsersDao;
-import com.trkj.crmproject.entity.GgRead;
-import com.trkj.crmproject.entity.Gonggao;
-import com.trkj.crmproject.entity.Role;
-import com.trkj.crmproject.entity.Staff;
+import com.trkj.crmproject.dao.*;
+import com.trkj.crmproject.entity.*;
 import com.trkj.crmproject.exception.CustomError;
 import com.trkj.crmproject.exception.CustomErrorType;
 import com.trkj.crmproject.service.GangGaoService;
@@ -32,6 +27,14 @@ public class GangGaoServiceImpl implements GangGaoService {
     private UsersDao usersDao;
     @Autowired
     private GgReadDao ggReadDao;
+    @Autowired
+    private DeptsonDao deptsonDao;
+    @Autowired
+    private TzDao tzDao;
+    @Autowired
+    private TzUserDao tzUserDao;
+    @Autowired
+    private WarnDao warnDao;
 
     public List<Gonggao> selectAllGg(){
         List<Gonggao> gonggaos=gonggaoDao.selectAllGg();
@@ -102,10 +105,14 @@ public class GangGaoServiceImpl implements GangGaoService {
         return names;
     }
 
-    public List<StaffVo> selectGgRead(int id){
+    public PageInfo<StaffVo> selectGgRead(int pageNum,int pageSize,int id){
+        Page<StaffVo> page=PageHelper.startPage(pageNum,pageSize);
         List<StaffVo> staffVos=ggReadDao.selectGgRead(id);
-        log.debug("已阅读的员工：{}",staffVos);
-        return staffVos;
+        Page<StaffVo> staffVoPage=new Page<>();
+        BeanTools.copyList(staffVos,staffVoPage,StaffVo.class);
+        PageInfo<StaffVo> staffVoPageInfo=new PageInfo<>(staffVoPage);
+        log.debug("已阅读的员工：{}",staffVoPageInfo);
+        return staffVoPageInfo;
     }
 
     public PageInfo<Gonggao> selectGgByTypeAndState(int pageNum,int pageSize,String type,String state,String username){
@@ -140,4 +147,67 @@ public class GangGaoServiceImpl implements GangGaoService {
 
     }
 
+    public List<Users> selectDqLogin(String name){
+        return deptsonDao.selectDqLogin(name);
+    }
+
+    public List<Users> selectPeopleOther(String name){
+        int id=deptsonDao.selectDeptSonId(name);
+        return deptsonDao.selectPeopleOther(id);
+    }
+
+    //Boss查询各自部门负责人
+    public List<Users> selectPeopleBoss(){
+        return deptsonDao.selectPeopleBoss();
+    }
+
+    @Transactional
+    public int addTz(Tz tz,List<Integer> user_ids,String name){
+        //查询用户id
+        int id=usersDao.selectUserId(name);
+        tz.setUser_id(id);
+        int row=0;
+        if(tz!=null){
+            row=tzDao.insert(tz);
+            if(row<=0){
+                throw new CustomError(CustomErrorType.ACCOUNT_ERROR,"数据更新异常");
+            }
+            for(int a=0;a<user_ids.size();a++){
+                TzUser tzUser=new TzUser();
+                tzUser.setTz_id(tz.getTz_id());
+                tzUser.setUser_id(user_ids.get(a));
+                row=tzUserDao.insert(tzUser);
+                if(row<=0){
+                    throw new CustomError(CustomErrorType.ACCOUNT_ERROR,"数据更新异常");
+                }
+            }
+        }
+        return row;
+    }
+
+    public List<Tz> selectTz(String name){
+        return tzDao.selectTz(name);
+    }
+
+    public Tz selectTzById(String name,int id){
+        return tzDao.selectTzById(name,id);
+    }
+
+    public List<Deptson> selectDeptSonName(){
+        return deptsonDao.selectDeptSonName();
+    }
+
+    public PageInfo<StaffVo> selectReadByDeptAndName(int pageNum,int pageSize,int deptName,String userName,int id){
+        Page<StaffVo> page=PageHelper.startPage(pageNum,pageSize);
+        List<StaffVo> staffVos=ggReadDao.selectReadByDeptAndName(deptName,userName,id);
+        Page<StaffVo> staffVoPage=new Page<>();
+        BeanTools.copyList(staffVos,staffVoPage,StaffVo.class);
+        PageInfo<StaffVo> staffVoPageInfo=new PageInfo<>(staffVoPage);
+        log.debug("已阅读的员工：{}",staffVoPageInfo);
+        return staffVoPageInfo;
+    }
+
+    public List<Warn> selectWarning(){
+        return warnDao.selectByState();
+    }
 }

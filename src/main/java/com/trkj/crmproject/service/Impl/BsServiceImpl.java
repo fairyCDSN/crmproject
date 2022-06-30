@@ -14,6 +14,7 @@ import com.trkj.crmproject.vo.BsVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -62,6 +63,7 @@ public class BsServiceImpl implements BsService {
 
     //报损列表 修改（修改备注）
     @Override
+    @Transactional
     public int updateBs(BsVo bsVo){
         return bsDao.updateBs(bsVo);
     }
@@ -76,6 +78,7 @@ public class BsServiceImpl implements BsService {
 
     //   报损列表 添加报损列表
     @Override
+    @Transactional
     public int insertBs(Bs bs){
         bs.setBsTime(new Date());
         bsDao.insert(bs);

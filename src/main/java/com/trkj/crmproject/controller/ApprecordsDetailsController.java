@@ -28,7 +28,11 @@ public class ApprecordsDetailsController {
     }
     //查询调拨
 
-    //查询
+    //查询报价详情
+    @GetMapping("/selectBjById")
+    public AjaxResponse selectBjById(int sqid){
+        return AjaxResponse.success(apprecordsSonService.selectBjById(sqid));
+    }
 
     //查询
 

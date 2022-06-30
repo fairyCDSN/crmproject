@@ -29,6 +29,11 @@
     where user_id=#{id} and app_state=#{state}
   </select>
 
+  <select id="selectAppId" resultType="java.lang.Integer">
+    select app_id apprecords
+    where app_records_id=#{id}
+  </select>
+
 
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">

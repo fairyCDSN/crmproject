@@ -5,6 +5,7 @@ import com.trkj.crmproject.entity.Payment;
 import com.trkj.crmproject.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -15,11 +16,13 @@ public class PaymentServiceImpl implements PaymentService {
     private PaymentDao paymentDao;
 
     @Override
+    @Transactional
     public int tjqc(int paId) {
         return paymentDao.tjqc(paId);
     }
 
     @Override
+    @Transactional
     public int addfkjh(Payment payment) {
         return paymentDao.insert(payment);
     }

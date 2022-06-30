@@ -5,11 +5,13 @@ import com.trkj.crmproject.vo.ProductVo;
 import com.trkj.crmproject.vo.jfjlVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
 
 @Mapper
+@Repository
 public interface BaoJiaDao {
     public List<BaoJia> findBaojia(@Param("user_name")String user_name, @Param("customer_name")String customer_name,
                                    @Param("state") String state, @Param("time1") String time1, @Param("time2")String time2,
@@ -67,4 +69,10 @@ public interface BaoJiaDao {
                                 @Param("khqyr") String khqyr,@Param("beizhu") String beizhu,@Param("cjr")  String cjr);
     public int insertpcplan(@Param("order_id") int order_id,@Param("pc_da")  int pc_da,@Param("pc_mn")  double pc_mn,
                             @Param("pc_pcda") Date pc_pcda,@Param("pc_pel") String pc_pel);
+
+
+    //wq
+    public List<BaoJia> selectBjById(@Param("id")int id);
+
+    public int updateState(@Param("sqid") int id,@Param("state") String state);
 }

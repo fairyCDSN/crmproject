@@ -5,6 +5,7 @@ import com.trkj.crmproject.entity.Cgcp;
 import com.trkj.crmproject.service.cgcpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class cgcpServiceImpl implements cgcpService {
     private CgcpDao cgcpDao;
 
     @Override
+    @Transactional
     public int addcgcp(Cgcp cgcp) {
         return cgcpDao.insert(cgcp);
     }

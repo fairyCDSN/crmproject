@@ -178,10 +178,11 @@ public class AddcgController {
                 parecord.setPaPel(addcg.getParecord().getPaPel());
                 parecord.setIsfk(0);
                 parecord.setPaMn(0);
-
+                parecord.setToexamine(10);
                 parecord.setSqid(addcg.getSqid());
                 int i1=parecordService.addfkjh(parecord);
                 apprecords.setSqid(parecord.getPaId());
+                apprecords.setApp_id(10);
                 int ji2 = apprecordsService.addApprecords(apprecords);
                 parecord.setStateId(apprecords.getApp_records_id());
                 int up2 = parecordService.upfk(parecord, addcg.getSqid());

@@ -4,10 +4,13 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.trkj.crmproject.dao.ChukuDao;
+import com.trkj.crmproject.dao.OrdertableDao;
 import com.trkj.crmproject.dao.ProductDao;
 import com.trkj.crmproject.dao.RkDao;
 import com.trkj.crmproject.entity.JiaoFu;
 import com.trkj.crmproject.entity.ProCk;
+import com.trkj.crmproject.exception.CustomError;
+import com.trkj.crmproject.exception.CustomErrorType;
 import com.trkj.crmproject.service.ChukuService;
 import com.trkj.crmproject.util.BeanTools;
 import com.trkj.crmproject.vo.ChukuVo;
@@ -15,6 +18,7 @@ import com.trkj.crmproject.vo.ProductVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +34,8 @@ public class ChukuServiceImpl implements ChukuService {
     private RkDao rkDao;
     @Autowired
     private ProductDao productDao;
+    @Autowired
+    private OrdertableDao ordertableDao;
 
     //出库表，查询全部（连表查仓库名称，员工名称，审批类别名称）
     @Override
@@ -85,6 +91,7 @@ public class ChukuServiceImpl implements ChukuService {
 
     //出库表 修改备注
     @Override
+    @Transactional
     public int updateChukubz(ChukuVo chukuVo){
         return chukuDao.updateChukubz(chukuVo);
     }
@@ -97,16 +104,21 @@ public class ChukuServiceImpl implements ChukuService {
     }
     // 修改出库表的状态
     @Override
+    @Transactional
     public int updateChukustate(ChukuVo chukuVo){
         int ckId=rkDao.selectRkckId(chukuVo.getCkName());
         log.debug("仓库id{}：",ckId);
+        int row=0;
 
         chukuVo.setChukuId(chukuVo.getChukuId());
         chukuVo.setCkTime(new Date());
         chukuVo.setStaffId(chukuVo.getStaffId());
         chukuVo.setState("已完成");
         log.debug("出库表修改数据{}：",chukuVo);
-        chukuDao.updateChukustate(chukuVo);
+        row=chukuDao.updateChukustate(chukuVo);
+        if(row<=0){
+            throw new CustomError(CustomErrorType.USER_INPUT_ERROR,"数据更新失败！");
+        }
 
         List<ProductVo> cks=chukuVo.getProductVos();
         for (ProductVo o:cks) {
@@ -120,11 +132,25 @@ public class ChukuServiceImpl implements ChukuService {
             proCk.setCkId(ckId);
             proCk.setProCkNumber(prockNumber - o.getDbNumber());
             log.debug("出库后的库存数量{}：", prockNumber - o.getDbNumber());
-            productDao.updateProCkNumber(proCk);
-
+            //修改库存数量【根据仓库、商品id】
+            row=productDao.updateProCkNumber(proCk);
+            if(row<=0){
+                throw new CustomError(CustomErrorType.USER_INPUT_ERROR,"数据更新失败！");
+            }
+            //判断该仓库剩余数量是否大于50
+            int sum = rkDao.selectRknumber(proId, ckId);
+            log.debug("商品名称：{}",o.getProName());
+            //根据产品id查询产品名称
+            String name=o.getProName();
+            if(sum<=200000){
+                //添加警告
+                log.debug("库存数量11111111111：{}",sum);
+                int cc=ordertableDao.insertWarn("采购","请尽快补充产品"+name,"库存");
+                if(cc<=0){
+                    throw new CustomError(CustomErrorType.USER_INPUT_ERROR,"数据更新失败！");
+                }
+            }
         }
-
-
         int orderId=chukuVo.getOrderId();
         int appid=chukuVo.getAppId();
         log.debug("出库表报价{}：",orderId);
@@ -133,9 +159,12 @@ public class ChukuServiceImpl implements ChukuService {
             JiaoFu jiaoFu=new JiaoFu();
             jiaoFu.setJfId(orderId);
             jiaoFu.setState("交付完成");
-            chukuDao.updateChukujf(jiaoFu);
+            row=chukuDao.updateChukujf(jiaoFu);
+            if(row<=0){
+                throw new CustomError(CustomErrorType.USER_INPUT_ERROR,"数据更新失败！");
+            }
         }
-        return 1;
+        return row;
     }
 
     //出库 根据仓库名称跟商品名称查询库存信息（添加通知）

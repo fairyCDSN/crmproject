@@ -49,18 +49,22 @@ public class StaffVo {
     private String email;
 
     private int state;
+    //角色id
+    private int role_id;
 
     //每个部门的人数
     private int countNum;
 
     private int[] menusId;
 
+    private String dn;
+
     public Date getInduction_time() {
         return induction_time;
     }
 
-    public void setInduction_time(Date induction_time) {
-        Timestamp createTime = new Timestamp(induction_time.getTime());
-        this.induction_time = createTime;
-    }
+//    public void setInduction_time(Date induction_time) {
+//        Timestamp createTime = new Timestamp(induction_time.getTime());
+//        this.induction_time = createTime;
+//    }
 }

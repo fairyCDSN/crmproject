@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.WarnDao">
+  <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.Warn">
+    <id column="warn_id" jdbcType="INTEGER" property="warn_id" />
+    <result column="warn_type" jdbcType="VARCHAR" property="warn_type" />
+    <result column="sqid" jdbcType="INTEGER" property="sqid" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="user_id" jdbcType="INTEGER" property="user_id" />
+    <result column="warn_content" jdbcType="VARCHAR" property="warn_content"/>
+    <result column="warningLv" jdbcType="VARCHAR" property="warningLv"/>
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    warn.warn_id as warn_warn_id, warn.warn_type as warn_warn_type, warn.sqid as warn_sqid,
+    warn.`state` as `warn_state`, warn.user_id as warn_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from warn warn
+    where warn.warn_id = #{warn_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from warn
+    where warn_id = #{warn_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="warn_id" keyProperty="warn_id" parameterType="com.trkj.crmproject.entity.Warn" useGeneratedKeys="true">
+    insert into warn (warn_type, sqid, `state`,
+      user_id)
+    values (#{warn_type,jdbcType=VARCHAR}, #{sqid,jdbcType=INTEGER}, #{state,jdbcType=VARCHAR},
+      #{user_id,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="warn_id" keyProperty="warn_id" parameterType="com.trkj.crmproject.entity.Warn" useGeneratedKeys="true">
+    insert into warn
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="warn_type != null">
+        warn_type,
+      </if>
+      <if test="sqid != null">
+        sqid,
+      </if>
+      <if test="state != null">
+        `state`,
+      </if>
+      <if test="user_id != null">
+        user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="warn_type != null">
+        #{warn_type,jdbcType=VARCHAR},
+      </if>
+      <if test="sqid != null">
+        #{sqid,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="user_id != null">
+        #{user_id,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trkj.crmproject.entity.Warn">
+    update warn
+    <set>
+      <if test="warn_type != null">
+        warn_type = #{warn_type,jdbcType=VARCHAR},
+      </if>
+      <if test="sqid != null">
+        sqid = #{sqid,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        `state` = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="user_id != null">
+        user_id = #{user_id,jdbcType=INTEGER},
+      </if>
+    </set>
+    where warn_id = #{warn_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.trkj.crmproject.entity.Warn">
+    update warn
+    set warn_type = #{warn_type,jdbcType=VARCHAR},
+      sqid = #{sqid,jdbcType=INTEGER},
+      `state` = #{state,jdbcType=VARCHAR},
+      user_id = #{user_id,jdbcType=INTEGER}
+    where warn_id = #{warn_id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByState" resultMap="BaseResultMap">
+    select * from warn
+    where state='待处理'
+  </select>
+</mapper>

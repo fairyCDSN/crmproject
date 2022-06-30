@@ -13,6 +13,7 @@ import com.trkj.crmproject.exception.CustomError;
 import com.trkj.crmproject.exception.CustomErrorType;
 import com.trkj.crmproject.service.UserService;
 import com.trkj.crmproject.util.BeanTools;
+import com.trkj.crmproject.vo.DeptUserVo;
 import com.trkj.crmproject.vo.DeptVo;
 import com.trkj.crmproject.vo.StaffVo;
 import lombok.extern.slf4j.Slf4j;
@@ -34,11 +35,17 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UsersDao usersDao;
     @Autowired
+    private UserRoleDao userRoleDao;
+    @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
     private RoleDao roleDao;
     @Autowired
     private RolePerDao rolePerDao;
+    @Autowired
+    private DeptsonDao deptsonDao;
+    @Autowired
+    private OrdertableDao ordertableDao;
 
     //
 
@@ -99,7 +106,6 @@ public class UserServiceImpl implements UserService {
         return staffMps;
     }
 
-
     //添加员工
     @Transactional
     public int insertStaff(StaffVo staffVo){
@@ -124,19 +130,37 @@ public class UserServiceImpl implements UserService {
         users.setPhone(staffVo.getPhone());
         users.set_use(staffVo.getState()==1?true:false);
         users.setOrg_id(1);
-        users.setUser_pass("$2a$10$xPNoI0sBxOY6Y5Nj1bF6iO6OePqJ8tAJUsD5x5wh6G1BPphhSLcae");
+        users.setAccount_non_expired(true);
+        users.setAccount_non_locked(true);
+        users.setCredentials_non_expired(true);
+        users.setUser_pass(passwordEncoder.encode("123456"));
         //添加用户表
         row=usersDao.insert(users);
         //查询出新增用户表中的id，绑定员工表
         int id=usersDao.selectMaxUserId();
-        staff.setUser_id(id);
+        staff.setUser_id(users.getUser_id());
         //添加staff表
         if(row>0){
             row=staffDao.insert(staff);
+            if(row<=0){
+                throw new CustomError(CustomErrorType.ACCOUNT_ERROR,"数据更新异常");
+            }
+            //添加角色和用户的中间表
+            UserRole userRole=new UserRole();
+            userRole.setRole_id(staffVo.getRole_id());
+            userRole.setUsers_id(users.getUser_id());
+            row=userRoleDao.insert(userRole);
+            if(row<=0){
+                throw new CustomError(CustomErrorType.ACCOUNT_ERROR,"数据更新异常");
+            }
         }
+
         return row;
     }
 
+    public List<Role> selectAllRole(){
+        return roleDao.selectAll();
+    }
 
     //条件查询员工
     public PageInfo<StaffVo> selectStaffByNameOrNum(int pageNum, int pageSize, String name , int bianhao,int deptid){
@@ -168,6 +192,10 @@ public class UserServiceImpl implements UserService {
     public List<StaffVo> selectCountStaff(){
         return staffDao.countStaff();
     }
+    //统计审批通过的订单数量
+    public List<OrderTable> selectCountOrderAll(){
+        return ordertableDao.countOrder();
+    }
     //获取部门名称【查询全部员工】
     public List<StaffVo> selectStaffDeptName() {
 
@@ -191,6 +219,7 @@ public class UserServiceImpl implements UserService {
     }
 
     //修改密码
+    @Transactional
     public int updatePass(String userName,String pass){
         int row=0;
         //密码加密
@@ -231,6 +260,7 @@ public class UserServiceImpl implements UserService {
     }
 
     //修改权限状态
+    @Transactional
     public int updateRole(RoleMp roleMp){
         int state=0;
         log.debug("这是修改前的状态：{}",roleMp.getIsUse());
@@ -240,7 +270,9 @@ public class UserServiceImpl implements UserService {
             state=1;
         }
         int row=roleDao.updateState(roleMp.getRoleId(),state);
-
+        if(row<=0){
+            throw new CustomError(CustomErrorType.ACCOUNT_ERROR,"数据更新异常");
+        }
         return row;
     }
 
@@ -294,6 +326,7 @@ public class UserServiceImpl implements UserService {
         return sonmenuList;
     }
 
+    @Transactional
     public int updateRoleMenus(List<Integer> ids,int roleId){
         int row=0;
         log.debug("开始删除");
@@ -320,5 +353,20 @@ public class UserServiceImpl implements UserService {
         log.debug("添加成功");
 
         return row;
+    }
+
+    public int validateUser(String name){
+        Users users=usersDao.selectByUserName(name);
+        int row=0;
+        if(users==null){
+            row=0;
+        }else{
+            row=1;
+        }
+        return row;
+    }
+
+    public DeptUserVo selectUser(String name){
+        return deptsonDao.selectUserDept(name);
     }
 }

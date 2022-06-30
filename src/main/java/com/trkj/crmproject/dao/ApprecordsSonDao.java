@@ -33,4 +33,8 @@ public interface ApprecordsSonDao extends BaseMapper<ApprecordsSonMp> {
 //    wq
     List<ApprecordsSon> selectApprecordsByName(@Param("id")int id, @Param("state") String state);
 
+    String selectType(@Param("id")int id);
+
+    int selectSqid(@Param("id")int id);
+
 }

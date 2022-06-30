@@ -72,8 +72,7 @@
         from customer,address where customer.customer_id = #{customer_id} and address.address_id = customer.address_id
     </select>
     <select id="findCustomerById" resultType="java.lang.Integer">
-        select  customer_id from customer where customer_name=#{customer_name} and customer_stage=#{customer_stage}
-         and customer_type=#{customer_type} and customer_source=#{customer_source} and remarks=#{remarks} and address_id=#{address_id} and salesperson_id=#{salesperson_id}
+        select  max(customer_id) from customer
     </select>
     <select id="checkdeCus1" resultType="java.lang.Integer">
         select bjid from baojia where state !='执行完成' and customer_id=#{customer_id}

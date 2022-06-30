@@ -117,7 +117,7 @@
     <select id="selectdbappState" resultType="com.trkj.crmproject.entity.mybatis_plus.ApprecordsMp">
         select apprecords.app_state from apprecords
             LEFT JOIN approval on approval.app_id=apprecords.app_id
-            where apprecords.sqid=#{dbId} and approval.app_type='调拨'
+            where apprecords.sqid=#{dbId} and approval.app_type='调拨审批'
     </select>
 
     <insert id="insertdbapp">

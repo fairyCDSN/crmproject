@@ -12,6 +12,7 @@ import com.trkj.crmproject.service.CostdetailsService;
 import com.trkj.crmproject.util.BeanTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -80,6 +81,7 @@ public class CostdetailsServiceImpl implements CostdetailsService {
     }
 
     @Override
+    @Transactional
     public int updateup(int up,int cdId) {
         UpdateWrapper<reimbursement> uw=new UpdateWrapper<>();
         uw.eq("cd_id",cdId).set("reimburse",up);

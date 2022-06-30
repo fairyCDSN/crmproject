@@ -22,7 +22,7 @@
         </if>
     </select>
     <select id="findContactById" resultType="java.lang.Integer">
-        select  contact_id from contact where contact_name=#{contact_name} and work_phone=#{work_phone} and my_phone=#{my_phone}
+        select  max(contact_id) from contact where contact_name=#{contact_name} and work_phone=#{work_phone} and my_phone=#{my_phone}
     </select>
     <select id="findConXq" resultType="com.trkj.crmproject.entity.CusXq">
         select customer.customer_name,contact.contact_id,contact.contact_name,contact.work_phone,contact.my_phone,contact.founder,

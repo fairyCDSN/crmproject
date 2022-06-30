@@ -11,14 +11,17 @@ import com.trkj.crmproject.vo.BaoJiaVo;
 import com.trkj.crmproject.vo.CkVo;
 import com.trkj.crmproject.vo.OrderTableVo;
 import com.trkj.crmproject.vo.jfjlVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Service
+@Slf4j
 public class OrdertableServiceImpl implements OrdertableService {
     @Autowired
     private OrdertableDao ordertableDao;
@@ -71,16 +74,22 @@ public class OrdertableServiceImpl implements OrdertableService {
     }
 
     @Override
+    @Transactional
     public int updateJiaoFu(jfjl jfjl,int ck_id) {
+        log.debug("交付记录：{}",jfjl);
         int count=1;
         for(int i=0;i<jfjl.getJfjlvo().length;i++){
+            log.debug("进入了循环");
             int sum1=ordertableDao.cheackCkSum(jfjl.getJfjlvo()[i].getProId());
+            log.debug("库存数量：{}",sum1);
             if(jfjl.getJfjlvo()[i].getNumber()>sum1){
+                log.debug("库存数量11111111111：{}",sum1);
                 count=0;
-                ordertableDao.insertWarn("采购","请尽快补充产品"+jfjl.getJfjlvo()[i].getProName());
+                ordertableDao.insertWarn("采购","请尽快补充产品"+jfjl.getJfjlvo()[i].getProName(),"交付");
             }
         }
         if(count == 1){
+            log.debug("交付记录：{}",jfjl);
             ordertableDao.updateJiaoFu(jfjl.getJfId(),new Date());
             ordertableDao.insertChuKu(jfjl.getJfId(),ck_id);
             for(int i=0;i<jfjl.getJfjlvo().length;i++){

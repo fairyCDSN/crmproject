@@ -33,4 +33,6 @@ public interface DepartmentDao extends BaseMapper<DeptMp> {
 
     List<DeptVo> selectDeptByNumOrDeptId(int number,int deptId);
 
+    List<DeptVo> selectDeptVoByname(@Param("name")String name);
+
 }

@@ -25,6 +25,7 @@
     <result column="staff_txdz" jdbcType="VARCHAR" property="staff_txdz" />
     <result column="deptment_id" jdbcType="INTEGER" property="deptment_id" />
     <result column="staff_name" jdbcType="VARCHAR" property="staff_name" />
+    <result column="dn" jdbcType="VARCHAR" property="dn"/>
   </resultMap>
 
   <resultMap id="StaffVo" type="com.trkj.crmproject.vo.StaffVo">
@@ -44,6 +45,7 @@
     <result column="department_name" jdbcType="VARCHAR" property="departmentName" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="birthday" jdbcType="DATE" property="birthday"/>
+    <result column="dn" jdbcType="VARCHAR" property="dn"/>
 
   </resultMap>
 
@@ -72,20 +74,22 @@
 
 <!--  根据员工名称、员工id和部门id查询的方法-->
   <select id="selectStaffByNameAndId" resultMap="Staff">
-    select s.*,d.department_name
-     from staff s
-    LEFT JOIN department d ON d.department_id=s.deptment_id
+    SELECT s.*, ds.dept_son_name department_name, d.department_name dn
+    FROM staff s
+    LEFT JOIN deptson ds ON ds.dept_son_id = s.deptment_id
+    LEFT JOIN department d ON d.department_id = ds.dept_id
     <where>
       <if test="param1!='' || param1==null || param1 !=0">
             staff_name like concat('%','${param1}','%')
       </if>
       <if test="param2 !='' || param2 ==null">
-        and staff_id like concat('%'+'${param2}'+'%')
+        and staff_id like concat('%','${param2}','%')
       </if>
       <if test="param3!='' || param3 == null || param3 !=0">
-        and deptment_id like concat('%' +'${param3}'+'%')
+        and ds.dept_son_id like concat('%' ,'${param3}','%')
       </if>
     </where>
+    group by s.staff_id
   </select>
 
 <!--  根据部门id查询的方法-->
@@ -139,17 +143,22 @@
   </select>
 
   <select id="selectStaffVo" resultMap="StaffVo">
-    select s.*,d.department_name  from staff s
-    LEFT JOIN department d ON d.department_id=s.deptment_id
+    SELECT s.*, ds.dept_son_name department_name, d.department_name dn
+    FROM staff s
+    LEFT JOIN deptson ds ON ds.dept_son_id = s.deptment_id
+    LEFT JOIN department d ON d.department_id = ds.dept_id
+    group by s.staff_id
     order by induction_time desc
   </select>
 
   <select id="selectDeptNameAndPostNameByRole" resultMap="StaffVo">
-    select d.*,p.* from staff s
-    left join department d ON d.department_id=s.deptment_id
+    select ds.dept_son_name department_name,ds.dept_son_id deptment_id,p.*,d.department_name dn from staff s
+    LEFT JOIN deptson ds ON ds.dept_son_id = s.deptment_id
+    LEFT JOIN department d ON d.department_id = ds.dept_id
     left join post p on p.post_id=s.post_id
     LEFT JOIN users u ON u.user_id=s.user_id
     where u.user_name=#{name}
+    group by s.staff_id
   </select>
 
   <select id="selectsfattname" resultType="com.trkj.crmproject.vo.staffnameVo">

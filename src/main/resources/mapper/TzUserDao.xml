@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trkj.crmproject.dao.TzUserDao">
+  <resultMap id="BaseResultMap" type="com.trkj.crmproject.entity.TzUser">
+    <id column="tz_user_tz_user_id" jdbcType="INTEGER" property="tz_user_id" />
+    <result column="tz_user_tz_id" jdbcType="INTEGER" property="tz_id" />
+    <result column="tz_user_user_id" jdbcType="INTEGER" property="user_id" />
+    <result column="tz_user_state" jdbcType="VARCHAR" property="state" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    tz_user.tz_user_id as tz_user_tz_user_id, tz_user.tz_id as tz_user_tz_id, tz_user.user_id as tz_user_user_id,
+    tz_user.`state` as `tz_user_state`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tz_user tz_user
+    where tz_user.tz_user_id = #{tz_user_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tz_user
+    where tz_user_id = #{tz_user_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="tz_user_id" keyProperty="tz_user_id" parameterType="com.trkj.crmproject.entity.TzUser" useGeneratedKeys="true">
+    insert into tz_user (tz_id, user_id )
+    values (#{tz_id,jdbcType=INTEGER}, #{user_id,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="tz_user_id" keyProperty="tz_user_id" parameterType="com.trkj.crmproject.entity.TzUser" useGeneratedKeys="true">
+    insert into tz_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tz_id != null">
+        tz_id,
+      </if>
+      <if test="user_id != null">
+        user_id,
+      </if>
+      <if test="state != null">
+        `state`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tz_id != null">
+        #{tz_id,jdbcType=INTEGER},
+      </if>
+      <if test="user_id != null">
+        #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trkj.crmproject.entity.TzUser">
+    update tz_user
+    <set>
+      <if test="tz_id != null">
+        tz_id = #{tz_id,jdbcType=INTEGER},
+      </if>
+      <if test="user_id != null">
+        user_id = #{user_id,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        `state` = #{state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where tz_user_id = #{tz_user_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.trkj.crmproject.entity.TzUser">
+    update tz_user
+    set tz_id = #{tz_id,jdbcType=INTEGER},
+      user_id = #{user_id,jdbcType=INTEGER},
+      `state` = #{state,jdbcType=VARCHAR}
+    where tz_user_id = #{tz_user_id,jdbcType=INTEGER}
+  </update>
+</mapper>

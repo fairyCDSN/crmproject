@@ -12,6 +12,7 @@ import com.trkj.crmproject.util.BeanTools;
 import com.trkj.crmproject.vo.CggoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 @Service
@@ -43,6 +44,7 @@ public class CggoodsServiceImpl implements CggoodsService {
     }
 
     @Override
+    @Transactional
     public PageInfo<CggoodsVo> updategoods(Integer cgNumber, Integer gdId, int pageNum, int pageSize, String gdname,String type,String name) {
         UpdateWrapper<Cggoods> uw = new UpdateWrapper<>();
         uw.set("cg_number", cgNumber + 1).eq("gd_Id", gdId);
@@ -57,6 +59,7 @@ public class CggoodsServiceImpl implements CggoodsService {
     }
 
     @Override
+    @Transactional
     public PageInfo<CggoodsVo> updategoodsjs(Integer cgNumber, Integer gdId, int pageNum, int pageSize, String gdname,String type,String name) {
         UpdateWrapper<Cggoods> uw = new UpdateWrapper<>();
         uw.set("cg_number", cgNumber - 1).eq("gd_Id", gdId);
@@ -79,6 +82,7 @@ public class CggoodsServiceImpl implements CggoodsService {
     }
 
     @Override
+    @Transactional
     public int addgoods(Cggoods cggoods) {
         return dao.insert(cggoods);
     }

@@ -15,6 +15,7 @@ import com.trkj.crmproject.service.CaigouService;
 import com.trkj.crmproject.util.BeanTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -54,6 +55,7 @@ public class CaigouServiceImpl implements CaigouService {
     }
 
     @Override
+    @Transactional
     public int addsgdd(Caigou caigou) {
 //        int row = dao.insert(caigou);
 //        if (row==0){

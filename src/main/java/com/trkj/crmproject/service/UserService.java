@@ -1,6 +1,7 @@
 package com.trkj.crmproject.service;
 
 import com.github.pagehelper.PageInfo;
+import com.trkj.crmproject.entity.OrderTable;
 import com.trkj.crmproject.entity.Role;
 import com.trkj.crmproject.entity.Sonmenu;
 import com.trkj.crmproject.entity.Users;
@@ -8,6 +9,7 @@ import com.trkj.crmproject.entity.mybatis_plus.DeptMp;
 import com.trkj.crmproject.entity.mybatis_plus.PostMp;
 import com.trkj.crmproject.entity.mybatis_plus.RoleMp;
 import com.trkj.crmproject.entity.mybatis_plus.StaffMp;
+import com.trkj.crmproject.vo.DeptUserVo;
 import com.trkj.crmproject.vo.DeptVo;
 import com.trkj.crmproject.vo.StaffVo;
 
@@ -24,6 +26,8 @@ public interface UserService {
     public List<StaffVo> selectDept(int deptid);
 
     public int insertStaff(StaffVo staffVo);
+
+    public List<Role> selectAllRole();
     //条件查询[员工]
     public PageInfo<StaffVo> selectStaffByNameOrNum(int pageNum, int pageSize,String name,int bianhao,int deptid);
     //条件查询【部门】
@@ -31,6 +35,8 @@ public interface UserService {
 
     //统计部门人数
     public List<StaffVo> selectCountStaff();
+    //统计审批通过的订单数量
+    public List<OrderTable> selectCountOrderAll();
     //获取部门名称【查询全部员工】
     public List<StaffVo> selectStaffDeptName();
 
@@ -56,5 +62,8 @@ public interface UserService {
     public List<Integer> selectMenusByRole_name(int id);
     public int updateRoleMenus(List<Integer> ids,int roleId);
 
+    //验证用户名是否重复
+    public int validateUser(String name);
 
+    public DeptUserVo selectUser(String name);
 }

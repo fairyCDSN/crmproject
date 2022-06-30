@@ -10,6 +10,8 @@ import com.trkj.crmproject.entity.mybatis_plus.ApprecordsSonMp;
 import com.trkj.crmproject.entity.mybatis_plus.DbPro;
 import com.trkj.crmproject.entity.Diaobo;
 import com.trkj.crmproject.entity.mybatis_plus.ApprecordsMp;
+import com.trkj.crmproject.exception.CustomError;
+import com.trkj.crmproject.exception.CustomErrorType;
 import com.trkj.crmproject.service.DiaoboService;
 import com.trkj.crmproject.util.BeanTools;
 import com.trkj.crmproject.vo.CkUserVo;
@@ -19,6 +21,7 @@ import com.trkj.crmproject.vo.ProductVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -75,6 +78,7 @@ public class DiaoboServiceImpl implements DiaoboService {
 
     //调拨管理  修改
     @Override
+    @Transactional
     public int updateDbidbz(DiaoboVo diaoboVo) {
         return diaoboDao.updateDbidbz(diaoboVo);
     }
@@ -113,7 +117,9 @@ public class DiaoboServiceImpl implements DiaoboService {
 
     //添加调拨单
     @Override
+    @Transactional
     public int insertDiaobo(Diaobo diaobo){
+        int row=0;
         int apprecordsid=diaoboDao.selectdbAppId()+1;
         int diaoboid=diaoboDao.selectdbId()+1;
 
@@ -121,26 +127,32 @@ public class DiaoboServiceImpl implements DiaoboService {
         int ckdrid=diaobo.getCkdrId();
 
         diaobo.setDbTime(new Date());
+        //调出仓库id
         diaobo.setCkId(ckid);
+        //调入仓库id
         diaobo.setCkdrId(ckdrid);
+        //根据仓库id查询负责人
         diaobo.setToexamine(3);
         diaobo.setAppRecordsId(2);
         diaobo.setDbId(diaoboid);
 
-        diaoboDao.insert(diaobo);
+        row=diaoboDao.insert(diaobo);
+        if(row<=0){
+            throw new CustomError(CustomErrorType.USER_INPUT_ERROR,"数据更新失败");
+        }
 
         List<ProductVo> products=diaobo.getProductss();
         for(ProductVo o:products){
-
             if(o.getSl()!=0) {
                 DbPro dbPro = new DbPro();
-
                 dbPro.setCkId(ckid);
                 dbPro.setDbId(diaoboid);
                 dbPro.setDbNumber(o.getSl());
                 dbPro.setProId(o.getProId());
-
-                dbProDao.insert(dbPro);
+                row=dbProDao.insert(dbPro);
+                if(row<=0){
+                    throw new CustomError(CustomErrorType.USER_INPUT_ERROR,"数据更新失败");
+                }
             }
 
         }
@@ -152,24 +164,33 @@ public class DiaoboServiceImpl implements DiaoboService {
         log.debug("这是审批:{}",apprecords);
 
         diaoboDao.insertdbapp(apprecords);
-
+        //获取调入调出仓库管理员id【通过ckid查询】
         int userid=diaoboDao.selectdbusersId(ckid);
         int druserid=diaoboDao.selectdbusersId(ckdrid);
 
+        //添加调出审批
         ApprecordsSonMp apprecordsSon=new ApprecordsSonMp();
         apprecordsSon.setAppRecordsId(apprecordsid);
         apprecordsSon.setUserId(userid);
-        diaoboDao.insertdbappson(apprecordsSon);
-
+        row=diaoboDao.insertdbappson(apprecordsSon);
+        if(row<=0){
+            throw new CustomError(CustomErrorType.USER_INPUT_ERROR,"数据更新失败");
+        }
+        //调入审批
         ApprecordsSonMp apprecordsSon2=new ApprecordsSonMp();
         apprecordsSon2.setAppRecordsId(apprecordsid);
         apprecordsSon2.setUserId(druserid);
-        diaoboDao.insertdbappson(apprecordsSon2);
+        row=diaoboDao.insertdbappson(apprecordsSon2);
+        if(row<=0){
+            throw new CustomError(CustomErrorType.USER_INPUT_ERROR,"数据更新失败");
+        }
 
         diaobo.setAppRecordsId(apprecordsid);
-        diaoboDao.updateById(diaobo);
-
-        return 1;
+        row=diaoboDao.updateById(diaobo);
+        if(row<=0){
+            throw new CustomError(CustomErrorType.USER_INPUT_ERROR,"数据更新失败");
+        }
+        return row;
     }
 
 

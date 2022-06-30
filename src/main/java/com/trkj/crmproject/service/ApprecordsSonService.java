@@ -1,6 +1,7 @@
 package com.trkj.crmproject.service;
 
 import com.trkj.crmproject.entity.ApprecordsSon;
+import com.trkj.crmproject.entity.BaoJia;
 import com.trkj.crmproject.entity.Caigousq;
 import com.trkj.crmproject.vo.CaigousqVo;
 
@@ -15,6 +16,8 @@ public interface ApprecordsSonService {
    public List<Caigousq> selectAppCgsq(int id);
 
    public List<CaigousqVo> selectAppCgGoods(int id);
+
+   public List<BaoJia> selectBjById(int id);
 
    public int updateAppSon(int id,int son_id,String state,String bz);
 }

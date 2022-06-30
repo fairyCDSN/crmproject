@@ -197,6 +197,7 @@
     where u.user_name=#{userName} and g.gonggao_id=#{ggId}
   </select>
 
+
   <select id="findUserName" resultMap="BaseResultMap">
         select <include refid="Base_Column_List" /> from users where user_name!=#{user_name}
   </select>

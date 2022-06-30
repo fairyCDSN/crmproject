@@ -11,6 +11,7 @@ import com.trkj.crmproject.service.SupplierService;
 import com.trkj.crmproject.util.BeanTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -54,11 +55,13 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
+    @Transactional
     public int addSupplier(Supplier supplier) {
         return dao.insert(supplier);
     }
 
     @Override
+    @Transactional
     public int delectsupplier(int supplierId) {
         UpdateWrapper<Supplier> uw=new UpdateWrapper<>();
         uw.set("use_status",2).eq("supplier_id",supplierId);
